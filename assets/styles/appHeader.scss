@@ -1,0 +1,13 @@
+.user-background {
+    width: 30px;
+    height: 30px;
+}
+
+.dropstart {
+    .nav-link::before {
+        display: none;
+    }
+}
+.profile-dropdown-menu {
+    width: 300px;
+}
