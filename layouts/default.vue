@@ -1,6 +1,5 @@
 <template>
     <div class="app">
-        <!-- header -->
         <AppHeader/>
         <main>
             <div class="container">
@@ -8,7 +7,6 @@
             </div>
         </main>
         <AppFooter/>
-        <!-- footer -->
     </div>
 </template>
 <style lang="scss" scoped>
