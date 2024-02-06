@@ -43,7 +43,7 @@
                                 </ClientOnly>
                             </NuxtLink>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item nav-item-profile">
                             <HeaderProfile/>
                         </li>
                     </ul>

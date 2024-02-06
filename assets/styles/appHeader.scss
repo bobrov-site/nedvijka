@@ -27,10 +27,16 @@
 .viber {
     color: $purple-500;
 }
-
+.nav-item-profile {
+    display: flex;
+    align-items: center;
+}
 .profile {
     .nav-link {
         display: flex;
         align-items: center;
+    }
+    .user {
+        font-size: 1.0rem;
     }
 }

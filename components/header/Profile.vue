@@ -1,12 +1,9 @@
 <template>
     <div class="dropdown profile">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <div
-                class="user-background bg-secondary-subtle rounded-circle d-flex justify-content-center align-items-center">
-                <ClientOnly>
-                    <FontAwesomeIcon :icon="['far', 'user']" />
-                </ClientOnly>
-            </div>
+            <ClientOnly>
+                    <FontAwesomeIcon class="user" :icon="['far', 'user']" />
+            </ClientOnly>
         </a>
         <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu">
             <!-- Авторизован -->
