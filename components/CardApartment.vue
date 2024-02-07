@@ -23,13 +23,14 @@
             <h5 class="card-title">Название квартиры</h5>
             <!-- кол-во человек, колво-кроватей, квадратура -->
             <div class="d-flex mb-2">
-                <span class="badge rounded-pill text-bg-primary me-2">2 гостя</span>
-                <span class="badge rounded-pill text-bg-primary me-2">1 кровать</span>
-                <span class="badge rounded-pill text-bg-primary me-2">32 кв.м</span>
+                <span class="badge rounded-pill text-bg-light me-2">2 гостя</span>
+                <span class="badge rounded-pill text-bg-light me-2">1 кровать</span>
+                <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
             </div>
             <p class="card-text mb-2">Ставрополь, Рогожникова 7</p>
-            <p class="card-text fw-bold text-primary mb-2">2 099₽ <span class="fw-light">за сутки</span></p>
-            <p class="card-text">Всего 4 198₽</p>
+            <!-- <p class="card-text fw-bold text-primary mb-2">2 099₽ <span class="fw-light">за сутки</span></p> -->
+            <!-- <p class="card-text">Всего 4 198₽</p> -->
+            <a href="#" class="btn btn-primary">2 099₽ за сутки</a>
         </div>
     </div>
 </template>
