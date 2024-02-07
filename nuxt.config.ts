@@ -2,6 +2,9 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/styles/main.scss'],
+  modules: [
+    '@nuxt/image'
+  ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
     {src: '~/plugins/useFontAwesome.ts', mode: 'all',},
@@ -9,5 +12,8 @@ export default defineNuxtConfig({
   ],
   build: {
     transpile: ['@vuepic/vue-datepicker', '@fortawesome/vue-fontawesome']
-}
+  },
+  image: {
+    quality: 80,
+  }
 })
