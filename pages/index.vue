@@ -1,9 +1,9 @@
 <template>
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-12 col-md-8">
             <SearchForm/>
         </div>
-        <div class="col-md-3">
+        <div class="col-12 col-md-4">
             <SliderBenefits/>
         </div>
     </div>
