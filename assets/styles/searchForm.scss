@@ -7,6 +7,10 @@
         width: 40px;
         height: 40px;
     }
+    .dp__input_icon {
+        right: 12px;
+        inset-inline-start: unset;
+    }
     .btn-counter:hover {
         background-color: $gray-200;
         color: $gray-800;
