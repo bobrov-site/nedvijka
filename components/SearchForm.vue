@@ -1,3 +1,15 @@
+<script setup>
+const date = ref()
+const start = ref()
+const end = ref()
+
+const handleDate = (modelData) => {
+    date.value = modelData;
+    start.value = parseDate(modelData[0])
+    end.value = parseDate(modelData[1])
+}
+</script>
+
 <template>
     <div class="card p-4 search-form">
         <form class="row g-3">
@@ -12,26 +24,33 @@
             </div>
             <div class="col-md-3">
                 <label for="start" class="form-label">Заезд</label>
-                <button type="button" class="datepicker form-control d-flex justify-content-end align-items-center"
-                    id="start">
-                    <ClientOnly>
-                        <FontAwesomeIcon :icon="['far', 'calendar']" />
-                    </ClientOnly>
-                </button>
+                <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply
+                    id="start" range text-input :enable-time-picker="false" :clearable="false" locale="ru">
+
+                    <template #dp-input>
+                        <input type="text" :value="start" class="form-control">
+                    </template>
+                    <template #input-icon>
+                        <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                    </template>
+                </VueDatePicker>
             </div>
             <div class="col-md-3">
                 <label for="end" class="form-label">Выезд</label>
-                <button type="button" class="datepicker form-control d-flex justify-content-end align-items-center"
-                    id="end">
-                    <ClientOnly>
-                        <FontAwesomeIcon :icon="['far', 'calendar']" />
-                    </ClientOnly>
-                </button>
+                <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply
+                    id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false">
+                    <template #dp-input>
+                        <input type="text" :value="end" class="form-control">
+                    </template>
+                    <template #input-icon>
+                        <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                    </template>
+                </VueDatePicker>
             </div>
             <div class="col-md-3">
                 <label for="guests" class="form-label">Гости</label>
-                <button type="button" class="form-control dropdown-toggle text-end" id="guests" data-bs-toggle="dropdown" data-bs-auto-close="false"
-                    aria-expanded="false"></button>
+                <button type="button" class="form-control dropdown-toggle text-end" id="guests" data-bs-toggle="dropdown"
+                    data-bs-auto-close="false" aria-expanded="false"></button>
                 <ul class="dropdown-menu">
                     <li class="dropdown-item">
                         <div class="row g-3">
@@ -46,7 +65,9 @@
                             </div>
                         </div>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li class="dropdown-item">
                         <div class="row g-3">
                             <div class="col">
@@ -60,7 +81,9 @@
                             </div>
                         </div>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li class="dropdown-item">
                         <div class="d-grid">
                             <button class="btn btn-primary ">Изменить</button>
@@ -74,9 +97,5 @@
         </form>
     </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style lang="scss" scoped></style>
