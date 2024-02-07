@@ -9,13 +9,13 @@
             </div>
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="img-slider card-img-top img-fluid" sizes="md:300px"/>
+                    <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="img-slider card-img-top" sizes="md:300px"/>
                 </div>
                 <div class="carousel-item">
-                    <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="img-slider card-img-top img-fluid" sizes="md:300px"/>
+                    <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="img-slider card-img-top" sizes="md:300px"/>
                 </div>
                 <div class="carousel-item">
-                    <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-slider card-img-top img-fluid" sizes="md:300px"/>
+                    <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-slider card-img-top" sizes="md:300px"/>
                 </div>
             </div>
         </div>
