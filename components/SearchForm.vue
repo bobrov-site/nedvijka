@@ -15,7 +15,7 @@ const handleDate = (modelData) => {
         <form class="row g-3">
             <div class="col-md-3">
                 <label for="datalist" class="form-label">Выберите город</label>
-                <input class="form-control" list="datalistOptions" id="datalist" placeholder="Например: Ставрополь">
+                <input class="form-control" list="datalistOptions" id="datalist" placeholder="Ставрополь">
                 <datalist id="datalistOptions">
                     <option value="Ставрополь" />
                     <option value="Пятигорск" />
