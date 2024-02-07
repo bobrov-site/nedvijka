@@ -3,3 +3,15 @@
 @import "./appHeader";
 @import "./searchForm";
 @import "./sliderBenefits";
+
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    header {
+        justify-self: start;
+    }
+    footer {
+        justify-self: end;
+    }
+}
