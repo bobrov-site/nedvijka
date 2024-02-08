@@ -3,7 +3,8 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/styles/main.scss'],
   modules: [
-    '@nuxt/image'
+    '@nuxt/image',
+    'vue-yandex-maps/nuxt'
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
@@ -15,5 +16,8 @@ export default defineNuxtConfig({
   },
   image: {
     quality: 80,
-  }
+  },
+  yandexMaps: {
+    apikey: 'your-api-key',
+  },
 })
