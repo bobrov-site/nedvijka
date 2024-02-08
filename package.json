@@ -22,7 +22,8 @@
     "nuxt": "^3.10.0",
     "sharp": "^0.33.2",
     "vue": "^3.4.15",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-yandex-maps": "^2.0.0-rc.13"
   },
   "devDependencies": {
     "sass": "^1.70.0"
