@@ -14,7 +14,7 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div v-for="(item, index) in 4" :key="index" class="col">
-            <CardApartment/>
+            <CardsApartmentVertical/>
         </div>
     </div>
 </template>
