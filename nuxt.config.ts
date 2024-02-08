@@ -4,7 +4,8 @@ export default defineNuxtConfig({
   css: ['~/assets/styles/main.scss'],
   modules: [
     '@nuxt/image',
-    'vue-yandex-maps/nuxt'
+    'vue-yandex-maps/nuxt',
+    'nuxt-swiper'
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},

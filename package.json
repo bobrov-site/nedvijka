@@ -20,6 +20,7 @@
     "@vuepic/vue-datepicker": "^8.0.0",
     "bootstrap": "^5.3.2",
     "nuxt": "^3.10.0",
+    "nuxt-swiper": "^1.2.2",
     "sharp": "^0.33.2",
     "vue": "^3.4.15",
     "vue-router": "^4.2.5",
