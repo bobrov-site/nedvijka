@@ -1,18 +1,8 @@
+@import "./scss/app";
 @import "bootstrap/scss/bootstrap";
 @import "@vuepic/vue-datepicker/dist/main.css";
-@import "./appHeader";
-@import "./searchForm";
-@import "./sliderBenefits";
-@import "./apartmentCard";
-@import "./apartmentId";
-
-.app {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-    height: 100vh;
-    main {
-        display: flex;
-        flex-grow: 1;
-    }
-}
+@import "./scss/appHeader";
+@import "./scss/searchForm";
+@import "./scss/sliderBenefits";
+@import "./scss/apartmentCard";
+@import "./scss/apartmentId";
