@@ -36,7 +36,15 @@
 </template>
 
 <script setup>
-
+const props = defineProps({
+    apartment: {
+        type: Object
+    },
+    isVerticalLayout: {
+        type: Boolean,
+        default: false
+    }
+})
 </script>
 
 <style lang="scss" scoped></style>
