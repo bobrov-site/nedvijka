@@ -4,7 +4,7 @@
             <ApartmentCard/>
         </div>
         <div class="col-12 col-md-5">
-            
+            <SearchForm formTitle="Информация о бронировании"/>
         </div>
     </div>
 </template>

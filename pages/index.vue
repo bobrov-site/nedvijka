@@ -1,7 +1,7 @@
 <template>
     <div class="row mt-4">
         <div class="col-12 col-md-8">
-            <SearchForm/>
+            <SearchForm form-title="Начните поиск"/>
         </div>
         <div class="col-12 col-md-4">
             <SliderBenefits/>

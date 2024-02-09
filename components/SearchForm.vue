@@ -1,4 +1,10 @@
 <script setup>
+const props = defineProps({
+    formTitle: {
+        type: String,
+        required: true,
+    }
+})
 const date = ref()
 const start = ref()
 const end = ref()
@@ -14,7 +20,7 @@ const handleDate = (modelData) => {
     <div class="card p-4 search-form">
         <div class="row mb-3">
             <div class="col-12">
-                <h2>Заголовок формы (возможно лозунг)</h2>
+                <h2>{{ props.formTitle }}</h2>
             </div>
         </div>
         <form class="row g-3">
