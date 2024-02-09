@@ -29,7 +29,7 @@ const changeIcon = (isHover) => {
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h1>Название квартиры</h1>
                 <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить в избранное"> 
-                    <FontAwesomeIcon @mouseover="changeIcon(true)" @mouseleave="changeIcon(false)" class="text-success fs-2" :icon="icon" />
+                    <FontAwesomeIcon @mouseover="changeIcon(true)" @mouseleave="changeIcon(false)" class="text-danger fs-2" :icon="icon" />
                 </button>
                 
             </div>
