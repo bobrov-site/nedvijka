@@ -19,8 +19,8 @@
                     zoom: 9,
                 },
             }">
-            <YandexMapDefaultSchemeLayer/>
-        </YandexMap>
+                <YandexMapDefaultSchemeLayer />
+            </YandexMap>
         </div>
     </div>
 </template>
