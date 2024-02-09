@@ -1,7 +1,38 @@
+<script setup>
+
+const map = shallowRef(null)
+const thumbsSwiper = ref(null);
+const icon = ref(['far', 'heart'])
+const settings = {
+    location: {
+        center: [37.617644, 55.755819],
+        zoom: 9,
+    },
+}
+
+const setThumbsSwiper = (swiper) => {
+    thumbsSwiper.value = swiper;
+};
+
+const changeIcon = (isHover) => {
+    if (isHover) {
+        icon.value = ['fas', 'heart']
+    }
+    else {
+        icon.value = ['far', 'heart']
+    }
+}
+</script>
 <template>
     <div class="card">
         <div class="card-body">
-            <h1>Название квартиры</h1>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h1>Название квартиры</h1>
+                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить в избранное"> 
+                    <FontAwesomeIcon @mouseover="changeIcon(true)" @mouseleave="changeIcon(false)" class="text-success fs-2" :icon="icon" />
+                </button>
+                
+            </div>
             <Swiper :navigation="true" :modules="[SwiperNavigation, SwiperThumbs, SwiperFreeMode, SwiperZoom]"
                 :thumbs="{ swiper: thumbsSwiper }" class="swiper-slider" :autoHeight="true" :zoom="true">
                 <SwiperSlide>
@@ -86,22 +117,5 @@
         </div>
     </div>
 </template>
-
-<script setup>
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
-
-const map = shallowRef(null)
-const thumbsSwiper = ref(null);
-const settings = {
-    location: {
-        center: [37.617644, 55.755819],
-        zoom: 9,
-    },
-}
-
-const setThumbsSwiper = (swiper) => {
-    thumbsSwiper.value = swiper;
-};
-</script>
 
 <style lang="scss" scoped></style>
