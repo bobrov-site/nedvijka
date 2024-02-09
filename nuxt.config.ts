@@ -19,6 +19,6 @@ export default defineNuxtConfig({
     quality: 80,
   },
   yandexMaps: {
-    apikey: 'your-api-key',
+    apikey: 'f82200e9-f4ed-4813-b122-0a28730623b1',
   },
 })

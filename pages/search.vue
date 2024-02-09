@@ -13,12 +13,20 @@
             </div>
         </div>
         <div class="col-md-6">
-            привет мир
+            <YandexMap v-model="map" :settings="{
+                location: {
+                    center: [37.617644, 55.755819],
+                    zoom: 9,
+                },
+            }">
+        </YandexMap>
         </div>
     </div>
 </template>
 
 <script setup>
+import { YandexMap} from 'vue-yandex-maps';
+const map = ref(null);
 const route = useRoute()
 // cityId, children, adult, start, end
 </script>
