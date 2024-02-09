@@ -3,6 +3,9 @@ const props = defineProps({
     formTitle: {
         type: String,
         required: true,
+    },
+    isProcecced: {
+        type: Boolean,
     }
 })
 const date = ref()
@@ -17,7 +20,7 @@ const handleDate = (modelData) => {
 </script>
 
 <template>
-    <div class="card p-4 search-form">
+    <div class="card p-4 search-form" :class="{'position-sticky top-0' : isProcecced}">
         <div class="row mb-3">
             <div class="col-12">
                 <h2>{{ props.formTitle }}</h2>
@@ -102,8 +105,25 @@ const handleDate = (modelData) => {
                     </template>
                 </VueDatePicker>
             </div>
-            <div class="col-12">
-                <button type="submit" class="btn btn-lg btn-primary w-100">Поиск</button>
+            <div v-if="!isProcecced" class="col-12">
+                <!--TODO добавить изменение кнопки только в том случае, если данные были получены--> 
+                <button v-if="!date" type="submit" class="btn btn-lg btn-primary w-100">Поиск</button>
+                <button v-else type="submit" class="btn btn-lg btn-primary w-100">Изменить</button>
+            </div>
+            <div v-if="isProcecced" class="col-12">
+                <h4>Стоимость:</h4>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-light">Итого за сутки:</span>
+                    <span class="fw-light">2 033₽</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                    <span class="fw-bold text-primary text-uppercase">Итого всего:</span>
+                    <span class="fw-bold text-primary text-uppercase">5 033₽</span>
+                </div>
+                <p class="card-text text-secondary fw-lighter fs-6">
+                    Нажимая кнопку Забронировать, вы соглашаетесь с условиями <a href="#">пользовательского соглашения</a> и на <a href="#">обработку персональных данных</a>
+                </p>
+                <button class="btn btn-primary w-100">Забронировать</button>
             </div>
         </form>
     </div>
