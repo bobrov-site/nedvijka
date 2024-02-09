@@ -8,7 +8,7 @@
         <div class="col-md-6">
             <div class="row row-cols-1 g-3">
                 <div v-for="(item, index) in 4" :key="index" class="col">
-                    <ApartmentCard :is-vertical-layout="true" />
+                    <ApartmentPreview :is-vertical-layout="true" />
                 </div>
             </div>
         </div>
