@@ -26,7 +26,7 @@
 
 <script setup>
 import { YandexMap} from 'vue-yandex-maps';
-const map = ref(null);
+const map = shallowRef(null);
 const route = useRoute()
 // cityId, children, adult, start, end
 </script>
