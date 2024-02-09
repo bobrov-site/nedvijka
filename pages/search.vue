@@ -19,7 +19,6 @@
                     zoom: 9,
                 },
             }">
-            <YandexMapDefaultFeaturesLayer/>
             <YandexMapDefaultSchemeLayer/>
         </YandexMap>
         </div>
@@ -27,7 +26,6 @@
 </template>
 
 <script setup>
-import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultSchemeLayer} from 'vue-yandex-maps';
 const map = shallowRef(null);
 const route = useRoute()
 // cityId, children, adult, start, end

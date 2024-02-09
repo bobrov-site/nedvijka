@@ -11,6 +11,7 @@ export default defineNuxtConfig({
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
     {src: '~/plugins/useFontAwesome.ts', mode: 'all',},
     {src: '~/plugins/useVueDatePicker.ts', mode: 'all',},
+    {src: '~/plugins/useVueYandexMaps.ts', mode: 'all',},
   ],
   build: {
     transpile: ['@vuepic/vue-datepicker', '@fortawesome/vue-fontawesome']
