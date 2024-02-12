@@ -1,5 +1,5 @@
 <template>
-    <div class="row mt-4 flex-column-reverse flex-md-row">
+    <div class="row flex-column-reverse flex-md-row">
         <div class="col-md-6">
             <div class="row row-cols-1 g-3">
                 <div class="col">
