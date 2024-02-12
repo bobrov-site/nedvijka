@@ -1,11 +1,9 @@
 <script setup>
+const user = useUserStore();
 definePageMeta({
-    layout: 'profile'
+    layout: 'user'
 })
 
-const changeTab = (event) => {
-    console.log(event.target);
-}
 </script>
 
 <template>
@@ -20,10 +18,15 @@ const changeTab = (event) => {
                 </div>
                 <div class="col-md-8">
                     <main class="d-flex flex-column">
-                        <UserNavbar @click="changeTab($event)"/>
-                        <div class="row mt-4 row-cols-1 g-3">
+                        <UserNavbar />
+                        <div v-if="user.activeTab === 1" class="row mt-4 row-cols-1 g-3">
                             <div class="col" v-for="(item, index) in 4" :key="index">
-                                <ApartmentPreview :is-vertical-layout="true"/>
+                                <ApartmentPreview :is-vertical-layout="true" />
+                            </div>
+                        </div>
+                        <div v-if="user.activeTab === 0" class="row mt-4 row-cols-1 g-3">
+                            <div class="col" v-for="(item, index) in 1" :key="index">
+                                <ApartmentPreview :is-vertical-layout="true" />
                             </div>
                         </div>
                     </main>
