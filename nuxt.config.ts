@@ -5,7 +5,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxt/image',
     'vue-yandex-maps/nuxt',
-    'nuxt-swiper'
+    'nuxt-swiper',
+    '@pinia/nuxt'
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
