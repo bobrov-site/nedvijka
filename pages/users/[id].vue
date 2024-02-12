@@ -16,14 +16,7 @@ definePageMeta({
                 </div>
                 <div class="col-md-8">
                     <main>
-                        <ul class="nav nav-tabs ms-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Мои объявления</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Избранное</a>
-                            </li>
-                        </ul>
+                        <UserNavbar/>
                     </main>
                 </div>
             </div>
