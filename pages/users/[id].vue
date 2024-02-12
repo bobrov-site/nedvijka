@@ -5,7 +5,7 @@ definePageMeta({
 </script>
 
 <template>
-    <div class="card mt-4">
+    <div class="card">
         <div class="card-body">
             <h1 class="mb-4">Профиль</h1>
             <div class="row">

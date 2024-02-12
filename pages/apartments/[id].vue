@@ -1,5 +1,5 @@
 <template>
-    <div class="apartmentId row mt-4">
+    <div class="apartmentId row">
         <div class="col-12 col-md-7">
             <ApartmentCard/>
         </div>
