@@ -1,0 +1,12 @@
+.users-sidebar {
+    .nav-link {
+        color: $black;
+    }
+    .active {
+        color: $nav-tabs-link-active-color
+    }
+    .default-avatar {
+        width: 100px;
+        height: 100px;
+    }
+}
