@@ -7,10 +7,11 @@
             <span class="fw-light">Имя:</span>
             <span class="fw-bold">Иван Иванов</span>
         </div>
-        <div class="d-flex justify-content-between">
+        <div class="d-flex justify-content-between mb-2">
             <span class="fw-light">Дата регистрации:</span>
             <span class="fw-bold">02.02.2024</span>
         </div>
+        <button class="btn btn-outline-primary" type="button">Изменить</button>
     </div>
 </template>
 
