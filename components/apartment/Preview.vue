@@ -1,7 +1,7 @@
 <template>
     <div class="card">
         <div class="row">
-            <div class="col-12" :class="{ 'col-md-6': isVerticalLayout}">
+            <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
                 <!-- TODO для каждого слайдера свой айди -->
                 <div id="sliderapartmentPreview" class="sliderapartmentPreview carousel slide">
                     <div class="carousel-indicators">
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout,}">
+            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout, }">
                 <div class="card-body">
                     <h5 class="card-title">Название квартиры</h5>
                     <!-- кол-во человек, колво-кроватей, квадратура -->
@@ -40,7 +40,13 @@
                     <p class="card-text mb-2">Ставрополь, Рогожникова 7</p>
                     <!-- <p class="card-text fw-bold text-primary mb-2">2 099₽ <span class="fw-light">за сутки</span></p> -->
                     <!-- <p class="card-text">Всего 4 198₽</p> -->
-                    <a href="#" class="btn btn-primary">2 099₽ за сутки</a>
+                    <div v-if="isAuth">
+                        <a href="#" class="btn btn-primary">2 099₽ за сутки</a>
+                    </div>
+                    <div v-else>
+                        <p class="fw-bold text-primary">2 099₽ за сутки</p>
+                        <button class="btn btn-primary" type="button">Изменить</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -55,6 +61,10 @@ const props = defineProps({
     isVerticalLayout: {
         type: Boolean,
         default: false
+    },
+    isAuth: {
+        type: Boolean,
+        default: false,
     }
 })
 </script>
