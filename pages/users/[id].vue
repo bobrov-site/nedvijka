@@ -2,6 +2,10 @@
 definePageMeta({
     layout: 'profile'
 })
+
+const changeTab = (event) => {
+    console.log(event.target);
+}
 </script>
 
 <template>
@@ -15,8 +19,13 @@ definePageMeta({
                     </aside>
                 </div>
                 <div class="col-md-8">
-                    <main>
-                        <UserNavbar/>
+                    <main class="d-flex flex-column">
+                        <UserNavbar @click="changeTab($event)"/>
+                        <div class="row mt-4 row-cols-1 g-3">
+                            <div class="col" v-for="(item, index) in 4" :key="index">
+                                <ApartmentPreview :is-vertical-layout="true"/>
+                            </div>
+                        </div>
                     </main>
                 </div>
             </div>
