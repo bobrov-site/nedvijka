@@ -36,20 +36,13 @@ const changeIcon = (isHover) => {
             <Swiper :navigation="true" :modules="[SwiperNavigation, SwiperThumbs, SwiperFreeMode, SwiperZoom]"
                 :thumbs="{ swiper: thumbsSwiper }" class="swiper-slider" :autoHeight="true" :zoom="true">
                 <SwiperSlide>
-                    <div class="swiper-zoom-container">
-                        <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="img-fluid rounded" sizes="md:600px" />
-                    </div>
-
+                    <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div class="swiper-zoom-container">
-                        <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="img-fluid rounded" sizes="md:600px" />
-                    </div>
+                    <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
                 </SwiperSlide>
                 <SwiperSlide>
-                    <div class="swiper-zoom-container">
-                        <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-fluid rounded" sizes="md:600px" />
-                    </div>
+                    <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
                 </SwiperSlide>
             </Swiper>
             <Swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true"
