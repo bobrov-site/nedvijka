@@ -1,10 +1,10 @@
 <template>
     <ul class="nav nav-tabs ms-auto">
         <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Мои квартиры</a>
+            <a class="nav-link" href="#">Избранное</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">Избранное</a>
+            <a class="nav-link active" aria-current="page" href="#">Мои квартиры</a>
         </li>
     </ul>
 </template>
