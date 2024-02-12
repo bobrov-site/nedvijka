@@ -1,7 +1,7 @@
 export const useUserStore = defineStore('userStore', {
     state: () => ({
         auth: {
-            isAuth: false,
+            isAuth: true,
         },
         activeTab: 1
     }),
