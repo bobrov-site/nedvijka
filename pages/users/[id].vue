@@ -11,12 +11,12 @@ definePageMeta({
         <div class="card-body">
             <h1 class="mb-4">Профиль</h1>
             <div class="row">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-3">
                     <aside>
                         <UserSidebar />
                     </aside>
                 </div>
-                <div class="col-md-8">
+                <div class="col-12 col-md-7 offset-md-2">
                     <main class="d-flex flex-column">
                         <UserNavbar />
                         <div v-if="user.activeTab === 1" class="row mt-4 row-cols-1 g-3">
