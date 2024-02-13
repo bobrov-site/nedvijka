@@ -9,7 +9,7 @@ const user = useUserStore();
         <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu">
             <!-- Авторизован -->
             <div v-if="user.auth.isAuth">
-                <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin">Админка</NuxtLink>
+                <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка</NuxtLink>
                 <NuxtLink class="dropdown-item">Добавить</NuxtLink>
                 <NuxtLink class="dropdown-item" to="/users/id=1">Профиль</NuxtLink>
                 <NuxtLink class="dropdown-item">Выйти</NuxtLink>
