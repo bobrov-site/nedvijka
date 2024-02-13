@@ -1,5 +1,5 @@
 <template>
-    <ul class="nav nav-pills">
+    <ul class="nav nav-tabs">
         <li class="nav-item">
             <button @click="changeTab(1)" :class="{'active': user.activeTab === 1}" class="nav-link" type="button">Мои квартиры</button>
         </li>
