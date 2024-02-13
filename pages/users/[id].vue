@@ -16,7 +16,7 @@ definePageMeta({
                         <UserSidebar />
                     </aside>
                 </div>
-                <div class="col-12 col-md-7 offset-md-2">
+                <div class="col-12 col-md-8 offset-md-1">
                     <main class="d-flex flex-column">
                         <UserNavbar />
                         <div v-if="user.activeTab === 1" class="row mt-4 row-cols-1 g-3">
