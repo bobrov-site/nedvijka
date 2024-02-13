@@ -33,11 +33,17 @@
 </template>
 
 <script setup>
+onMounted(() => {
+    const route = useRoute();
+    const name = route.name.split('-')[1]
+    const key = Object.keys(tabs).find(key => tabs[key] === name)
+    activeTab.value = Number(key)
+})
 const tabs = {
     1: 'users',
     2: 'apartments'
 }
-const activeTab = ref(2)
+const activeTab = ref()
 const changeTab = (id) => {
     activeTab.value = id
 }
