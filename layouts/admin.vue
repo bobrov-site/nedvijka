@@ -2,10 +2,10 @@
     <div class="app">
         <div class="container-fluid p-0">
             <div class="row g-0">
-                <div class="col-12 col-md-3">
+                <div :class="{'col-md-1': admin.isWrapped, 'col-md-3' : !admin.isWrapped}" class="col-12">
                     <AdminSidebar/>
                 </div>
-                <div class="col-12 col-md-9">
+                <div :class="{'col-md-11': admin.isWrapped, 'col-md-9' : !admin.isWrapped}" class="col-12">
                     <div class="p-4">
                         <slot />
                     </div>
@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+const admin = useAdminStore();
 
 </script>
 
