@@ -6,4 +6,10 @@
             color: $white;
         }
     }
+    .nav-link:hover {
+        background-color: $secondary;
+    }
+    .active:hover {
+        background-color: $blue-600;
+    }
 }

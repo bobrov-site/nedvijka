@@ -26,6 +26,12 @@
                     <span v-if="!admin.isWrapped">Квартиры</span>
                 </NuxtLink>
             </li>
+            <li>
+                <NuxtLink to="/admin/apartments" class="nav-link text-white">
+                    <FontAwesomeIcon class="me-2" :icon="['fas', 'right-from-bracket']" />
+                    <span v-if="!admin.isWrapped">Выход</span>
+                </NuxtLink>
+            </li>
         </ul>
     </div>
 </template>
