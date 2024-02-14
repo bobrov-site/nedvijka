@@ -24,8 +24,35 @@
                         <button class="btn btn-outline-primary">Подробнее</button>
                     </td>
                     <td>
-                        <button class="w-100 btn btn-outline-primary">Действие</button>
+                        <button type="button" class="btn btn-outline-success me-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Опубликовать квартиру">
+                            <FontAwesomeIcon :icon="['fas', 'check']"/>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Удалить квартиру из базы">
+                            <FontAwesomeIcon :icon="['fas', 'trash-can']"/>
+                        </button>
                         <span class="badge text-bg-danger">Не опубликован</span>
+                    </td>
+                    <td>
+                        02.02.2024 16:54
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Название квартиры</td>
+                    <td>Рогожникова 11</td>
+                    <td>Петр Петрович</td>
+                    <td>2</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-primary">Подробнее</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-outline-secondary me-4" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить квартиру в архив">
+                            <FontAwesomeIcon :icon="['fas', 'box-archive']"/>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Удалить квартиру из базы">
+                            <FontAwesomeIcon :icon="['fas', 'trash-can']"/>
+                        </button>
+                        <span class="badge text-bg-success">Опубликован</span>
                     </td>
                     <td>
                         02.02.2024 16:54
@@ -37,6 +64,8 @@
 </template>
 
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
 definePageMeta({
     layout: 'admin'
 })
