@@ -3,6 +3,13 @@
 const map = shallowRef(null)
 const thumbsSwiper = ref(null);
 const icon = ref(['far', 'heart'])
+const comfortsList = [
+    'Кондиционер',
+    'Фен',
+    'Косметический ремонт',
+    'Телевизор',
+    'Электрический чайник',
+]
 const settings = {
     location: {
         center: [37.617644, 55.755819],
@@ -64,6 +71,7 @@ const changeIcon = (isHover) => {
             <h2>О квартире:</h2>
             <div class="d-flex mb-2">
                 <span class="badge rounded-pill text-bg-light me-2">2 гостя</span>
+                <span class="badge rounded-pill text-bg-light me-2">1 комната</span>
                 <span class="badge rounded-pill text-bg-light me-2">1 кровать</span>
                 <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
             </div>
@@ -75,28 +83,7 @@ const changeIcon = (isHover) => {
             </p>
             <hr>
             <h2>Удобства:</h2>
-            <ul class="list-group max-w-100 comforts-list">
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    <span>Кондиционер</span>
-                    <FontAwesomeIcon class="square-check-icon" :icon="['far', 'square-check']" />
-                </li>
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    <span>Фен</span>
-                    <FontAwesomeIcon class="square-check-icon" :icon="['far', 'square-check']" />
-                </li>
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    <span>Косметический ремонт</span>
-                    <FontAwesomeIcon class="square-check-icon" :icon="['far', 'square-check']" />
-                </li>
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    <span>Телевизор</span>
-                    <FontAwesomeIcon class="square-check-icon" :icon="['far', 'square-check']" />
-                </li>
-                <li class="list-group-item d-flex align-items-center justify-content-between">
-                    <span>Электрический чайник</span>
-                    <FontAwesomeIcon class="square-check-icon" :icon="['far', 'square-check']" />
-                </li>
-            </ul>
+            <ApartmentComfortsList :comfortsList="comfortsList"/>
             <hr>
             <h2>Расположение:</h2>
             <p class="card-text">
