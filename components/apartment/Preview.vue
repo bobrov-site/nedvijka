@@ -34,6 +34,7 @@
                     <!-- кол-во человек, колво-кроватей, квадратура -->
                     <div class="d-flex mb-2">
                         <span class="badge rounded-pill text-bg-light me-2">2 гостя</span>
+                        <span class="badge rounded-pill text-bg-light me-2">1 комната</span>
                         <span class="badge rounded-pill text-bg-light me-2">1 кровать</span>
                         <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
                     </div>
