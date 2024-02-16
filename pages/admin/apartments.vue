@@ -1,13 +1,12 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
 definePageMeta({
     layout: 'admin'
 })
 </script>
 
 <template>
-    <AdminModal/>
+    <AdminModal id="apartmentModal" ref="modal"/>
     <div class="table-responsive">
         <table class="table">
             <thead>
@@ -39,10 +38,7 @@ definePageMeta({
                                 data-bs-placement="top" data-bs-title="Опубликовать квартиру">
                                 <FontAwesomeIcon :icon="['fas', 'check']" />
                             </button>
-                            <button type="button" class="btn btn-outline-primary me-4" data-bs-toggle="tooltip"
-                                data-bs-placement="top" data-bs-title="Редактировать квартиру">
-                                <FontAwesomeIcon :icon="['fas', 'edit']" />
-                            </button>
+                            
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip"
                                 data-bs-placement="top" data-bs-title="Удалить квартиру из базы">
                                 <FontAwesomeIcon :icon="['fas', 'trash-can']" />
@@ -70,10 +66,7 @@ definePageMeta({
                                 data-bs-placement="top" data-bs-title="Добавить квартиру в архив">
                                 <FontAwesomeIcon :icon="['fas', 'box-archive']" />
                             </button>
-                            <button type="button" class="btn btn-outline-primary me-4" data-bs-toggle="tooltip"
-                                data-bs-placement="top" data-bs-title="Редактировать квартиру">
-                                <FontAwesomeIcon :icon="['fas', 'edit']" />
-                            </button>
+                            
                             <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip"
                                 data-bs-placement="top" data-bs-title="Удалить квартиру из базы">
                                 <FontAwesomeIcon :icon="['fas', 'trash-can']" />
