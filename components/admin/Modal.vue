@@ -1,5 +1,4 @@
 <script setup>
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const isEditable = ref(false)
 const cities = ref([
@@ -23,11 +22,11 @@ const apartment = ref({
     city: 'Ставрополь',
     address: 'Рогожникова 7',
     comfortsList: [
-    'Кондиционер',
-    'Фен',
-    'Косметический ремонт',
-    'Телевизор',
-    'Электрический чайник',
+        'Кондиционер',
+        'Фен',
+        'Косметический ремонт',
+        'Телевизор',
+        'Электрический чайник',
     ],
     priceDay: 2033,
 });
@@ -78,155 +77,66 @@ const removeComfort = (index) => {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                    <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Название:</h2>
                             <p class="modal-text">{{ apartment.name }}</p>
                         </div>
-                        <div v-else>
-                            <label for="name" class="form-label">Название</label>
-                            <input v-model="apartment.name" id="name" type="text" class="form-control"
-                                placeholder="введите название квартиры">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Описание:</h2>
                             <p class="modal-text">{{ apartment.description }}</p>
                         </div>
-                        <div v-else>
-                            <label for="description" class="form-label">Описание</label>
-                            <textarea v-model="apartment.description" class="form-control" id="description"
-                                rows="10"></textarea>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Изображения:</h2>
                             <div class="row apartments-modal-images g-3">
                                 <div v-for="(image, index) in apartment.images" :key="index" class="col-4">
-                                    <NuxtImg class="apartments-modal-img" :src="image" alt="Квартира"
-                                        sizes="md:900px" />
+                                    <NuxtImg class="apartments-modal-img" :src="image" alt="Квартира" sizes="md:900px" />
                                 </div>
                             </div>
                         </div>
-                        <div v-else>
-                            <label for="images" class="form-label">Изображения</label>
-                            <div class="row apartments-modal-images g-3 mb-2">
-                                <div v-for="(image, index) in apartment.images" :key="index" class="col-2">
-                                    <div class="position-relative">
-                                        <NuxtImg class="apartments-modal-img-preview" :src="image"
-                                            alt="Квартира" sizes="md:300px" />
-                                        <button @click="removeImage(index)" type="button" class="btn-close position-absolute top-0 end-0"></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <input @change="onFileChange($event)" class="form-control" type="file" id="images" multiple>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Количество комнат:</h2>
                             <p class="modal-text">{{ apartment.countRooms }}</p>
                         </div>
-                        <div v-else>
-                            <label for="countRooms" class="form-label">Количество комнат</label>
-                            <input v-model="apartment.countRooms" id="countRooms" type="text" class="form-control"
-                                placeholder="введите количество комнтат">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Количество кроватей:</h2>
                             <p class="modal-text">{{ apartment.countBeds }}</p>
                         </div>
-                        <div v-else>
-                            <label for="countBeds" class="form-label">Количество кроватей</label>
-                            <input v-model="apartment.countBeds" id="countBeds" type="text" class="form-control"
-                                placeholder="введите количество кроватей">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Количество квадратов:</h2>
                             <p class="modal-text">{{ apartment.countSquare }} кв.м</p>
                         </div>
-                        <div v-else>
-                            <label for="countSquare" class="form-label">Количество квадратов</label>
-                            <input v-model="apartment.countSquare" id="countSquare" type="text" class="form-control"
-                                placeholder="введите количество квадратов">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Максимальное количество гостей:</h2>
-                        <p class="modal-text">{{ apartment.maxGuests }}</p>
+                            <p class="modal-text">{{ apartment.maxGuests }}</p>
                         </div>
-                        <div v-else>
-                            <label for="maxGuests" class="form-label">Максимальное количество гостей</label>
-                            <input v-model="apartment.maxGuests" id="maxGuests" type="text" class="form-control"
-                                placeholder="введите максимальное количество гостей">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Город:</h2>
                             <p class="modal-text">{{ apartment.city }}</p>
                         </div>
-                        <div v-else>
-                            <label for="city" class="form-label">Город</label>
-                            <select v-model="apartment.city" class="form-select" aria-label="Default select example">
-                                <option v-for="(city, index) in cities" :key="index" :value="city" >{{ city }}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Адрес:</h2>
                             <p class="modal-text">{{ apartment.address }}</p>
                         </div>
-                        <div v-else>
-                            <label for="address" class="form-label">Адрес:</label>
-                            <input v-model="apartment.address" id="address" type="text" class="form-control"
-                                placeholder="введите адрес">
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Удобства:</h2>
                             <ApartmentComfortsList :comfortsList="apartment.comfortsList" />
                         </div>
-                        <div v-else>
-                            <label for="comfortsList" class="form-label">Удобства</label>
-                            <div v-for="(comfort, index) in apartment.comfortsList" :key="index" class="mb-2 d-flex">
-                                <input @input="updateComfortsList($event, index)" v-model="apartment.comfortsList[index]" id="comfortsList" type="text" class="form-control comforts-list-input me-2">
-                                <button @click="removeComfort(index)" type="button" class="btn btn-outline-danger">
-                                    <FontAwesomeIcon :icon="['fas', 'trash-can']"/>    
-                                </button>
-                            </div>
-                            <button @click="addComfort" type="button" class="btn btn-outline-primary">
-                                <FontAwesomeIcon :icon="['fas', 'fa-plus']"/>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="mb-2">
-                        <div v-if="!isEditable">
+                        <div class="mb-2">
                             <h2 class="modal-title fs-4">Цена сутки:</h2>
                             <p class="modal-text">{{ apartment.priceDay }}₽</p>
+
                         </div>
-                        <div v-else>
-                            <label for="priceDay" class="form-label">Цена сутки в рублях</label>
-                            <input v-model="apartment.priceDay" id="priceDay" type="text" class="form-control"/>    
+                        <div class="mb-2">
+                            <h2 class="modal-title fs-4">Пользователь:</h2>
+                            <p class="modal-text">Иван Иванов</p>
+                        </div>
+                        <div class="mb-2">
+                            <h2 class="modal-title fs-4">Id пользователя:</h2>
+                            <p class="modal-text">1</p>
                         </div>
                     </div>
-                    <div v-if="!isEditable" class="mb-2">
-                        <h2 class="modal-title fs-4">Пользователь:</h2>
-                        <p class="modal-text">Иван Иванов</p>
-                    </div>
-                    <div v-if="!isEditable" class="mb-2">
-                        <h2 class="modal-title fs-4">Id пользователя:</h2>
-                        <p class="modal-text">1</p>
-                    </div>
+                    <UiFormEdit v-if="isEditable" :apartment="apartment" />
                 </div>
                 <div class="modal-footer">
                     {{ isEditable }}
