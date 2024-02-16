@@ -27,6 +27,7 @@
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+        <p class="mt-2">Уже зарегистрированы? <NuxtLink to="/auth/login">Войти</NuxtLink></p>
     </form>
 </template>
 
