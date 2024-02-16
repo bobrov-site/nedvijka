@@ -39,14 +39,8 @@
                         <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
                     </div>
                     <p class="card-text mb-2">Ставрополь, Рогожникова 7</p>
-                    <!-- <p class="card-text fw-bold text-primary mb-2">2 099₽ <span class="fw-light">за сутки</span></p> -->
-                    <!-- <p class="card-text">Всего 4 198₽</p> -->
-                    <div v-if="isAuth">
+                    <div>
                         <a href="#" class="btn btn-primary">2 099₽ за сутки</a>
-                    </div>
-                    <div v-else>
-                        <p class="fw-bold text-primary">2 099₽ за сутки</p>
-                        <button class="btn btn-primary" type="button">Изменить</button>
                     </div>
                 </div>
             </div>
