@@ -1,7 +1,9 @@
 <template>
     <div class="row">
         <div class="col-12 col-md-8">
-            <SearchForm form-title="Начните поиск"/>
+            <div class="card p-4 search-form h-100">
+                <SearchForm form-title="Начните поиск"/>
+            </div>
         </div>
         <div class="col-12 col-md-4">
             <SliderBenefits/>
