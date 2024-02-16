@@ -20,7 +20,7 @@ const handleDate = (modelData) => {
 </script>
 
 <template>
-    <div class="card p-4 search-form" :class="{'position-sticky top-0' : isProcecced}">
+    <div class="card p-4 search-form h-100" :class="{'position-sticky top-0' : isProcecced}">
         <div class="row mb-3">
             <div class="col-12">
                 <h2>{{ props.formTitle }}</h2>
