@@ -9,7 +9,8 @@ const user = useUserStore();
         <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu">
             <!-- Авторизован -->
             <div v-if="user.auth.isAuth">
-                <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка</NuxtLink>
+                <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка
+                </NuxtLink>
                 <NuxtLink class="dropdown-item" to="/apartments/create">Добавить</NuxtLink>
                 <NuxtLink class="dropdown-item" to="/users/id=1">Профиль</NuxtLink>
                 <NuxtLink class="dropdown-item">Выйти</NuxtLink>
@@ -19,13 +20,15 @@ const user = useUserStore();
                 <div class="dropdown-header">
                     Войдите или создайте аккаунт, чтобы использовать все возможности сервиса
                 </div>
-                <NuxtLink class="dropdown-item" to="/auth/login">
-                    <button type="btn" class="w-100 btn btn-lg btn-primary">
+                <div class="dropdown-item">
+                    <button type="btn" class="w-100 btn btn-lg btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#authModal">
                         Войдите
                     </button>
-                </NuxtLink>
+                </div>
+
             </div>
-            
+
         </div>
     </div>
 </template>

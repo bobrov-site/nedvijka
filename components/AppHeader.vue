@@ -1,8 +1,9 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-
+const user = useUserStore();
 </script>
 <template>
+    <AuthModal />
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
@@ -27,13 +28,13 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                                 <ClientOnly>
                                     <FontAwesomeIcon class="nav-link-icons whatsapp" :icon="['fab', 'whatsapp']" />
                                 </ClientOnly>
-                                
+
                             </NuxtLink>
                             <NuxtLink class="nav-link" to="/">
                                 <ClientOnly>
                                     <FontAwesomeIcon class="nav-link-icons telegram" :icon="['fab', 'telegram']" />
                                 </ClientOnly>
-                                
+
                             </NuxtLink>
                             <NuxtLink class="nav-link" to="/">
                                 <ClientOnly>
@@ -68,7 +69,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                                         <NuxtLink class="nav-link" to="/">
                                             <FontAwesomeIcon class="nav-link-icons viber" :icon="['fab', 'viber']" />
                                         </NuxtLink>
-                                    </li>   
+                                    </li>
                                 </ul>
                             </div>
                         </li>
@@ -76,15 +77,16 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                     <nav>
                         <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
                             <li class="nav-item me-2">
-                                <button type="btn" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-html="true" data-bs-title="<h4 class='fs-6'>Зарабатывайте на сдаче жилья</h4> Сдавайте квартиру, дом, номера в гостинице и другие объекты.">
+                                <NuxtLink :data-bs-toggle="user.auth.isAuth ? '' : 'modal'" data-bs-target="#authModal"
+                                    :role="user.auth.isAuth ? '' : 'button'" class="btn btn-outline-primary"
+                                    :to="{ '#': !user.auth.isAuth, '#': user.auth.isAuth }">
                                     Сдать жилье
-                                </button>
-                                
+                                </NuxtLink>
                             </li>
                             <li class="nav-item">
-                                <button type="btn" class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Войдите, чтобы управлять своими бронированиями.">
-                                    Бронирование
-                                </button>
+                                <NuxtLink :data-bs-toggle="user.auth.isAuth ? '' : 'modal'" data-bs-target="#authModal"
+                                    :role="user.auth.isAuth ? '' : 'button'" class="btn btn-outline-primary" :to="{ '#': !user.auth.isAuth, '#': user.auth.isAuth }
+                                        ">Бронирование</NuxtLink>
                             </li>
                         </ul>
                     </nav>
@@ -92,9 +94,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                     <div class="socials">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item me-4">
-                                <button class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Войдите, чтобы посмотреть избранные объекты">
+                                <button class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                    data-bs-title="Войдите, чтобы посмотреть избранные объекты">
                                     <ClientOnly>
-                                        <FontAwesomeIcon :icon="['fas', 'heart']"/>
+                                        <FontAwesomeIcon :icon="['fas', 'heart']" />
                                     </ClientOnly>
                                     Избранное
                                 </button>
@@ -104,14 +107,15 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
                             </li>
                             <li class="nav-item">
                                 <div class="dropdown">
-                                    <button class="nav-link btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <button class="nav-link btn dropdown-toggle" data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                         <ClientOnly>
-                                            <FontAwesomeIcon :icon="['far', 'circle-question']"/>
+                                            <FontAwesomeIcon :icon="['far', 'circle-question']" />
                                         </ClientOnly>
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-end">
                                         <li class="dropdown-item">
-                                            <NuxtLink class="text-decoration-none" to="/">
+                                            <NuxtLink class="text-decoration-none" to="/support">
                                                 Поддержка
                                             </NuxtLink>
                                         </li>
