@@ -16,8 +16,14 @@ const user = useUserStore();
             </div>
             <!-- Не Авторизован -->
             <div v-else>
-                <NuxtLink class="dropdown-item" to="/auth/login">Войти</NuxtLink>
-                <NuxtLink class="dropdown-item" to="/auth/registration">Зарегистрироваться</NuxtLink>
+                <div class="dropdown-header">
+                    Войдите или создайте аккаунт, чтобы использовать все возможности сервиса
+                </div>
+                <NuxtLink class="dropdown-item" to="/auth/login">
+                    <button type="btn" class="w-100 btn btn-lg btn-primary">
+                        Войдите
+                    </button>
+                </NuxtLink>
             </div>
             
         </div>
