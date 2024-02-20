@@ -1,5 +1,13 @@
 <script setup>
 const user = useUserStore();
+const getProfileLink = () => {
+    if (user.auth.isGuest) {
+        return '/guest/favorites'
+    }
+    if (user.auth.isRenter) {
+        return '/renter'
+    }
+}
 </script>
 <template>
     <div class="dropdown profile">
@@ -11,8 +19,7 @@ const user = useUserStore();
             <div v-if="user.auth.isAuth">
                 <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка
                 </NuxtLink>
-                <NuxtLink class="dropdown-item" to="/apartments/create">Добавить</NuxtLink>
-                <NuxtLink class="dropdown-item" to="/users/id=1">Профиль</NuxtLink>
+                <NuxtLink class="dropdown-item" :to="getProfileLink()">Профиль</NuxtLink>
                 <NuxtLink class="dropdown-item">Выйти</NuxtLink>
             </div>
             <!-- Не Авторизован -->
