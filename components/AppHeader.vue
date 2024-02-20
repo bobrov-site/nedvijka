@@ -77,16 +77,12 @@ const user = useUserStore();
                     <nav>
                         <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
                             <li class="nav-item me-2">
-                                <NuxtLink :data-bs-toggle="user.auth.isAuth ? '' : 'modal'" data-bs-target="#authModal"
-                                    :role="user.auth.isAuth ? '' : 'button'" class="btn btn-outline-primary"
-                                    :to="{ '#': !user.auth.isAuth, '#': user.auth.isAuth }">
-                                    Сдать жилье
-                                </NuxtLink>
+                                <NuxtLink v-if="!user.auth.isAuth" role="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#authModal">Сдать жилье</NuxtLink>
+                                <NuxtLink v-if="user.auth.isAuth && user.auth.isRenter" class="btn btn-outline-primary" to="/">Сдать жилье</NuxtLink>
                             </li>
                             <li class="nav-item">
-                                <NuxtLink :data-bs-toggle="user.auth.isAuth ? '' : 'modal'" data-bs-target="#authModal"
-                                    :role="user.auth.isAuth ? '' : 'button'" class="btn btn-outline-primary" :to="{ '#': !user.auth.isAuth, '#': user.auth.isAuth }
-                                        ">Бронирование</NuxtLink>
+                                <NuxtLink v-if="!user.auth.isAuth" class="btn btn-outline-primary" role="button" data-bs-toggle="modal" data-bs-target="#authModal">Бронирование</NuxtLink>
+                                <NuxtLink v-if="user.auth.isAuth && user.auth.isGuest" class="btn btn-outline-primary" to="/guest/bookings">Бронирование</NuxtLink>
                             </li>
                         </ul>
                     </nav>
@@ -94,13 +90,18 @@ const user = useUserStore();
                     <div class="socials">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item me-4">
-                                <button class="btn btn-outline-primary" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                                    data-bs-title="Войдите, чтобы посмотреть избранные объекты">
+                                <NuxtLink v-if="!user.auth.isAuth" data-bs-toggle="modal" data-bs-target="#authModal" class="btn btn-outline-primary">
                                     <ClientOnly>
                                         <FontAwesomeIcon :icon="['fas', 'heart']" />
                                     </ClientOnly>
                                     Избранное
-                                </button>
+                                </NuxtLink>
+                                <NuxtLink v-if="user.auth.isAuth && user.auth.isGuest" to="/guest/favorites" class="btn btn-outline-primary">
+                                    <ClientOnly>
+                                        <FontAwesomeIcon :icon="['fas', 'heart']" />
+                                    </ClientOnly>
+                                    Избранное
+                                </NuxtLink>
                             </li>
                             <li class="nav-item nav-item-profile">
                                 <HeaderProfile />
