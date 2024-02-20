@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
                 <!-- TODO для каждого слайдера свой айди -->
-                <div id="sliderapartmentPreview" class="sliderapartmentPreview carousel slide">
+                <div ref="sliderContainer" id="sliderApartmentPreview" class="sliderapartmentPreview carousel slide">
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#sliderapartmentPreview" data-bs-slide-to="0" class="active"
                             aria-current="true" aria-label="Slide 1"></button>
@@ -25,6 +25,9 @@
                             <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-slider card-img-top"
                                 sizes="md:300px" />
                         </div>
+                    </div>
+                    <div class="carousel-split position-absolute w-100 h-100 top-0 d-flex">
+                        <div @mouseover="toggleSlide(index)" v-for="(col, index) in 3" :key="index" class="col h-100"></div>
                     </div>
                 </div>
             </div>
@@ -49,6 +52,7 @@
 </template>
 
 <script setup>
+const { $bootstrap } = useNuxtApp();
 const props = defineProps({
     apartment: {
         type: Object
@@ -62,6 +66,16 @@ const props = defineProps({
         default: false,
     }
 })
+
+const sliderContainer = ref(null)
+const carousel = ref(null)
+onMounted(() => {
+    carousel.value = new $bootstrap.Carousel(sliderContainer.value)
+})
+
+const toggleSlide = (index) => {
+    carousel.value.to(index);
+}
 </script>
 
 <style lang="scss" scoped></style>
