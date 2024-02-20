@@ -1,5 +1,5 @@
 <template>
-    <div id="sliderBenefits" ref="sliderContainer" class="carousel slide carousel-dark" data-bs-ride="carousel">
+    <div id="sliderBenefits" ref="sliderContainer" class="carousel slide carousel-dark">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#sliderBenefits" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#sliderBenefits" data-bs-slide-to="1" aria-label="Slide 2"></button>
