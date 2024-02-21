@@ -4,6 +4,7 @@ const user = useUserStore();
 </script>
 <template>
     <AuthModal />
+    <TestsAuth/>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
@@ -89,7 +90,7 @@ const user = useUserStore();
                     <div class="socials">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item me-4">
-                                <NuxtLink v-if="user.auth.isAuth && user.auth.isRenter" class="btn btn-outline-primary" to="/">Сдать жилье</NuxtLink>
+                                <NuxtLink v-if="user.auth.isAuth && user.auth.isRenter" class="btn btn-outline-primary" to="/renter/objects">Сдать жилье</NuxtLink>
                             </li>
                             <li v-if="user.auth.isAuth && user.auth.isGuest" class="nav-item me-4">
                                 <NuxtLink class="btn btn-outline-primary" to="/guest/bookings">Бронирование</NuxtLink>
