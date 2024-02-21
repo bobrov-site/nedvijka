@@ -3,8 +3,8 @@ export const useUserStore = defineStore('userStore', {
         auth: {
             isAuth: true,
             isAdmin: false,
-            isGuest: true,
-            isRenter: false,
+            isGuest: false,
+            isRenter: true,
         },
     }),
     actions: {
