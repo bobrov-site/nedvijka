@@ -5,7 +5,7 @@ const getProfileLink = () => {
         return '/guest/favorites'
     }
     if (user.auth.isRenter) {
-        return '/renter'
+        return '/renter/objects'
     }
 }
 </script>
