@@ -12,6 +12,13 @@
                 </NuxtLink>
             </li>
         </ul>
+        <ul v-if="user.auth.isRenter" class="nav nav-tabs">
+            <li class="nav-item">
+                <NuxtLink to="/renter/objects" :class="{ 'active': route.name === 'renter-objects' }" class="nav-link">
+                    Мои обьекты
+                </NuxtLink>
+            </li>
+        </ul>
     </div>
 </template>
 
