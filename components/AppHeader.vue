@@ -1,6 +1,10 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+onMounted(() => {
+    showDropdown(dropdownSupport.value);
+})
 const user = useUserStore();
+const dropdownSupport = ref();
 </script>
 <template>
     <AuthModal />
@@ -113,7 +117,7 @@ const user = useUserStore();
                                 <HeaderProfile />
                             </li>
                             <li class="nav-item">
-                                <div class="dropdown">
+                                <div ref="dropdownSupport" class="dropdown">
                                     <button class="nav-link btn dropdown-toggle" data-bs-toggle="dropdown"
                                         aria-expanded="false">
                                         <ClientOnly>
