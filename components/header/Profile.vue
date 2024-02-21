@@ -1,4 +1,8 @@
 <script setup>
+onMounted(() => {
+    showDropdown(dropdown.value)
+})
+const dropdown = ref(null)
 const user = useUserStore();
 const getProfileLink = () => {
     if (user.auth.isGuest) {
@@ -10,7 +14,7 @@ const getProfileLink = () => {
 }
 </script>
 <template>
-    <div class="dropdown profile">
+    <div ref="dropdown" class="dropdown profile">
         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <FontAwesomeIcon class="user" :icon="['far', 'user']" />
         </a>
