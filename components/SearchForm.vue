@@ -45,9 +45,8 @@ const handleDate = (modelData) => {
                         <span class="d-block w-100 text-start">
                             {{ adult }} взрослых, {{ children }} детей
                         </span>
-                        <template>
-                            <FontAwesomeIcon class="caret-down-icon position-absolute" :icon="['fas', 'caret-down']"/>
-                        </template>
+                        <FontAwesomeIcon class="caret-down-icon position-absolute" :icon="['fas', 'caret-down']"/>
+                        
                     </button>
                 </div>
 
@@ -93,7 +92,8 @@ const handleDate = (modelData) => {
             </div>
             <div class="col-md-6">
                 <label for="start" class="form-label">Заезд</label>
-                <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="start"
+                <ClientOnly>
+                    <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="start"
                     range text-input :enable-time-picker="false" :clearable="false" locale="ru">
 
                     <template #dp-input>
@@ -103,6 +103,8 @@ const handleDate = (modelData) => {
                         <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
                     </template>
                 </VueDatePicker>
+                </ClientOnly>
+                
             </div>
             <div class="col-md-6">
                 <label for="end" class="form-label">Выезд</label>
