@@ -8,7 +8,7 @@
 
 <script setup>
 definePageMeta({
-    layout: 'guest'
+    layout: 'user'
 })
 </script>
 

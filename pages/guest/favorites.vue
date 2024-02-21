@@ -2,7 +2,7 @@
 const user = useUserStore();
 
 definePageMeta({
-    layout: 'guest'
+    layout: 'user'
 })
 </script>
 <template>
