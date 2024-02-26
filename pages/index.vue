@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+console.log('hello')
 const reviews = [
     {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
     {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
