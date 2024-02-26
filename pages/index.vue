@@ -45,7 +45,6 @@
                 </SwiperSlide>
             </Swiper>
         </div>
-
     </div>
 </template>
 
