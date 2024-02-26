@@ -25,9 +25,10 @@
     </div>
 </template>
 
-<script setup>
-const map = shallowRef(null);
-const route = useRoute()
+<script setup lang="ts">
+import type { YMap } from '@yandex/ymaps3-types';
+import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
+const map = shallowRef<null | YMap>(null);
 // cityId, children, adult, start, end
 </script>
 
