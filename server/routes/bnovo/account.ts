@@ -5,7 +5,6 @@ export default defineEventHandler(async() => {
         url: 'account/current',
         method: 'GET'
     })
-    console.log(response)
     return {
         account : response.data
     }
