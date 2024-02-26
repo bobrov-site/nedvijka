@@ -28,10 +28,7 @@
 <script setup lang="ts">
 import type { YMap } from '@yandex/ymaps3-types';
 import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
-onMounted(() => {
-    map.value = shallowRef<null | YMap>(null);
-})
-const map = ref()
+const map = shallowRef<null | YMap>(null);
 // cityId, children, adult, start, end
 </script>
 
