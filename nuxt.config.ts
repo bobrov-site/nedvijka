@@ -20,7 +20,11 @@ export default defineNuxtConfig({
   image: {
     quality: 80,
   },
+  runtimeConfig: {
+    bnovoUsername: '',
+    bnovoPassword: '',
+  },
   yandexMaps: {
-    apikey: 'f82200e9-f4ed-4813-b122-0a28730623b1',
+    apikey: process.env.NUXT_YANDEX_API,
   },
 })

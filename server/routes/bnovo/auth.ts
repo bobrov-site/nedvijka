@@ -1,9 +1,10 @@
 export default defineEventHandler(async (event) => {
+  const { bnovoUsername, bnovoPassword } = useRuntimeConfig(event);
+  const data = {
+    username: bnovoUsername,
+    password: bnovoPassword,
+  };
   try {
-    const data = {
-      username: "65d73a37ce20f+12910@customapp.bnovo.ru",
-      password: "b16aa9502e3db4c7",
-    };
     const response = await axiosInstance({
       method: 'POST',
       data: data,
