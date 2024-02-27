@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     'nuxt-swiper',
     '@pinia/nuxt',
     'nuxt-mongoose',
+    '@sidebase/nuxt-auth',
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
@@ -24,11 +25,21 @@ export default defineNuxtConfig({
   runtimeConfig: {
     bnovoUsername: '',
     bnovoPassword: '',
+    authSecret: '',
   },
   yandexMaps: {
     apikey: process.env.NUXT_YANDEX_API,
   },
   mongoose: {
     uri: process.env.NUXT_MONGODB_URI
-  }
+  },
+  nuxtServerUtils: {
+    mongodbUri: process.env.NUXT_MONGODB_URI
+  },
+  auth: {
+    baseURL: process.env.NUXT_AUTH_ORIGIN,
+    provider: {
+        type: 'authjs'
+    }
+}
 })
