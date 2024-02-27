@@ -1,3 +1,24 @@
+<script setup>
+const form = ref({
+    email: '',
+})
+
+const isButtonDisabled = ref(false);
+// const isEmailExist = ref(null);
+const { signIn } = useAuth();
+const checkEmail = async($event) => {
+    isButtonDisabled.value = true;
+    try {
+        await signIn("credentials", form.value);
+        isButtonDisabled.value = false;
+    }
+    catch(e) {
+        console.log(e, 'error')
+        isButtonDisabled.value = false;
+    }
+    
+}
+</script>
 <template>
     <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
@@ -7,17 +28,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form>
+                    <form @submit.prevent="checkEmail($event)">
                         <div class="mb-3">
                             <label for="email" class="form-label">Адрес электронной
                                 почты</label>
-                            <input type="email" class="form-control" id="email">
+                            <input v-model="form.email" type="email" class="form-control" id="email">
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Пароль</label>
-                            <input type="password" class="form-control" id="password">
-                        </div>
-                        <button class="btn btn-primary">Войти</button>
+                        <button :disabled="isButtonDisabled" type="submit" class="btn btn-primary">Войти</button>
                     </form>
                     <hr>
                     <div class="mb-3">
@@ -37,9 +54,5 @@
         </div>
     </div>
 </template>
-
-<script setup>
-
-</script>
 
 <style lang="scss" scoped></style>
