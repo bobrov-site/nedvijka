@@ -6,7 +6,8 @@ export default defineNuxtConfig({
     '@nuxt/image',
     'vue-yandex-maps/nuxt',
     'nuxt-swiper',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    'nuxt-mongoose',
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
@@ -27,4 +28,7 @@ export default defineNuxtConfig({
   yandexMaps: {
     apikey: process.env.NUXT_YANDEX_API,
   },
+  mongoose: {
+    uri: process.env.NUXT_MONGODB_URI
+  }
 })
