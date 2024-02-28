@@ -21,6 +21,7 @@
     "@vuepic/vue-datepicker": "^8.0.0",
     "axios": "^1.6.7",
     "axios-cookiejar-support": "^5.0.0",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
     "next-auth": "^4.22.5",
     "nuxt": "^3.10.0",
