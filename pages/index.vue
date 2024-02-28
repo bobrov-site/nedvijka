@@ -1,4 +1,30 @@
+<script setup>
+onMounted(() => {
+    showAlert();
+})
+const { $bootstrap } = useNuxtApp();
+const route = useRoute();
+const alert = ref(null);
+const showAlert = () => {
+    if (route.query.isRegistred) {
+        const alertContainer = new $bootstrap.Alert(alert.value)
+        alertContainer.show();
+    }
+}
+const reviews = [
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+    { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
+]
+</script>
 <template>
+    <div ref="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Вы успешно зарегистрированы!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="row">
         <div class="col-12 col-md-8">
             <div class="card p-4 search-form h-100">
@@ -26,37 +52,20 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <Swiper 
-            :autoplay="{
+            <Swiper :autoplay="{
                 delay: 2500,
                 disableOnInteraction: false,
-            }" 
-            :breakpoints="{
-                '768': {
-                    'slidesPerView': 4
-                }
-            }"
-            :navigation="false" 
-            :modules="[SwiperAutoplay]" 
-            :slidesPerView="1" 
-            :spaceBetween="30">
+            }" :breakpoints="{
+    '768': {
+        'slidesPerView': 4
+    }
+}" :navigation="false" :modules="[SwiperAutoplay]" :slidesPerView="1" :spaceBetween="30">
                 <SwiperSlide v-for="(review, index) in reviews" :key="index">
-                    <Review :name="review.name" :text="review.text"/>
+                    <Review :name="review.name" :text="review.text" />
                 </SwiperSlide>
             </Swiper>
         </div>
     </div>
 </template>
-
-<script setup>
-const reviews = [
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-    {name: 'Рустам', text: 'Отличный сайт, удобно пользоваться'},
-]
-</script>
 
 <style lang="scss" scoped></style>
