@@ -1,15 +1,10 @@
 <script setup>
-onMounted(() => {
-    showAlert();
-})
-const { $bootstrap } = useNuxtApp();
 const route = useRoute();
-const alert = ref(null);
 const showAlert = () => {
-    if (route.query.isRegistred) {
-        const alertContainer = new $bootstrap.Alert(alert.value)
-        alertContainer.show();
+    if (Object.hasOwn(route.query, 'isRegistred')) {
+        return true
     }
+    return false
 }
 const reviews = [
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
@@ -21,7 +16,7 @@ const reviews = [
 ]
 </script>
 <template>
-    <div ref="alert" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div v-show="showAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Вы успешно зарегистрированы!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
