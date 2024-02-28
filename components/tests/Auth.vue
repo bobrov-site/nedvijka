@@ -1,15 +1,3 @@
-
-import type userVue from '~/layouts/user.vue';
-
-import type userVue from '~/layouts/user.vue';
-
-import type userVue from '~/layouts/user.vue';
-
-import type userVue from '~/layouts/user.vue';
-
-import type userVue from '~/layouts/user.vue';
-
-import type userVue from '~/layouts/user.vue';
 <template>
     <div class="container">
         <div class="row">
