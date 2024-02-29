@@ -1,11 +1,19 @@
 <script setup>
-const route = useRoute();
-const showAlert = () => {
+
+const setAlertStatus = () => {
+    console.log(route.query)
     if (Object.hasOwn(route.query, 'isRegistred')) {
-        return true
+        alertStatuses.value.isRegistred = true
     }
-    return false
+    if (Object.hasOwn(route.query, 'isLogin')) {
+        alertStatuses.value.isLogin = true
+    }
 }
+const route = useRoute();
+const alertStatuses = ref({
+    isRegistred: false,
+    isLogin: false,
+})
 const reviews = [
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
@@ -14,10 +22,15 @@ const reviews = [
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
 ]
+watch(() => route.query, setAlertStatus)
 </script>
 <template>
-    <div v-show="showAlert()" class="alert alert-success alert-dismissible fade show" role="alert">
+    <div v-show="alertStatuses.isRegistred" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Вы успешно зарегистрированы!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div v-show="alertStatuses.isLogin" class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Вы успешно зашли в систему!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="row">
