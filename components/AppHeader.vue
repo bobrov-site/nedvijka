@@ -8,7 +8,6 @@ const dropdownSupport = ref();
 </script>
 <template>
     <AuthModal />
-    <TestsAuth/>
     <header>
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container">
