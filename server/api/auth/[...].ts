@@ -5,7 +5,8 @@ import bcrypt from 'bcrypt'
 export default NuxtAuthHandler({
     secret: useRuntimeConfig().authSecret,
     pages: {
-        error: '/auth/error'
+        error: '/auth/error',
+        signOut: '/?isLogout=true',
     },
     providers: [CredentialsProvider.default({
         name: 'credentials',
@@ -19,7 +20,6 @@ export default NuxtAuthHandler({
                 })
             }
             const isPasswordValid = await bcrypt.compare(credentials.password, user.password)
-            console.log(isPasswordValid, 'isPasswordValid')
             if (!isPasswordValid) {
                 throw createError({
                     statusCode: 401,
@@ -42,7 +42,7 @@ export default NuxtAuthHandler({
             }
             return token
         },
-        async session({ session, token }) {
+        async session({ session, token, user }) {
             session.user = token.user
             return session
         },
