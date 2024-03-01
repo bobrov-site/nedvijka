@@ -1,20 +1,14 @@
 // file: ~/middleware/authentication.global.ts
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(() => {
   const { status, data } = useAuth();
+  const { authUser, reset} = useUserStore();
 
   // Return immediately if user is already authenticated
   console.log(status.value)
   if (status.value === "authenticated") {
     const user = data.value?.user 
-    useUserStore().auth.isAuth = true;
-    useUserStore().user.email = user.email;
-    useUserStore().user.id = user._id;
+    authUser(user);
     return;
   }
-
-  /**
-   * We cannot directly call and/or return `signIn` here as `signIn` uses async composables under the hood, leading to "nuxt instance undefined errors", see https://github.com/nuxt/framework/issues/5740#issuecomment-1229197529
-   *
-   * So to avoid calling it, we return it immediately.
-   */
+  reset()
 });
