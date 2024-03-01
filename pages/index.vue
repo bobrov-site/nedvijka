@@ -1,5 +1,4 @@
 <script setup>
-
 const setAlertStatus = () => {
     console.log(route.query)
     if (Object.hasOwn(route.query, 'isRegistred')) {
@@ -8,11 +7,15 @@ const setAlertStatus = () => {
     if (Object.hasOwn(route.query, 'isLogin')) {
         alertStatuses.value.isLogin = true
     }
+    if (Object.hasOwn(route.query, 'isLogout')) {
+        alertStatuses.value.isLogout = true
+    }
 }
 const route = useRoute();
 const alertStatuses = ref({
     isRegistred: false,
     isLogin: false,
+    isLogout: false,
 })
 const reviews = [
     { name: 'Рустам', text: 'Отличный сайт, удобно пользоваться' },
@@ -31,6 +34,10 @@ watch(() => route.query, setAlertStatus)
     </div>
     <div v-show="alertStatuses.isLogin" class="alert alert-success alert-dismissible fade show" role="alert">
         <strong>Вы успешно зашли в систему!</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    <div v-show="alertStatuses.isLogout" class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Вы вышли из системы!</strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="row">

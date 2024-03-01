@@ -4,6 +4,11 @@ onMounted(() => {
 })
 const dropdown = ref(null)
 const user = useUserStore();
+const { signOut } = useAuth();
+const logOut = async() => {
+    await signOut({redirect: false});
+    await navigateTo({path: '/', query: {isLogout: true}});
+}
 const getProfileLink = () => {
     if (user.auth.isGuest) {
         return '/guest/favorites'
@@ -24,7 +29,7 @@ const getProfileLink = () => {
                 <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка
                 </NuxtLink>
                 <NuxtLink class="dropdown-item" :to="getProfileLink()">Профиль</NuxtLink>
-                <NuxtLink class="dropdown-item">Выйти</NuxtLink>
+                <button @click="logOut()" type="button" class="dropdown-item">Выйти</button>
             </div>
             <!-- Не Авторизован -->
             <div v-else>
