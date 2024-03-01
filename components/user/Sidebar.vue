@@ -1,9 +1,9 @@
 <script setup>
 const { user } = useUserStore();
 const getUserName = () => {
-    const secondName = user.secondName ? user.secondName : 'Бобров'
-    const firstName = user.firstName ? user.firstName : 'Даниил'
-    const middleName = user.middleName ? user.middleName : 'Русланович'
+    const secondName = user.secondName ? user.secondName : ''
+    const firstName = user.firstName ? user.firstName : ''
+    const middleName = user.middleName ? user.middleName : ''
     return `${firstName} ${secondName} ${middleName}`
 }
 </script>
@@ -20,7 +20,11 @@ const getUserName = () => {
         </div>
         <div class="d-flex justify-content-between mb-2">
             <span class="fw-light">Дата регистрации:</span>
-            <span class="fw-bold">02.02.2024</span>
+            <span class="fw-bold">{{ user.registredDate ? user.registredDate : 'Не указано' }}</span>
+        </div>
+        <div class="d-flex justify-content-between mb-2">
+            <span class="fw-light">Email:</span>
+            <span class="fw-bold">{{ user.email ? user.email : 'Не указано' }}</span>
         </div>
         <button class="btn btn-outline-primary" type="button">Изменить</button>
     </div>
