@@ -93,9 +93,9 @@ const dropdownSupport = ref();
                     <div class="socials">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item me-4">
-                                <NuxtLink v-if="user.auth.isAuth && user.auth.isRenter" class="btn btn-outline-primary" to="/renter/objects">Сдать жилье</NuxtLink>
+                                <NuxtLink v-if="user.auth.isAuth && user.user.role === 'renter'" class="btn btn-outline-primary" to="/renter/objects">Сдать жилье</NuxtLink>
                             </li>
-                            <li v-if="user.auth.isAuth && user.auth.isGuest" class="nav-item me-4">
+                            <li v-if="user.auth.isAuth && user.role === 'guest'" class="nav-item me-4">
                                 <NuxtLink class="btn btn-outline-primary" to="/guest/bookings">Бронирование</NuxtLink>
                             </li>
                             <li class="nav-item me-4">
@@ -105,7 +105,7 @@ const dropdownSupport = ref();
                                     </ClientOnly>
                                     Избранное
                                 </NuxtLink>
-                                <NuxtLink v-if="user.auth.isAuth && user.auth.isGuest" to="/guest/favorites" class="btn btn-outline-primary">
+                                <NuxtLink v-if="user.auth.isAuth && user.user.role === 'guest'" to="/guest/favorites" class="btn btn-outline-primary">
                                     <ClientOnly>
                                         <FontAwesomeIcon :icon="['fas', 'heart']" />
                                     </ClientOnly>

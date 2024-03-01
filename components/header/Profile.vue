@@ -10,12 +10,12 @@ const logOut = async() => {
     await navigateTo({path: '/', query: {isLogout: true}});
 }
 const getProfileLink = () => {
-    if (user.auth.isGuest) {
-        return '/guest/favorites'
-    }
-    if (user.auth.isRenter) {
-        return '/renter/objects'
-    }
+    switch(user.user.role) {
+        case 'guest' :
+            return '/guest/bookings'
+        case 'renter':
+            return '/renter/objects'
+    } 
 }
 </script>
 <template>
@@ -26,7 +26,7 @@ const getProfileLink = () => {
         <div class="dropdown-menu dropdown-menu-end profile-dropdown-menu">
             <!-- Авторизован -->
             <div v-if="user.auth.isAuth">
-                <NuxtLink v-if="user.auth.isAdmin" class="dropdown-item text-danger" to="/admin/apartments">Админка
+                <NuxtLink v-if="user.user.role === 'admin'" class="dropdown-item text-danger" to="/admin/apartments">Админка
                 </NuxtLink>
                 <NuxtLink class="dropdown-item" :to="getProfileLink()">Профиль</NuxtLink>
                 <button @click="logOut()" type="button" class="dropdown-item">Выйти</button>
