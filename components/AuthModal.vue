@@ -97,7 +97,6 @@ const registration = () => {
                     })
                 })
                 .catch((e) => {
-                    console.log(e, 'error jopa  ')
                     isLoading.value = false;
                 })
         })
