@@ -12,7 +12,7 @@
                 </NuxtLink>
             </li>
         </ul>
-        <ul v-if="user.user.role === 'renter'" class="nav nav-tabs">
+        <ul v-if="user.user.role === 'renter' || user.user.role === 'admin'" class="nav nav-tabs">
             <li class="nav-item">
                 <NuxtLink to="/renter/objects" :class="{ 'active': route.name === 'renter-objects' }" class="nav-link">
                     Мои обьекты
