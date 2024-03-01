@@ -6,12 +6,12 @@
                 <div class="card-body">
                     <h1 class="mb-4">Профиль</h1>
                     <div class="row">
-                        <div class="col-12 col-md-3">
+                        <div class="col-12 col-md-4">
                             <aside>
                                 <UserSidebar/>
                             </aside>
                         </div>
-                        <div class="col-12 col-md-8 offset-md-1">
+                        <div class="col-12 col-md-7 offset-md-1">
                             <main class="d-flex flex-column">
                                 <UserNavbar />
                                 <slot />

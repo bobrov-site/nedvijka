@@ -15,6 +15,8 @@ const getProfileLink = () => {
             return '/guest/bookings'
         case 'renter':
             return '/renter/objects'
+        case 'admin':
+            return '/renter/objects'
     } 
 }
 </script>

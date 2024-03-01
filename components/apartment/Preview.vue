@@ -35,11 +35,19 @@
                 <div class="card-body">
                     <h5 class="card-title">Название квартиры</h5>
                     <!-- кол-во человек, колво-кроватей, квадратура -->
-                    <div class="d-flex mb-2">
-                        <span class="badge rounded-pill text-bg-light me-2">2 гостя</span>
-                        <span class="badge rounded-pill text-bg-light me-2">1 комната</span>
-                        <span class="badge rounded-pill text-bg-light me-2">1 кровать</span>
-                        <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
+                    <div class="d-flex flex-wrap mb-2">
+                        <div>
+                            <span class="badge rounded-pill text-bg-light">2 гостя</span>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill text-bg-light">2 комнаты</span>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill text-bg-light">1 кровать</span>
+                        </div>
+                        <div>
+                            <span class="badge rounded-pill text-bg-light">32 кв.м</span>
+                        </div>
                     </div>
                     <p class="card-text mb-2">Ставрополь, Рогожникова 7</p>
                     <div>
