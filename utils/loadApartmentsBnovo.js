@@ -14,7 +14,6 @@ export default (async () => {
             }
             apartment.bedsCount = null
         })
-        console.log(apartments, 'pizdez')
         return apartments
     }
     catch (e) {
