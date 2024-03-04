@@ -9,8 +9,9 @@ export default defineEventHandler(async (event) => {
         }
     }
     catch(e) {
-        return {
-            error: e.message
-        };
+        throw new createError({
+            statusCode: 400,
+            statusMessage: e.message
+        })
     }
 })
