@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@sidebase/nuxt-auth": "^0.6.7",
+    "nuxt-cron": "^1.4.5",
     "nuxt-mongoose": "^1.0.5",
     "sass": "^1.70.0"
   }
