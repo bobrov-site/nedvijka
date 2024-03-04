@@ -27,6 +27,9 @@ export default defineNuxtConfig({
     bnovoUsername: '',
     bnovoPassword: '',
     authSecret: '',
+    public: {
+      adminIde: process.env.NUXT_ADMIN_IDE
+    }
   },
   yandexMaps: {
     apikey: process.env.NUXT_YANDEX_API,
