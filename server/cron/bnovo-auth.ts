@@ -1,6 +1,6 @@
 import { defineCronHandler } from '#nuxt/cron';
 
-export default defineCronHandler('hourly', () => {
+export default defineCronHandler('everyThirtyMinutes', () => {
     $fetch('/bnovo/auth', {method: 'GET'})
     .then(() => {
         console.log('bnovo auth success')
