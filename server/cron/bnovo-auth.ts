@@ -1,5 +1,4 @@
-import { defineCronHandler } from '#nuxt/cron'
-import { useFetch } from 'nuxt/app'
+import { defineCronHandler } from '#nuxt/cron';
 
 export default defineCronHandler('hourly', () => {
     $fetch('/bnovo/auth', {method: 'GET'})
