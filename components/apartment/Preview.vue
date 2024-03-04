@@ -33,25 +33,27 @@
             </div>
             <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout, }">
                 <div class="card-body">
-                    <h5 class="card-title">Название квартиры</h5>
+                    <h5 class="card-title">{{ props.name }}</h5>
                     <!-- кол-во человек, колво-кроватей, квадратура -->
                     <div class="d-flex flex-wrap mb-2">
                         <div>
-                            <span class="badge rounded-pill text-bg-light">2 гостя</span>
+                            <span class="badge rounded-pill text-bg-light">{{ props.maxGuests }} гостя</span>
                         </div>
                         <div>
-                            <span class="badge rounded-pill text-bg-light">2 комнаты</span>
+                            <span class="badge rounded-pill text-bg-light">{{ roomsCount }} комнаты</span>
                         </div>
+                        <!-- TODO выяснить за кровать -->
                         <div>
                             <span class="badge rounded-pill text-bg-light">1 кровать</span>
                         </div>
-                        <div>
+                        <!-- TODO добавить количество квадратов -->
+                        <!-- <div>
                             <span class="badge rounded-pill text-bg-light">32 кв.м</span>
-                        </div>
+                        </div> -->
                     </div>
-                    <p class="card-text mb-2">Ставрополь, Рогожникова 7</p>
+                    <p class="card-text mb-2">{{ props.city }}, {{ props.address }}</p>
                     <div>
-                        <a href="#" class="btn btn-primary">2 099₽ за сутки</a>
+                        <a href="#" class="btn btn-primary">{{props.price}}₽ за сутки</a>
                     </div>
                 </div>
             </div>
@@ -62,8 +64,21 @@
 <script setup>
 const { $bootstrap } = useNuxtApp();
 const props = defineProps({
-    apartment: {
-        type: Object
+    name: {
+        type: String,
+        default: 'Название квартиры'
+    },
+    address: {
+        type: String,
+        default: 'Адрес квартиры'
+    },
+    city: {
+        type: String,
+        default: 'Город'
+    },
+    maxGuests: {
+        type: Number,
+        default: 1
     },
     isVerticalLayout: {
         type: Boolean,
@@ -72,6 +87,26 @@ const props = defineProps({
     isAuth: {
         type: Boolean,
         default: false,
+    },
+    adults: {
+        type: Number,
+        default: 1
+    },
+    children: {
+        type: Number,
+        default: 0
+    },
+    roomsCount: {
+        type: Number,
+        default: 1
+    },
+    bedsCount: {
+        type: Number,
+        default: 1,
+    },
+    price: {
+        type: String,
+        default: '2 099'
     }
 })
 
