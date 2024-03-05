@@ -1,5 +1,21 @@
 <script setup>
-
+const props = defineProps({
+    name: {
+        type: String
+    },
+    address: {
+        type: String
+    },
+    city: {
+        type: String
+    },
+    maxGuests: {
+        type: Number
+    },
+    photos: {
+        type: Array
+    }
+})
 const map = shallowRef(null)
 const thumbsSwiper = ref(null);
 const icon = ref(['far', 'heart'])
@@ -31,40 +47,25 @@ const changeIcon = (isHover) => {
 }
 </script>
 <template>
-    <div class="card">
+    <div class="apartment-card card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
-                <h1>Название квартиры</h1>
+                <h1>{{ props.name }}</h1>
                 <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить в избранное"> 
                     <FontAwesomeIcon @mouseover="changeIcon(true)" @mouseleave="changeIcon(false)" class="text-danger fs-2" :icon="icon" />
                 </button>
-                
             </div>
             <Swiper :navigation="true" :modules="[SwiperNavigation, SwiperThumbs, SwiperFreeMode, SwiperZoom]"
                 :thumbs="{ swiper: thumbsSwiper }" class="swiper-slider" :autoHeight="true" :zoom="true">
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="w-100 img-fluid rounded" sizes="md:600px" />
+                <SwiperSlide v-for="(photo, index) in props.photos" :key="index">
+                    <NuxtImg :src="photo.url" :alt="`Комната ${index + 1}`" class="swiper-slide-img w-100 img-fluid rounded" sizes="md:600px" />
                 </SwiperSlide>
             </Swiper>
             <Swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true"
                 :watchSlidesProgress="true" class="swiper-slider-thumbs mt-2" :autoHeight="true">
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_1.jpg" alt="Квартира"
+                <SwiperSlide v-for="(photo, index) in props.photos" :key="index">
+                    <NuxtImg :src="photo.thumb" :alt="`Превью комнаты ${index + 1}`"
                         class="img-slider-thumb img-fluid w-100 rounded border-2" sizes="md:300px" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="img-slider-thumb img-fluid w-100 rounded"
-                        sizes="md:300px" />
-                </SwiperSlide>
-                <SwiperSlide>
-                    <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-slider-thumb img-fluid w-100 rounded"
-                        sizes="md:300px" />
                 </SwiperSlide>
             </Swiper>
             <hr>
