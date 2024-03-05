@@ -1,6 +1,14 @@
 export default (async () => {
     try {
         const response = await $fetch('/bnovo/roomTypes')
+        const roomTypesPublic = await $fetch('/bnovo/roomTypesPublic');
+        const roomsWithPhotoes = roomTypesPublic.roomTypesPublic.rooms.map((room) => {
+            const result = {};
+            result.id = room.id;
+            result.photos = room.photos ? room.photos : [];
+            result.name = room.name;
+            return result;
+        })
         const apartments = response.roomTypes.roomtypes
         apartments.forEach((apartment) => {
             let maxGuestsCount = 0;
@@ -13,6 +21,12 @@ export default (async () => {
                 apartment.bedsCount = Number(Object.keys(apartment.extra.beds)[0])
             }
             apartment.bedsCount = null
+        })
+        //по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
+        //приходится сравнивать по названию, что мдаа.
+        apartments.map((apartment) => {
+            apartment.photos = roomsWithPhotoes.find((room) => room.name === apartment.name).photos
+            return apartment
         })
         return apartments
     }
