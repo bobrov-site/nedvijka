@@ -115,8 +115,15 @@ const props = defineProps({
 
 const sliderContainer = ref(null)
 const carousel = ref(null)
-onMounted(() => {
+const setCarousel = () => {
+    if (props.photos.length === 0) {
+        return
+    }
     carousel.value = new $bootstrap.Carousel(sliderContainer.value)
+
+}
+onMounted(() => {
+    setCarousel();
 })
 
 const toggleSlide = (index) => {
