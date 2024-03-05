@@ -16,6 +16,8 @@
                 :max-guests="Number(apartment.maxGuests)"
                 :rooms-count="Number(apartment.roomsCount)"
                 :price="apartment.price"
+                :id="apartment.id"
+                :photos="apartment.photos"
                 :is-vertical-layout="true" />
             </div>
         </div>
