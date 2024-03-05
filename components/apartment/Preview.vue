@@ -1,37 +1,34 @@
 <template>
     <div class="card">
         <div class="row">
-            <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
+            <div v-if="props.photos.length !== 0" class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
                 <!-- TODO для каждого слайдера свой айди -->
-                <div ref="sliderContainer" id="sliderApartmentPreview" class="sliderapartmentPreview carousel slide">
+                <div ref="sliderContainer" :id="`sliderApartmentPreview${props.id}`" class="sliderApartmentPreview carousel slide">
                     <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#sliderapartmentPreview" data-bs-slide-to="0" class="active"
-                            aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#sliderapartmentPreview" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#sliderapartmentPreview" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
+                        <button 
+                        v-for="(photo, index) in props.photos" 
+                        :key="index" 
+                        type="button" 
+                        :data-bs-target="`#sliderApartmentPreview${props.id}`"
+                        :data-bs-slide-to="index"
+                        :aria-current="index === 0"
+                        :aria-label="`Slide ${index + 1}`"
+                        :class="{ 'active': index === 0 }"
+                        >
+                        </button>
                     </div>
                     <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <NuxtImg src="/images/apartment_1.jpg" alt="Квартира" class="img-slider card-img-top"
-                                sizes="md:300px" />
-                        </div>
-                        <div class="carousel-item">
-                            <NuxtImg src="/images/apartment_2.jpg" alt="Квартира" class="img-slider card-img-top"
-                                sizes="md:300px" />
-                        </div>
-                        <div class="carousel-item">
-                            <NuxtImg src="/images/apartment_3.jpg" alt="Квартира" class="img-slider card-img-top"
+                        <div v-for="(photo, index) in props.photos" :class="{ 'active': index === 0 }" class="carousel-item">
+                            <NuxtImg :src="photo.thumb" :alt="`Комната ${index + 1}`" class="img-slider card-img-top"
                                 sizes="md:300px" />
                         </div>
                     </div>
                     <div class="carousel-split position-absolute w-100 h-100 top-0 d-flex">
-                        <div @mouseover="toggleSlide(index)" v-for="(col, index) in 3" :key="index" class="col h-100"></div>
+                        <div @mouseover="toggleSlide(index)" v-for="(photo, index) in props.photos" :key="index" class="col h-100"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout, }">
+            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout, 'col-md-12' : props.photos.length === 0}">
                 <div class="card-body">
                     <h5 class="card-title">{{ props.name }}</h5>
                     <!-- кол-во человек, колво-кроватей, квадратура -->
@@ -53,7 +50,7 @@
                     </div>
                     <p class="card-text mb-2">{{ props.city }}, {{ props.address }}</p>
                     <div>
-                        <a href="#" class="btn btn-primary">{{props.price}}₽ за сутки</a>
+                        <NuxtLink class="btn btn-primary" :to="`/apartments/${props.id}`">{{props.price}}₽ за сутки</NuxtLink>
                     </div>
                 </div>
             </div>
@@ -107,6 +104,12 @@ const props = defineProps({
     price: {
         type: String,
         default: '2 099'
+    },
+    id: {
+        type: String,
+    },
+    photos: {
+        type: Array
     }
 })
 
