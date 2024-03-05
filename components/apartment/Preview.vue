@@ -81,10 +81,6 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    isAuth: {
-        type: Boolean,
-        default: false,
-    },
     adults: {
         type: Number,
         default: 1
