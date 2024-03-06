@@ -45,16 +45,9 @@ const loadApartment = async () => {
 <template>
     <div class="apartmentId row">
         <div class="col-12 col-md-7">
-            <ApartmentCard
-            :name="apartment.name"
-            :address="apartment.address"
-            :city="apartment.city"
-            :max-guests="apartment.maxGuests"
-            :photos="apartment.photos"
-            :rooms-count="Number(apartment.roomsCount)"
-            :description="apartment.description"
-            :geo-data="apartment.geo_data"
-            />
+            <ApartmentCard :name="apartment.name" :address="apartment.address" :city="apartment.city"
+                :max-guests="apartment.maxGuests" :photos="apartment.photos" :rooms-count="Number(apartment.roomsCount)"
+                :description="apartment.description" :geo-data="apartment.geo_data" />
         </div>
         <div class="col-12 col-md-5">
             <div class="card p-4 search-form position-sticky top-0">
@@ -81,10 +74,11 @@ const loadApartment = async () => {
                                 <span class="d-block w-100 text-start">
                                     {{ adult }} взрослых, {{ children }} детей
                                 </span>
-                                <template>
-                                    <FontAwesomeIcon class="caret-down-icon position-absolute"
-                                        :icon="['fas', 'caret-down']" />
-                                </template>
+                                <ClientOnly>
+                                        <FontAwesomeIcon class="caret-down-icon position-absolute"
+                                            :icon="['fas', 'caret-down']" />
+                                    </ClientOnly>
+                                
                             </button>
                         </div>
 
@@ -135,33 +129,46 @@ const loadApartment = async () => {
                     </div>
                     <div class="col-md-6">
                         <label for="start" class="form-label">Заезд</label>
-                        <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply
-                            id="start" range text-input :enable-time-picker="false" :clearable="false" locale="ru">
+                        <ClientOnly>
+                            <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false"
+                                auto-apply id="start" range text-input :enable-time-picker="false" :clearable="false"
+                                locale="ru">
 
-                            <template #dp-input>
-                                <input type="text" :value="start" class="form-control">
-                            </template>
+                                <template #dp-input>
+                                    <input type="text" :value="start" class="form-control">
+                                </template>
 
-                            <template #input-icon>
-                                <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon"
-                                    :icon="['far', 'calendar']" />
-                            </template>
-                        </VueDatePicker>
+                                <template #input-icon>
+
+                                    <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon"
+                                        :icon="['far', 'calendar']" />
+
+
+                                </template>
+                            </VueDatePicker>
+                        </ClientOnly>
+
                     </div>
                     <div class="col-md-6">
                         <label for="end" class="form-label">Выезд</label>
-                        <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply
-                            id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false">
 
-                            <template #dp-input>
-                                <input type="text" :value="end" class="form-control">
-                            </template>
+                        <ClientOnly>
+                            <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false"
+                                auto-apply id="end" range text-input :enable-time-picker="false" locale="ru"
+                                :clearable="false">
 
-                            <template #input-icon>
-                                <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon"
-                                    :icon="['far', 'calendar']" />
-                            </template>
-                        </VueDatePicker>
+                                <template #dp-input>
+                                    <input type="text" :value="end" class="form-control">
+                                </template>
+
+                                <template #input-icon>
+                                    <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon"
+                                        :icon="['far', 'calendar']" />
+
+
+                                </template>
+                            </VueDatePicker>
+                        </ClientOnly>
                     </div>
                 </form>
                 <div class="col-12 mt-2">
