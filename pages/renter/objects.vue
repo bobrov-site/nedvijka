@@ -5,7 +5,7 @@
             <NuxtLink class="btn btn-primary btn-lg" to="/apartments/create">Добавить объект</NuxtLink>
             </div>
         </div>
-        <div class="row mt-4 row-cols-1 g-3">
+        <div v-if="apartments" class="row mt-4 row-cols-1 g-3">
             <div class="col" v-for="apartment in apartments" :key="apartment.id">
                 <ApartmentPreview 
                 :name="apartment.name"
