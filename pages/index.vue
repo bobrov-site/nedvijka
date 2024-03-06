@@ -1,4 +1,8 @@
 <script setup>
+onMounted(async() => {
+    apartments.value = await loadApartmentsBnovo();
+})
+const apartments = ref([])
 const setAlertStatus = () => {
     console.log(route.query)
     if (Object.hasOwn(route.query, 'isRegistred')) {
@@ -56,8 +60,19 @@ watch(() => route.query, setAlertStatus)
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
-        <div v-for="(item, index) in 4" :key="index" class="col">
-            <ApartmentPreview />
+        <div v-for="apartment in apartments" :key="apartment.id" class="col">
+            <ApartmentPreview 
+            :name="apartment.name"
+            :address="apartment.address"
+            :city="apartment.city"
+            :adults="Number(apartment.adults)"
+            :children="Number(apartment.children)"
+            :max-guests="Number(apartment.maxGuests)"
+            :rooms-count="Number(apartment.roomsCount)"
+            :price="apartment.price"
+            :id="apartment.id"
+            :photos="apartment.photos"
+            />
         </div>
     </div>
     <div class="row mt-4">
