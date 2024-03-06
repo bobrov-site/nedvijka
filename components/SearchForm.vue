@@ -13,13 +13,51 @@ const end = ref()
 const adult = ref(1)
 const children = ref(0)
 const isShowDropdown = ref(false)
+const isDisabledButton = ref(false);
+const { errorCityNotOnList } = getErrorsCodes();
+const errors = ref({
+    errorCityNotOnList: false,
+})
 
 const handleDate = (modelData) => {
     date.value = modelData;
     start.value = parseDate(modelData[0])
     end.value = parseDate(modelData[1])
+    form.value.date.start = start.value;
+    form.value.date.end = end.value;
 }
 
+const form = ref({
+    city: '',
+    adult: adult.value,
+    children: children.value,
+    date: {
+        start: start.value,
+        end: end.value
+    }
+})
+const resetErrors = () => {
+    Object.keys(errors.value).forEach((key) => errors.value[key] = false)
+}
+
+const submitForm = () => {
+    resetErrors();
+    isDisabledButton.value = true;
+    const isCityOnList = citiesList.value.some((city) => form.value.city === city)
+    if (!isCityOnList) {
+        isDisabledButton.value = false;
+        errors.value.errorCityNotOnList = true
+        return
+    }
+    console.log(form.value)
+    isDisabledButton.value = false;
+}
+
+const citiesList = ref([
+    'Ставрополь',
+    'Пятигорск',
+    'Кисловодск'
+])
 </script>
 
 <template>
@@ -28,15 +66,14 @@ const handleDate = (modelData) => {
             <h2>{{ props.formTitle }}</h2>
         </div>
     </div>
-    <form class="row g-3">
+    <form @submit.prevent="submitForm" class="row g-3">
         <div class="col-md-6">
             <label for="datalist" class="form-label">Выберите город</label>
-            <input class="form-control" list="datalistOptions" id="datalist">
+            <input v-model="form.city" class="form-control" :class="{ 'is-invalid': errors.errorCityNotOnList }" list="datalistOptions" id="datalist" required>
             <datalist id="datalistOptions">
-                <option value="Ставрополь" />
-                <option value="Пятигорск" />
-                <option value="Кисловодск" />
+                <option v-for="(city, index) in citiesList" :key="index" :value="city"/>
             </datalist>
+            <div class="invalid-feedback">{{ errorCityNotOnList }}</div>
         </div>
         <div class="col-md-6">
             <label for="guests" class="form-label">Гости</label>
@@ -98,10 +135,10 @@ const handleDate = (modelData) => {
             <label for="start" class="form-label">Заезд</label>
             <ClientOnly>
                 <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="start"
-                    range text-input :enable-time-picker="false" :clearable="false" locale="ru">
+                    range text-input :enable-time-picker="false" :clearable="false" locale="ru" :min-date="new Date()">
 
                     <template #dp-input>
-                        <input type="text" :value="start" class="form-control">
+                        <input type="text" :value="start" class="form-control" required>
                     </template>
                     <template #input-icon>
                         <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
@@ -114,9 +151,9 @@ const handleDate = (modelData) => {
             <label for="end" class="form-label">Выезд</label>
             <ClientOnly>
                 <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="end"
-                    range text-input :enable-time-picker="false" locale="ru" :clearable="false">
+                    range text-input :enable-time-picker="false" locale="ru" :clearable="false" :min-date="new Date()">
                     <template #dp-input>
-                        <input type="text" :value="end" class="form-control">
+                        <input type="text" :value="end" class="form-control" required>
                     </template>
                     <template #input-icon>
                         <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
@@ -126,7 +163,7 @@ const handleDate = (modelData) => {
 
         </div>
         <div class="col-12">
-            <button type="submit" class="btn btn-lg btn-primary w-100">Поиск</button>
+            <button :disabled="isDisabledButton" type="submit" class="btn btn-lg btn-primary w-100">Поиск</button>
         </div>
     </form>
 </template>
