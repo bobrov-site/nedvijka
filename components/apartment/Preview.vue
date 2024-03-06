@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card h-100">
         <div class="row">
             <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
                 <!-- TODO для каждого слайдера свой айди -->
@@ -40,16 +40,10 @@
                             <span class="badge rounded-pill text-bg-light">{{ props.maxGuests }} гостя</span>
                         </div>
                         <div>
-                            <span class="badge rounded-pill text-bg-light">{{ roomsCount }} комнаты</span>
+                            <span class="badge rounded-pill text-bg-light">{{ props.roomsCount }} комнаты</span>
                         </div>
-                        <!-- TODO выяснить за кровать -->
-                        <div>
-                            <span class="badge rounded-pill text-bg-light">1 кровать</span>
-                        </div>
+                        <!-- TODO добавить количество кроватей -->                
                         <!-- TODO добавить количество квадратов -->
-                        <!-- <div>
-                            <span class="badge rounded-pill text-bg-light">32 кв.м</span>
-                        </div> -->
                     </div>
                     <p class="card-text mb-2">{{ props.city }}, {{ props.address }}</p>
                     <div>
