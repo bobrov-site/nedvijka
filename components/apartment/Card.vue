@@ -14,25 +14,31 @@ const props = defineProps({
     },
     photos: {
         type: Array
+    },
+    roomsCount: {
+        type: Number,
+        default: 1,
+    },
+    description: {
+        type: String,
+    },
+    comfortsList: {
+        type: Array,
+    },
+    geoData: {
+        type: Object
     }
 })
 const map = shallowRef(null)
 const thumbsSwiper = ref(null);
 const icon = ref(['far', 'heart'])
-const comfortsList = [
-    'Кондиционер',
-    'Фен',
-    'Косметический ремонт',
-    'Телевизор',
-    'Электрический чайник',
-]
-const settings = {
-    location: {
-        center: [37.617644, 55.755819],
-        zoom: 9,
-    },
-}
-
+// const comfortsList = [
+//     'Кондиционер',
+//     'Фен',
+//     'Косметический ремонт',
+//     'Телевизор',
+//     'Электрический чайник',
+// ]
 const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
@@ -44,6 +50,18 @@ const changeIcon = (isHover) => {
     else {
         icon.value = ['far', 'heart']
     }
+}
+
+const getHtmlDescription = () => {
+    const splitDescription = props.description.split('\n')
+    return splitDescription;
+}
+
+const isGeoDataExist = () => {
+    if (props.geoData && props.geoData.x !== '0' && props.geoData.y !== '0') {
+        return true
+    }
+    return false
 }
 </script>
 <template>
@@ -71,27 +89,34 @@ const changeIcon = (isHover) => {
             <hr>
             <h2>О квартире:</h2>
             <div class="d-flex mb-2">
-                <span class="badge rounded-pill text-bg-light me-2">2 гостя</span>
-                <span class="badge rounded-pill text-bg-light me-2">1 комната</span>
-                <span class="badge rounded-pill text-bg-light me-2">1 кровать</span>
-                <span class="badge rounded-pill text-bg-light me-2">32 кв.м</span>
+                <span class="badge rounded-pill text-bg-light me-2">{{ props.maxGuests }} гостя</span>
+                <span class="badge rounded-pill text-bg-light me-2">{{ props.roomsCount }} комната</span>
+                <!-- TODO добавить количество кроватей -->
+                
+                <!-- TODO добавить количество квадратов -->
             </div>
-            <p class="card-text">
-                Описание квартиры для CEO
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi dolore praesentium deleniti culpa
-                illo sapiente. Pariatur sit possimus illo inventore debitis porro aspernatur labore, molestiae
-                laudantium deleniti, incidunt tenetur rerum!
-            </p>
-            <hr>
-            <h2>Удобства:</h2>
-            <ApartmentComfortsList :comfortsList="comfortsList"/>
+            <div v-if="props.description">
+                <div v-for="(line, index) in getHtmlDescription()" :key="line">
+                    <p v-if="line !== ''" class="card-text">{{ line }}</p>
+                    <br v-else > 
+                </div>
+            </div>
+            <div v-if="props.comfortsList">
+                <h2>Удобства:</h2>
+                <ApartmentComfortsList :comfortsList="props.comfortsList"/>
+            </div>
             <hr>
             <h2>Расположение:</h2>
             <p class="card-text">
-                Адрес: Ставрополь, Рогожникова 7
+                Адрес: {{ props.city }}, {{ props.address }}
             </p>
-            <div>
-                <YandexMap v-model="map" :settings="settings" height="320px">
+            <div v-if="isGeoDataExist()">
+                <YandexMap v-model="map" :settings="{
+                    location: {
+                        center: [Number(props.geoData.y), Number(props.geoData.x)],
+                        zoom: 16
+                    }
+                }" height="320px">
                     <YandexMapDefaultSchemeLayer />
                 </YandexMap>
             </div>
