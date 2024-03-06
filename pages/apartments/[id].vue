@@ -1,10 +1,14 @@
 <script setup>
+onMounted(async () => {
+    await loadApartment();
+})
 const date = ref()
 const start = ref()
 const end = ref()
 const adult = ref(1)
 const children = ref(0)
 const isShowDropdown = ref(false)
+const apartment = ref({})
 
 const handleDate = (modelData) => {
     date.value = modelData;
@@ -12,11 +16,45 @@ const handleDate = (modelData) => {
     end.value = parseDate(modelData[1])
 }
 
+const loadApartment = async () => {
+    //мы должны сделать запрос в бд на проверку есть ли такой апартамент по id
+    //так же мы должны убедиться что provider === bnovo или provider === fridda
+    //если есть такой, то мы загружаем апарты
+    //если такого id нет, выкидываем ошибку 404
+
+    //поскольку пока нет базы данных, то мы загружаем апартаменты из bnovo
+    const { id } = useRoute().params
+    try {
+        const apartments = await loadApartmentsBnovo();
+        apartment.value = apartments.find((apartment) => apartment.id == id)
+        if (!apartment.value) {
+            throw createError({
+                statusCode: 404,
+                statusMessage: 'Page Not Found'
+            })
+        }
+    }
+    catch (e) {
+        console.log(e)
+    }
+
+}
+
 </script>
+
 <template>
     <div class="apartmentId row">
         <div class="col-12 col-md-7">
-            <ApartmentCard />
+            <ApartmentCard
+            :name="apartment.name"
+            :address="apartment.address"
+            :city="apartment.city"
+            :max-guests="apartment.maxGuests"
+            :photos="apartment.photos"
+            :rooms-count="Number(apartment.roomsCount)"
+            :description="apartment.description"
+            :geo-data="apartment.geo_data"
+            />
         </div>
         <div class="col-12 col-md-5">
             <div class="card p-4 search-form position-sticky top-0">
@@ -38,8 +76,8 @@ const handleDate = (modelData) => {
                     <div class="col-md-6">
                         <label for="guests" class="form-label">Гости</label>
                         <div class="position-relative">
-                            <button @click="isShowDropdown = !isShowDropdown" type="button" class="form-control text-end"
-                                id="guests">
+                            <button @click="isShowDropdown = !isShowDropdown" type="button"
+                                class="form-control text-end" id="guests">
                                 <span class="d-block w-100 text-start">
                                     {{ adult }} взрослых, {{ children }} детей
                                 </span>
@@ -103,6 +141,7 @@ const handleDate = (modelData) => {
                             <template #dp-input>
                                 <input type="text" :value="start" class="form-control">
                             </template>
+
                             <template #input-icon>
                                 <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon"
                                     :icon="['far', 'calendar']" />
@@ -113,11 +152,14 @@ const handleDate = (modelData) => {
                         <label for="end" class="form-label">Выезд</label>
                         <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply
                             id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false">
+
                             <template #dp-input>
                                 <input type="text" :value="end" class="form-control">
                             </template>
+
                             <template #input-icon>
-                                <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                                <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon"
+                                    :icon="['far', 'calendar']" />
                             </template>
                         </VueDatePicker>
                     </div>
@@ -141,6 +183,7 @@ const handleDate = (modelData) => {
                 </div>
             </div>
         </div>
-</div></template>
+    </div>
+</template>
 
 <style lang="scss" scoped></style>
