@@ -1,9 +1,9 @@
 <template>
     <div class="card">
         <div class="row">
-            <div v-if="props.photos.length !== 0" class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
+            <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
                 <!-- TODO для каждого слайдера свой айди -->
-                <div ref="sliderContainer" :id="`sliderApartmentPreview${props.id}`" class="sliderApartmentPreview carousel slide">
+                <div v-if="props.photos.length !== 0" ref="sliderContainer" :id="`sliderApartmentPreview${props.id}`" class="sliderApartmentPreview carousel slide">
                     <div class="carousel-indicators">
                         <button 
                         v-for="(photo, index) in props.photos" 
@@ -27,8 +27,11 @@
                         <div @mouseover="toggleSlide(index)" v-for="(photo, index) in props.photos" :key="index" class="col h-100"></div>
                     </div>
                 </div>
+                <div v-else class="slider-no-photo d-flex align-items-center justify-content-center bg-secondary text-white">
+                    <span class="fs-3">Фотографий нет</span>
+                </div>
             </div>
-            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout, 'col-md-12' : props.photos.length === 0}">
+            <div class="col-12" :class="{ 'col-md-6 d-flex align-items-center': isVerticalLayout,}">
                 <div class="card-body">
                     <h5 class="card-title">{{ props.name }}</h5>
                     <!-- кол-во человек, колво-кроватей, квадратура -->
