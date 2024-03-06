@@ -1,6 +1,11 @@
 .apartment-card {
-    .swiper-slide-img {
-        height: 400px;
+    .img-slider-thumb {
+        cursor: pointer;
+        height: 90px;
         object-fit: cover;
+    }
+    .swiper-slide-img {
+        max-height: 600px;
+        
     }
 }
