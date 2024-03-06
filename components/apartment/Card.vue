@@ -1,5 +1,4 @@
 <script setup>
-import { YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker } from 'vue-yandex-maps';
 const props = defineProps({
     name: {
         type: String
