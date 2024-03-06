@@ -1,4 +1,5 @@
 <script setup>
+import { YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker } from 'vue-yandex-maps';
 const props = defineProps({
     name: {
         type: String
@@ -118,6 +119,8 @@ const isGeoDataExist = () => {
                     }
                 }" height="320px">
                     <YandexMapDefaultSchemeLayer />
+                    <YandexMapDefaultFeaturesLayer/>
+                    <YandexMapDefaultMarker :settings="{coordinates: [Number(props.geoData.y), Number(props.geoData.x)], color: '#0d6efd'}"/>
                 </YandexMap>
             </div>
         </div>
