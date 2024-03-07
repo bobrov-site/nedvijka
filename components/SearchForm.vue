@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 onMounted(() => {
     setFormInitialData();
 })
-
 const queries = useRoute().query
 const setFormInitialData = () => {
     if (Object.keys(queries).length === 0) {
@@ -58,11 +57,14 @@ const form = ref({
         end: ''
     }
 })
+
+const apartments = ref([])
+const dashboard = ref(null)
 const resetErrors = () => {
     Object.keys(errors.value).forEach((key) => errors.value[key] = false)
 }
 
-const submitForm = () => {
+const submitForm = async () => {
     resetErrors();
     isDisabledButton.value = true;
     const isCityOnList = citiesList.value.some((city) => form.value.city === city)
@@ -71,17 +73,35 @@ const submitForm = () => {
         errors.value.errorCityNotOnList = true
         return
     }
-    isDisabledButton.value = false;
-    navigateTo({
-        path: '/search',
-        query: {
-            city: form.value.city,
-            adult: form.value.adult,
-            children: form.value.children,
-            start: form.value.date.start,
-            end: form.value.date.end
-        }
-    })
+    try {
+        apartments.value = await loadApartmentsBnovo();
+        dashboard.value = await $fetch('/bnovo/dashboard', {
+            method: 'GET',
+            params: {
+                start: form.value.date.start,
+                end: form.value.date.end,
+            }
+        })
+        isDisabledButton.value = false;
+        useSearchApartmentsStore().setSearch(apartments.value, dashboard.value);
+        navigateTo({
+            path: '/search',
+            query: {
+                city: form.value.city,
+                adult: form.value.adult,
+                children: form.value.children,
+                start: form.value.date.start,
+                end: form.value.date.end
+            }
+        })
+    }
+    catch(e) {
+        isDisabledButton.value = false;
+        throw new createError({
+            statusCode: 500,
+            statusMessage: e.message
+        })
+    }
 }
 
 const citiesList = ref([
@@ -177,7 +197,8 @@ const citiesList = ref([
                     </template>
 
                     <template #input-icon>
-                        <FontAwesomeIcon v-if="!form.date.start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                        <FontAwesomeIcon v-if="!form.date.start" class="datepicker-calendar-icon"
+                            :icon="['far', 'calendar']" />
                     </template>
                 </VueDatePicker>
             </ClientOnly>
@@ -195,7 +216,8 @@ const citiesList = ref([
                     </template>
 
                     <template #input-icon>
-                        <FontAwesomeIcon v-if="!form.date.end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                        <FontAwesomeIcon v-if="!form.date.end" class="datepicker-calendar-icon"
+                            :icon="['far', 'calendar']" />
                     </template>
                 </VueDatePicker>
             </ClientOnly>
