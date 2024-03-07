@@ -43,9 +43,10 @@ export default defineNuxtConfig({
     mongodbUri: process.env.NUXT_MONGODB_URI
   },
   auth: {
-    baseURL: process.env.NUXT_AUTH_ORIGIN,
+    baseURL: `${process.env.NUXT_AUTH_ORIGIN}/api/auth`,
     provider: {
         type: 'authjs'
-    }
+    },
+    origin: process.env.NUXT_AUTH_ORIGIN,
   },
 })
