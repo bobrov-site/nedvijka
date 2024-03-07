@@ -1,15 +1,40 @@
 <script setup>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
+onMounted(() => {
+    setFormInitialData();
+})
+
+const queries = useRoute().query
+const setFormInitialData = () => {
+    if (Object.keys(queries).length === 0) {
+        form.value = {
+            city: '',
+            adult: adult.value,
+            children: children.value,
+            date: {
+                start: '',
+                end: ''
+            }
+        }
+        return;
+    }
+    form.value = {
+        city: queries.city ? queries.city : '',
+        adult: queries.adult ? Number(queries.adult) : 1,
+        children: queries.children ? Number(queries.children) : 0,
+        date: {
+            start: queries.start ? queries.start : '',
+            end: queries.end ? queries.end : ''
+        }
+    }
+}
 const props = defineProps({
     formTitle: {
         type: String,
         required: true,
     },
 })
-const date = ref()
-const start = ref()
-const end = ref()
 const adult = ref(1)
 const children = ref(0)
 const isShowDropdown = ref(false)
@@ -20,20 +45,17 @@ const errors = ref({
 })
 
 const handleDate = (modelData) => {
-    date.value = modelData;
-    start.value = parseDate(modelData[0])
-    end.value = parseDate(modelData[1])
-    form.value.date.start = start.value;
-    form.value.date.end = end.value;
+    form.value.date.start = parseDate(modelData[0]);
+    form.value.date.end = parseDate(modelData[1]);
 }
 
 const form = ref({
     city: '',
-    adult: adult.value,
-    children: children.value,
+    adult: 1,
+    children: 0,
     date: {
-        start: start.value,
-        end: end.value
+        start: '',
+        end: ''
     }
 })
 const resetErrors = () => {
@@ -49,8 +71,17 @@ const submitForm = () => {
         errors.value.errorCityNotOnList = true
         return
     }
-    console.log(form.value)
     isDisabledButton.value = false;
+    navigateTo({
+        path: '/search',
+        query: {
+            city: form.value.city,
+            adult: form.value.adult,
+            children: form.value.children,
+            start: form.value.date.start,
+            end: form.value.date.end
+        }
+    })
 }
 
 const citiesList = ref([
@@ -69,18 +100,20 @@ const citiesList = ref([
     <form @submit.prevent="submitForm" class="row g-3">
         <div class="col-md-6">
             <label for="datalist" class="form-label">Выберите город</label>
-            <input v-model="form.city" class="form-control" :class="{ 'is-invalid': errors.errorCityNotOnList }" list="datalistOptions" id="datalist" required>
+            <input v-model="form.city" class="form-control" :class="{ 'is-invalid': errors.errorCityNotOnList }"
+                list="datalistOptions" id="datalist" required>
             <datalist id="datalistOptions">
-                <option v-for="(city, index) in citiesList" :key="index" :value="city"/>
+                <option v-for="(city, index) in citiesList" :key="index" :value="city" />
             </datalist>
             <div class="invalid-feedback">{{ errorCityNotOnList }}</div>
         </div>
         <div class="col-md-6">
             <label for="guests" class="form-label">Гости</label>
             <div class="position-relative">
-                <button @click="isShowDropdown = !isShowDropdown" type="button" class="form-control text-end" id="guests">
+                <button @click="isShowDropdown = !isShowDropdown" type="button" class="form-control text-end"
+                    id="guests">
                     <span class="d-block w-100 text-start">
-                        {{ adult }} взрослых, {{ children }} детей
+                        {{ form.adult }} взрослых, {{ form.children }} детей
                     </span>
                     <FontAwesomeIcon class="caret-down-icon position-absolute" :icon="['fas', 'caret-down']" />
 
@@ -95,10 +128,10 @@ const citiesList = ref([
                             <span>От 18 лет</span>
                         </div>
                         <div class="col">
-                            <button @click="--adult" :disabled="adult === 0" type="button"
+                            <button @click="--form.adult" :disabled="form.adult === 0" type="button"
                                 class="btn-counter rounded-circle border-0 fs-4 me-2">-</button>
-                            <span>{{ adult }}</span>
-                            <button @click="++adult" :disabled="adult === 4" type="button"
+                            <span>{{ form.adult }}</span>
+                            <button @click="++form.adult" :disabled="form.adult === 4" type="button"
                                 class="btn-counter rounded-circle border-0 fs-4 ms-2">+</button>
                         </div>
                     </div>
@@ -113,10 +146,10 @@ const citiesList = ref([
                             <span>От 0 до 17 лет</span>
                         </div>
                         <div class="col">
-                            <button @click="--children" :disabled="adult === 0" type="button"
+                            <button @click="--form.children" :disabled="form.children === 0" type="button"
                                 class="btn-counter rounded-circle border-0 fs-4 me-2">-</button>
-                            <span>{{ children }}</span>
-                            <button @click="++children" :disabled="adult === 4" type="button"
+                            <span>{{ form.children }}</span>
+                            <button @click="++form.children" :disabled="form.children === 4" type="button"
                                 class="btn-counter rounded-circle border-0 fs-4 ms-2">+</button>
                         </div>
                     </div>
@@ -126,7 +159,8 @@ const citiesList = ref([
                 </li>
                 <li class="dropdown-item">
                     <div class="d-grid">
-                        <button @click="isShowDropdown = false" type="button" class="btn btn-primary ">Сохранить</button>
+                        <button @click="isShowDropdown = false" type="button"
+                            class="btn btn-primary ">Сохранить</button>
                     </div>
                 </li>
             </ul>
@@ -134,14 +168,16 @@ const citiesList = ref([
         <div class="col-md-6">
             <label for="start" class="form-label">Заезд</label>
             <ClientOnly>
-                <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="start"
-                    range text-input :enable-time-picker="false" :clearable="false" locale="ru" :min-date="new Date()">
+                <VueDatePicker v-model="form.date" @update:model-value="handleDate" :auto-position="false" auto-apply
+                    id="start" range text-input :enable-time-picker="false" :clearable="false" locale="ru"
+                    :min-date="new Date()">
 
                     <template #dp-input>
-                        <input type="text" :value="start" class="form-control" required>
+                        <input type="text" :value="form.date.start" class="form-control" required>
                     </template>
+
                     <template #input-icon>
-                        <FontAwesomeIcon v-if="!start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                        <FontAwesomeIcon v-if="!form.date.start" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
                     </template>
                 </VueDatePicker>
             </ClientOnly>
@@ -150,13 +186,16 @@ const citiesList = ref([
         <div class="col-md-6">
             <label for="end" class="form-label">Выезд</label>
             <ClientOnly>
-                <VueDatePicker v-model="date" @update:model-value="handleDate" :auto-position="false" auto-apply id="end"
-                    range text-input :enable-time-picker="false" locale="ru" :clearable="false" :min-date="new Date()">
+                <VueDatePicker v-model="form.date" @update:model-value="handleDate" :auto-position="false" auto-apply
+                    id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false"
+                    :min-date="new Date()">
+
                     <template #dp-input>
-                        <input type="text" :value="end" class="form-control" required>
+                        <input type="text" :value="form.date.end" class="form-control" required>
                     </template>
+
                     <template #input-icon>
-                        <FontAwesomeIcon v-if="!end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
+                        <FontAwesomeIcon v-if="!form.date.end" class="datepicker-calendar-icon" :icon="['far', 'calendar']" />
                     </template>
                 </VueDatePicker>
             </ClientOnly>
