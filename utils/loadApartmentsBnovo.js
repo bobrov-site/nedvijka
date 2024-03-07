@@ -10,6 +10,9 @@ export default (async () => {
             return result;
         })
         const apartments = response.roomTypes.roomtypes
+        if (apartments.length === 0) {
+            return apartments
+        }
         apartments.forEach((apartment) => {
             let maxGuestsCount = 0;
             apartment.subrooms.forEach((subroom) => {
