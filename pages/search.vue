@@ -5,6 +5,7 @@ import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, Yande
 onMounted(async () => {
     await loadApartmentsByQueries();
     await loadGeoCode();
+    
 })
 const map = shallowRef<null | YMap>(null);
 const queries = useRoute().query
