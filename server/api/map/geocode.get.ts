@@ -23,7 +23,6 @@ export default defineEventHandler(async (event) => {
         }
     }
     catch(e) {
-        console.log(e, 'erroor')
         throw createError({
             statusCode: 500,
             statusMessage: e.message
