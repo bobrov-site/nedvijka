@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { YMap } from '@yandex/ymaps3-types';
-import { YandexMap, YandexMapDefaultSchemeLayer } from 'vue-yandex-maps';
+import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, YandexMapMarker } from 'vue-yandex-maps';
 
 onMounted(async () => {
     await loadApartmentsByQueries();
+    await loadGeoCode();
 })
 const map = shallowRef<null | YMap>(null);
 const queries = useRoute().query
@@ -24,6 +25,33 @@ const loadApartmentsByQueries = async () => {
             statusMessage: e.message
         })
     }
+}
+
+const loadGeoCode = async() => {
+    try {
+        const response = $fetch('/api/map/geocode', {
+            params: {
+                geocode: queries.city,
+            }
+        })
+        console.log(response);
+    }
+    catch(e) {
+        throw new createError({
+            statusCode: 400,
+            statusMessage: e.message
+        })
+    }
+}
+
+const getGeoDataFromApartments = () => {
+    return useSearchApartmentsStore().apartments.map((apartment) => {
+        const geo = {
+            x: apartment.geo_data.x,
+            y: apartment.geo_data.y
+        }
+        return geo
+    })
 }
 // cityId, children, adult, start, end
 </script>
@@ -54,6 +82,10 @@ const loadApartmentsByQueries = async () => {
                     },
                 }">
                 <YandexMapDefaultSchemeLayer />
+                <YandexMapDefaultFeaturesLayer/>
+                <template v-for="(geo, index) in getGeoDataFromApartments()" :key="index">
+                    <YandexMapDefaultMarker :settings="{coordinates: [Number(geo.y), Number(geo.x)], color: '#0d6efd'}"/>
+                </template>
             </YandexMap>
         </div>
     </div>
