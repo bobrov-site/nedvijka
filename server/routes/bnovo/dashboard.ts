@@ -5,7 +5,7 @@ export default defineEventHandler(async(event) => {
     }
     if (start && end) {
         try {
-            console.log(convertDate(start), convertDate(end))
+            // console.log(convertDate(start), convertDate(end))
             const response = await axiosInstance({
                 url: '/dashboard',
                 method: 'GET',
@@ -16,7 +16,7 @@ export default defineEventHandler(async(event) => {
                     
                 }
             })
-            console.log(response.data.bookings)
+            // console.log(response.data.bookings)
             return {
                 dashboard: response.data,
             }
