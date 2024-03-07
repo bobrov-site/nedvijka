@@ -29,8 +29,6 @@ const loadApartmentsByQueries = async () => {
 </script>
 
 <template>
-    
-    {{ useSearchApartmentsStore().dashboard }}
     <div class="search-page row flex-column-reverse flex-md-row">
         <div class="col-md-7 col-12">
             <div class="row row-cols-1 g-3">
