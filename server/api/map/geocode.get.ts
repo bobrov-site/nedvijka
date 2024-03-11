@@ -1,5 +1,15 @@
 import axios from "axios"
 
+const convertToPoint = (data) => {
+    const point = {
+        x: '',
+        y: '',
+    }
+    const split = data.pos.split(' ')
+    point.x = Number(split[0])
+    point.y = Number(split[1])
+    return point
+}
 export default defineEventHandler(async (event) => {
     const { geocode } = getQuery(event)
     if (!geocode) {
@@ -11,15 +21,15 @@ export default defineEventHandler(async (event) => {
     try {
         const response = await axios.get('https://geocode-maps.yandex.ru/1.x', {
             params: {
-                apikey: 'd03416db-7b20-44b0-a7c2-297b4e834328',
+                apikey: useRuntimeConfig().yandexGeocode,
                 geocode: geocode,
                 lang: 'ru_RU',
                 format: 'json'
             }
         })
-        console.log(response, 'response')
+        const point = convertToPoint(response.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point)
         return {
-            geocode: response.data
+            geocode: point
         }
     }
     catch(e) {

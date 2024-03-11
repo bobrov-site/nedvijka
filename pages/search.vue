@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import type { YMap } from '@yandex/ymaps3-types';
-import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, YandexMapMarker } from 'vue-yandex-maps';
+import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, VueYandexMaps } from 'vue-yandex-maps';
 
 onMounted(async () => {
-    await loadApartmentsByQueries();
     await loadGeoCode();
-    
+    await loadApartmentsByQueries();
+
 })
+
 const map = shallowRef<null | YMap>(null);
 const queries = useRoute().query
+const cityPoint = ref({
+    x: null,
+    y: null,
+});
 const loadApartmentsByQueries = async () => {
     try {
         useSearchApartmentsStore().apartments = await loadApartmentsBnovo();
@@ -20,7 +25,7 @@ const loadApartmentsByQueries = async () => {
             }
         })
     }
-    catch(e) {
+    catch (e) {
         throw new createError({
             statusCode: 500,
             statusMessage: e.message
@@ -28,16 +33,16 @@ const loadApartmentsByQueries = async () => {
     }
 }
 
-const loadGeoCode = async() => {
+const loadGeoCode = async () => {
     try {
-        const response = $fetch('/api/map/geocode', {
+        const response = await $fetch('/api/map/geocode', {
             params: {
                 geocode: queries.city,
             }
         })
-        console.log(response);
+        cityPoint.value = response.geocode
     }
-    catch(e) {
+    catch (e) {
         throw new createError({
             statusCode: 400,
             statusMessage: e.message
@@ -78,14 +83,15 @@ const getGeoDataFromApartments = () => {
         <div class="col-md-5 col-12">
             <YandexMap class="position-sticky yandex-map" v-model="map" :settings="{
                     location: {
-                        center: [37.617644, 55.755819],
-                        zoom: 9,
-                    },
+                        center: [cityPoint.x, cityPoint.y],
+                        zoom: 12,
+                    }
                 }">
                 <YandexMapDefaultSchemeLayer />
-                <YandexMapDefaultFeaturesLayer/>
+                <YandexMapDefaultFeaturesLayer />
                 <template v-for="(geo, index) in getGeoDataFromApartments()" :key="index">
-                    <YandexMapDefaultMarker :settings="{coordinates: [Number(geo.y), Number(geo.x)], color: '#0d6efd'}"/>
+                    <YandexMapDefaultMarker
+                        :settings="{ coordinates: [Number(geo.y), Number(geo.x)], color: '#0d6efd' }" />
                 </template>
             </YandexMap>
         </div>
