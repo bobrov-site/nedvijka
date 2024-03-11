@@ -12,6 +12,7 @@ export default defineEventHandler(async (event) => {
       validateStatus: status => status < 400
     });
     if (response.status === 302) {
+      console.log('auth bnovo')
       return {
         auth: true,
       }

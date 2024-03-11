@@ -16,9 +16,10 @@ export default defineEventHandler(async (event) => {
       roomTypesPublic: response.data,
     };
   } catch (e) {
+    console.log(e)
     throw new createError({
-      statusCode: 400,
-      statusMessage: e.message,
+      statusCode: 500,
+      statusMessage: e.data.message,
     });
   }
 });
