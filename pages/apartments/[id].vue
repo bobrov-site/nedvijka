@@ -24,20 +24,17 @@ const loadApartment = async () => {
 
     //поскольку пока нет базы данных, то мы загружаем апартаменты из bnovo
     const { id } = useRoute().params
-    try {
-        const apartments = await loadApartmentsBnovo();
-        apartment.value = apartments.find((apartment) => apartment.id == id)
-        if (!apartment.value) {
-            throw createError({
-                statusCode: 404,
-                statusMessage: 'Page Not Found'
-            })
-        }
+    const apartments = await loadApartmentsBnovo();
+    apartment.value = apartments.find((apartment) => apartment.id == id)
+    if (!apartment.value) {
+        throw createError({
+            statusCode: 404,
+            statusMessage: 'Page Not Found'
+        })
     }
-    catch (e) {
-        console.log(e)
+    if (apartment.value.geo_data.x === 0 && apartment.value.geo_data.y === 0) {
+        apartment.value.geo_data = await setNewGeoCode(apartment.value)
     }
-
 }
 
 </script>
@@ -75,10 +72,10 @@ const loadApartment = async () => {
                                     {{ adult }} взрослых, {{ children }} детей
                                 </span>
                                 <ClientOnly>
-                                        <FontAwesomeIcon class="caret-down-icon position-absolute"
-                                            :icon="['fas', 'caret-down']" />
-                                    </ClientOnly>
-                                
+                                    <FontAwesomeIcon class="caret-down-icon position-absolute"
+                                        :icon="['fas', 'caret-down']" />
+                                </ClientOnly>
+
                             </button>
                         </div>
 

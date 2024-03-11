@@ -13,7 +13,7 @@ export default (async () => {
         if (apartments.length === 0) {
             return apartments
         }
-        apartments.forEach((apartment) => {
+        apartments.forEach(async(apartment) => {
             let maxGuestsCount = 0;
             apartment.subrooms.forEach((subroom) => {
                 maxGuestsCount += Number(subroom.children) + Number(subroom.adults)
@@ -24,6 +24,8 @@ export default (async () => {
                 apartment.bedsCount = Number(Object.keys(apartment.extra.beds)[0])
             }
             apartment.bedsCount = null
+            apartment.geo_data.x = Number(apartment.geo_data.x)
+            apartment.geo_data.y = Number(apartment.geo_data.y)
         })
         //по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
         //приходится сравнивать по названию, что мдаа.

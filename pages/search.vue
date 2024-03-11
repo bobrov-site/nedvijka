@@ -3,35 +3,19 @@ import type { YMap } from '@yandex/ymaps3-types';
 import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, VueYandexMaps } from 'vue-yandex-maps';
 
 onMounted(async () => {
-    await loadGeoCode();
-    await loadApartmentsByQueries();
+    cityPoint.value = await loadGeoCode();
+    apartments.value = await loadApartmentsBnovo();
+    markers.value = await getGeoDataFromApartments();
 
 })
-
+const apartments = ref([])
 const map = shallowRef<null | YMap>(null);
 const queries = useRoute().query
 const cityPoint = ref({
     x: null,
     y: null,
 });
-const loadApartmentsByQueries = async () => {
-    try {
-        useSearchApartmentsStore().apartments = await loadApartmentsBnovo();
-        useSearchApartmentsStore().dashboard = await $fetch('/bnovo/dashboard', {
-            method: 'GET',
-            params: {
-                start: queries.start,
-                end: queries.end,
-            }
-        })
-    }
-    catch (e) {
-        throw new createError({
-            statusCode: 500,
-            statusMessage: e.message
-        })
-    }
-}
+const markers = ref([])
 
 const loadGeoCode = async () => {
     try {
@@ -40,7 +24,7 @@ const loadGeoCode = async () => {
                 geocode: queries.city,
             }
         })
-        cityPoint.value = response.geocode
+        return response.geocode
     }
     catch (e) {
         throw new createError({
@@ -50,14 +34,19 @@ const loadGeoCode = async () => {
     }
 }
 
-const getGeoDataFromApartments = () => {
-    return useSearchApartmentsStore().apartments.map((apartment) => {
+const getGeoDataFromApartments = async() => {
+    const marks = apartments.value.map(async(apartment) => {
+        if (apartment.geo_data.x === 0 && apartment.geo_data.y === 0) {
+            apartment.geo_data = await setNewGeoCode(apartment)
+        }
         const geo = {
             x: apartment.geo_data.x,
-            y: apartment.geo_data.y
+            y: apartment.geo_data.y,
+            title: apartment.price,
         }
         return geo
-    })
+    });
+    return await Promise.all(marks)
 }
 // cityId, children, adult, start, end
 </script>
@@ -71,7 +60,7 @@ const getGeoDataFromApartments = () => {
                         <SearchForm form-title="Поиск" />
                     </div>
                 </div>
-                <div v-for="apartment in useSearchApartmentsStore().apartments" :key="apartment.id" class="col">
+                <div v-for="apartment in apartments" :key="apartment.id" class="col">
                     <ApartmentPreview :name="apartment.name" :address="apartment.address" :city="apartment.city"
                         :adults="Number(apartment.adults)" :children="Number(apartment.children)"
                         :max-guests="Number(apartment.maxGuests)" :rooms-count="Number(apartment.roomsCount)"
@@ -89,9 +78,9 @@ const getGeoDataFromApartments = () => {
                 }">
                 <YandexMapDefaultSchemeLayer />
                 <YandexMapDefaultFeaturesLayer />
-                <template v-for="(geo, index) in getGeoDataFromApartments()" :key="index">
+                <template v-for="(geo, index) in markers" :key="index">
                     <YandexMapDefaultMarker
-                        :settings="{ coordinates: [Number(geo.y), Number(geo.x)], color: '#0d6efd' }" />
+                        :settings="{ coordinates: [geo.y, geo.x], color: '#0d6efd', title: `${geo.title}₽` }" />
                 </template>
             </YandexMap>
         </div>

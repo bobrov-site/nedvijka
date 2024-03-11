@@ -59,7 +59,7 @@ const getHtmlDescription = () => {
 }
 
 const isGeoDataExist = () => {
-    if (props.geoData && props.geoData.x !== '0' && props.geoData.y !== '0') {
+    if (props.geoData && props.geoData.x !== 0 && props.geoData.y !== 0) {
         return true
     }
     return false
@@ -114,13 +114,13 @@ const isGeoDataExist = () => {
             <div v-if="isGeoDataExist()">
                 <YandexMap v-model="map" :settings="{
                     location: {
-                        center: [Number(props.geoData.y), Number(props.geoData.x)],
+                        center: [props.geoData.y, props.geoData.x],
                         zoom: 16
                     }
                 }" height="320px">
                     <YandexMapDefaultSchemeLayer />
                     <YandexMapDefaultFeaturesLayer/>
-                    <YandexMapDefaultMarker :settings="{coordinates: [Number(props.geoData.y), Number(props.geoData.x)], color: '#0d6efd'}"/>
+                    <YandexMapDefaultMarker :settings="{coordinates: [props.geoData.y, props.geoData.x], color: '#0d6efd'}"/>
                 </YandexMap>
             </div>
         </div>
