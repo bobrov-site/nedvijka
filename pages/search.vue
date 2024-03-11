@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { YMap } from '@yandex/ymaps3-types';
-import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, VueYandexMaps } from 'vue-yandex-maps';
+import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, VueYandexMaps, YandexMapMarker } from 'vue-yandex-maps';
 
 onMounted(async () => {
     cityPoint.value = await loadGeoCode();
@@ -78,13 +78,28 @@ const getGeoDataFromApartments = async() => {
                 }">
                 <YandexMapDefaultSchemeLayer />
                 <YandexMapDefaultFeaturesLayer />
-                <template v-for="(geo, index) in markers" :key="index">
-                    <YandexMapDefaultMarker
-                        :settings="{ coordinates: [geo.y, geo.x], color: '#0d6efd', title: `${geo.title}₽` }" />
-                </template>
+                <YandexMapMarker v-for="(geo, index) in markers" :key="index" :settings="{ coordinates: [geo.y, geo.x], color: '#0d6efd', title: `${geo.title}₽` }" >
+                    <div class="marker"></div>
+                    <span class="badge text-bg-primary">{{ `${geo.title}₽` }}</span>
+                </YandexMapMarker>
+                
             </YandexMap>
         </div>
     </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.marker {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: #ff0000;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    line-height: 20px;
+  } 
+</style>
