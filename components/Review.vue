@@ -5,7 +5,9 @@
                 {{ props.name }}
             </h4>
             <div class="d-flex mb-2">
-                <FontAwesomeIcon v-for="i in 5" :key="i" :icon="['fas', 'star']" class="review-icon me-1"/>
+                <ClientOnly>
+                    <FontAwesomeIcon v-for="i in 5" :key="i" :icon="['fas', 'star']" class="review-icon me-1"/>
+                </ClientOnly>
             </div>
             <p class="card-text">{{ props.text }}</p>
         </div>

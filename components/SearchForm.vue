@@ -125,8 +125,9 @@ const citiesList = ref([
                     <span class="d-block w-100 text-start">
                         {{ form.adult }} взрослых, {{ form.children }} детей
                     </span>
-                    <FontAwesomeIcon class="caret-down-icon position-absolute" :icon="['fas', 'caret-down']" />
-
+                    <ClientOnly>
+                        <FontAwesomeIcon class="caret-down-icon position-absolute" :icon="['fas', 'caret-down']" />
+                    </ClientOnly>
                 </button>
             </div>
 
