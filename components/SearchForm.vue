@@ -57,8 +57,6 @@ const form = ref({
         end: ''
     }
 })
-
-const apartments = ref([])
 const dashboard = ref(null)
 const resetErrors = () => {
     Object.keys(errors.value).forEach((key) => errors.value[key] = false)
@@ -74,16 +72,8 @@ const submitForm = async () => {
         return
     }
     try {
-        apartments.value = await loadApartmentsBnovo();
-        dashboard.value = await $fetch('/bnovo/dashboard', {
-            method: 'GET',
-            params: {
-                start: form.value.date.start,
-                end: form.value.date.end,
-            }
-        })
-        isDisabledButton.value = false;
-        useSearchApartmentsStore().setSearch(apartments.value, dashboard.value);
+        await useSearchApartmentsStore().loadSearchApartments(form.value.date.start, form.value.date.end);
+        await useSearchApartmentsStore().getGeoDataFromApartments();
         navigateTo({
             path: '/search',
             query: {
@@ -94,13 +84,13 @@ const submitForm = async () => {
                 end: form.value.date.end
             }
         })
+        
     }
     catch(e) {
+        console.log(e)
+    }
+    finally {
         isDisabledButton.value = false;
-        throw new createError({
-            statusCode: 500,
-            statusMessage: e.message
-        })
     }
 }
 

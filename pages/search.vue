@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { YMap } from '@yandex/ymaps3-types';
-import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker, YandexMapDefaultSchemeLayer, VueYandexMaps, YandexMapMarker } from 'vue-yandex-maps';
+import { YandexMap, YandexMapDefaultFeaturesLayer, YandexMapDefaultSchemeLayer, YandexMapMarker } from 'vue-yandex-maps';
 
 onMounted(async () => {
-    cityPoint.value = await loadGeoCode();
-    apartments.value = await loadApartmentsBnovo();
+    await useSearchApartmentsStore().loadSearchApartments(queries.start, queries.end);
+    await useSearchApartmentsStore().getGeoDataCity(queries.city);
+    await useSearchApartmentsStore().getGeoDataFromApartments();
     markers.value = await getGeoDataFromApartments();
-
 })
 const apartments = ref([])
 const map = shallowRef<null | YMap>(null);
@@ -16,7 +16,6 @@ const cityPoint = ref({
     y: null,
 });
 const markers = ref([])
-
 const loadGeoCode = async () => {
     try {
         const response = await $fetch('/api/map/geocode', {
@@ -48,7 +47,6 @@ const getGeoDataFromApartments = async() => {
     });
     return await Promise.all(marks)
 }
-// cityId, children, adult, start, end
 </script>
 
 <template>
@@ -60,7 +58,7 @@ const getGeoDataFromApartments = async() => {
                         <SearchForm form-title="Поиск" />
                     </div>
                 </div>
-                <div v-for="apartment in apartments" :key="apartment.id" class="col">
+                <div v-for="apartment in useSearchApartmentsStore().apartments" :key="apartment.id" class="col">
                     <ApartmentPreview :name="apartment.name" :address="apartment.address" :city="apartment.city"
                         :adults="Number(apartment.adults)" :children="Number(apartment.children)"
                         :max-guests="Number(apartment.maxGuests)" :rooms-count="Number(apartment.roomsCount)"
@@ -72,13 +70,13 @@ const getGeoDataFromApartments = async() => {
         <div class="col-md-5 col-12">
             <YandexMap class="position-sticky yandex-map" v-model="map" :settings="{
                     location: {
-                        center: [cityPoint.x, cityPoint.y],
+                        center: [useSearchApartmentsStore().cityPoint.x, useSearchApartmentsStore().cityPoint.y],
                         zoom: 12,
                     }
                 }">
                 <YandexMapDefaultSchemeLayer />
                 <YandexMapDefaultFeaturesLayer />
-                <YandexMapMarker v-for="(geo, index) in markers" :key="index" :settings="{ coordinates: [geo.y, geo.x], color: '#0d6efd', title: `${geo.title}₽` }" >
+                <YandexMapMarker v-for="(geo, index) in useSearchApartmentsStore().markers" :key="index" :settings="{ coordinates: [geo.y, geo.x], color: '#0d6efd', title: `${geo.title}₽` }" >
                     <div class="marker"></div>
                     <span class="badge text-bg-primary">{{ `${geo.title}₽` }}</span>
                 </YandexMapMarker>
