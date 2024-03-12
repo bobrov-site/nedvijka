@@ -1,5 +1,6 @@
 export default (async () => {
     try {
+        await $fetch('/bnovo/auth', {method: 'GET'});
         const response = await $fetch('/bnovo/roomTypes')
         const roomTypesPublic = await $fetch('/bnovo/roomTypesPublic');
         const roomsWithPhotoes = roomTypesPublic.roomTypesPublic.rooms.map((room) => {

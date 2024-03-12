@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-mongoose',
     '@sidebase/nuxt-auth',
-    'nuxt-cron',
   ],
   plugins: [
     { src: '~/plugins/useBootstrap.ts', mode: 'client'},
