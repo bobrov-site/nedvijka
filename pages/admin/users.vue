@@ -10,17 +10,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th class="bg-danger text-white" scope="row">1</th>
-                    <td class="bg-danger text-white">Иван Иванов</td>
-                    <td class="bg-danger text-white">example@example.com</td>
-                    <td class="bg-danger text-white">02.02.2024 16:54</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Петр Петров</td>
-                    <td>example@example.com</td>
-                    <td>02.03.2024 16:56</td>
+                <tr v-for="user in users" key="user._id">
+                    <th :class="{'bg-danger text-white': user.role === 'admin'}" class="bg-danger text-white" scope="row">{{ user._id }}</th>
+                    <td :class="{'bg-danger text-white': user.role === 'admin'}">{{ user.name ? user.name : 'Не указано' }}</td>
+                    <td :class="{'bg-danger text-white': user.role === 'admin'}">{{ user.email }}</td>
+                    <td :class="{'bg-danger text-white': user.role === 'admin'}">{{ user.registerDate ? user.registerDate : 'Не указано' }}</td>
                 </tr>
             </tbody>
         </table>
@@ -28,6 +22,10 @@
 </template>
 
 <script setup>
+onMounted(async() => {
+    users.value = await $fetch('/api/users/getUsers');
+})
+const users = ref([]);
 definePageMeta({
     layout: 'admin'
 })
