@@ -6,47 +6,9 @@ onMounted(async () => {
     await useSearchApartmentsStore().loadSearchApartments(queries.start, queries.end);
     await useSearchApartmentsStore().getGeoDataCity(queries.city);
     await useSearchApartmentsStore().getGeoDataFromApartments();
-    markers.value = await getGeoDataFromApartments();
 })
-const apartments = ref([])
 const map = shallowRef<null | YMap>(null);
 const queries = useRoute().query
-const cityPoint = ref({
-    x: null,
-    y: null,
-});
-const markers = ref([])
-const loadGeoCode = async () => {
-    try {
-        const response = await $fetch('/api/map/geocode', {
-            params: {
-                geocode: queries.city,
-            }
-        })
-        return response.geocode
-    }
-    catch (e) {
-        throw new createError({
-            statusCode: 400,
-            statusMessage: e.message
-        })
-    }
-}
-
-const getGeoDataFromApartments = async() => {
-    const marks = apartments.value.map(async(apartment) => {
-        if (apartment.geo_data.x === 0 && apartment.geo_data.y === 0) {
-            apartment.geo_data = await setNewGeoCode(apartment)
-        }
-        const geo = {
-            x: apartment.geo_data.x,
-            y: apartment.geo_data.y,
-            title: apartment.price,
-        }
-        return geo
-    });
-    return await Promise.all(marks)
-}
 </script>
 
 <template>
