@@ -18,6 +18,11 @@
                     Мои обьекты
                 </NuxtLink>
             </li>
+            <li class="nav-item">
+                <NuxtLink to="/renter/objects" :class="{ 'active': route.name === 'renter-objects' }" class="nav-link">
+                    Шахматка
+                </NuxtLink>
+            </li>
         </ul>
     </div>
 </template>
