@@ -1,4 +1,5 @@
 <script setup>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { YandexMapDefaultFeaturesLayer, YandexMapDefaultMarker } from 'vue-yandex-maps';
 const props = defineProps({
     name: {
@@ -32,7 +33,9 @@ const props = defineProps({
 })
 const map = shallowRef(null)
 const thumbsSwiper = ref(null);
-const icon = ref(['far', 'heart'])
+
+const iconHeart = ref(['far', 'heart'])
+const iconCopy = ref(['far', 'copy'])
 // const comfortsList = [
 //     'Кондиционер',
 //     'Фен',
@@ -43,15 +46,6 @@ const icon = ref(['far', 'heart'])
 const setThumbsSwiper = (swiper) => {
     thumbsSwiper.value = swiper;
 };
-
-const changeIcon = (isHover) => {
-    if (isHover) {
-        icon.value = ['fas', 'heart']
-    }
-    else {
-        icon.value = ['far', 'heart']
-    }
-}
 
 const getHtmlDescription = () => {
     const splitDescription = props.description.split('\n')
@@ -64,14 +58,20 @@ const isGeoDataExist = () => {
     }
     return false
 }
+const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href)
+}
 </script>
 <template>
     <div class="apartment-card card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h1>{{ props.name }}</h1>
+                <button @click="copyLink" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Скопировать ссылку">
+                    <FontAwesomeIcon @mouseover="iconCopy = ['fas', 'copy']" @mouseleave="iconCopy = ['far', 'copy']" class="text-primary fs-3" :icon="iconCopy" />
+                </button>
                 <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить в избранное"> 
-                    <FontAwesomeIcon @mouseover="changeIcon(true)" @mouseleave="changeIcon(false)" class="text-danger fs-2" :icon="icon" />
+                    <FontAwesomeIcon @mouseover="iconHeart = ['fas', 'heart']" @mouseleave="iconHeart = ['far', 'heart']" class="text-danger fs-3" :icon="iconHeart" />
                 </button>
             </div>
             <Swiper :navigation="true" :modules="[SwiperNavigation, SwiperThumbs, SwiperFreeMode, SwiperZoom]"
