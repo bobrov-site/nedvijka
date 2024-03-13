@@ -17,8 +17,8 @@ const dropdownSupport = ref();
                     aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse d-flex justify-content-between" id="navbarSupportedContent">
-                    <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav align-items-lg-center mb-2 mb-lg-0">
                         <li class="nav-item me-4">
                             <a href="tel:+7(962)-425-88-45" class="text-decoration-none">
                                 <ClientOnly>
@@ -45,61 +45,29 @@ const dropdownSupport = ref();
                                     <FontAwesomeIcon class="nav-link-icons viber" :icon="['fab', 'viber']" />
                                 </ClientOnly>
                             </NuxtLink>
-                            <!-- TODO решить вопрос с соцсетями -->
-                            <!-- <div class="dropdown-center">
-                                <button class="btn dropdown-toggle" data-bs-toggle="dropdown"
-                                    aria-expanded="false"></button>
-                                <ul class="dropdown-menu">
-                                    <li class="dropdown-item">
-                                        <h3 class="fs-6">Свяжитесь с нами</h3>
-                                    </li>
-                                    <li class="dropdown-item d-flex">
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons whatsapp" :icon="['fab', 'whatsapp']" />
-                                        </NuxtLink>
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons telegram" :icon="['fab', 'telegram']" />
-                                        </NuxtLink>
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons viber" :icon="['fab', 'viber']" />
-                                        </NuxtLink>
-                                    </li>
-                                    <li class="dropdown-item d-flex">
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons whatsapp" :icon="['fab', 'whatsapp']" />
-                                        </NuxtLink>
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons telegram" :icon="['fab', 'telegram']" />
-                                        </NuxtLink>
-                                        <NuxtLink class="nav-link" to="/">
-                                            <FontAwesomeIcon class="nav-link-icons viber" :icon="['fab', 'viber']" />
-                                        </NuxtLink>
-                                    </li>
-                                </ul>
-                            </div> -->
                         </li>
                     </ul>
-                    <nav>
-                        <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
-                            <li class="nav-item me-2">
-                                <NuxtLink v-if="!user.auth.isAuth" role="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#authModal">Сдать жилье</NuxtLink>
+                    <nav class="me-lg-auto ms-lg-auto">
+                        <ul class="navbar-nav align-items-lg-center mb-2 mb-lg-0">
+                            <li class="nav-item me-lg-2 me-0 mb-2 mb-lg-0">
+                                <NuxtLink v-if="!user.auth.isAuth" role="button" class="btn btn-outline-primary d-block d-lg-inline-block" data-bs-toggle="modal" data-bs-target="#authModal">Сдать жилье</NuxtLink>
                             </li>
                             <li v-if="!user.auth.isAuth" class="nav-item">
-                                <NuxtLink class="btn btn-outline-primary" role="button" data-bs-toggle="modal" data-bs-target="#authModal">Бронирование</NuxtLink>
+                                <NuxtLink class="btn btn-outline-primary d-block d-lg-inline-block" role="button" data-bs-toggle="modal" data-bs-target="#authModal">Бронирование</NuxtLink>
                             </li>
                         </ul>
                     </nav>
                     <!-- profile -->
-                    <div class="socials">
+                    <div class="socials ms-lg-auto">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item me-4">
-                                <NuxtLink v-if="user.auth.isAuth && user.user.role === 'renter'" class="btn btn-outline-primary" to="/renter/objects">Сдать жилье</NuxtLink>
+                            <li v-if="user.auth.isAuth && user.user.role === 'renter'" class="nav-item me-4 mb-4 mb-lg-0">
+                                <NuxtLink class="btn btn-outline-primary d-block d-lg-inline-block" to="/renter/objects">Сдать жилье</NuxtLink>
                             </li>
                             <li v-if="user.auth.isAuth && user.role === 'guest'" class="nav-item me-4">
-                                <NuxtLink class="btn btn-outline-primary" to="/guest/bookings">Бронирование</NuxtLink>
+                                <NuxtLink class="btn btn-outline-primary d-block d-lg-inline-block" to="/guest/bookings">Бронирование</NuxtLink>
                             </li>
-                            <li class="nav-item me-4">
-                                <NuxtLink v-if="!user.auth.isAuth" data-bs-toggle="modal" data-bs-target="#authModal" class="btn btn-outline-primary">
+                            <li class="nav-item me-lg-4 me-0">
+                                <NuxtLink v-if="!user.auth.isAuth" data-bs-toggle="modal" data-bs-target="#authModal" class="btn btn-outline-primary d-block d-lg-inline-block">
                                     <ClientOnly>
                                         <FontAwesomeIcon :icon="['fas', 'heart']" />
                                     </ClientOnly>
