@@ -57,7 +57,6 @@ const form = ref({
         end: ''
     }
 })
-const dashboard = ref(null)
 const resetErrors = () => {
     Object.keys(errors.value).forEach((key) => errors.value[key] = false)
 }
@@ -72,8 +71,13 @@ const submitForm = async () => {
         return
     }
     try {
+        useSearchApartmentsStore().adult = Number(form.value.adult);
+        useSearchApartmentsStore().children = Number(form.value.children);
+        useSearchApartmentsStore().process = 'loading';
+        await useSearchApartmentsStore().getGeoDataCity(form.value.city);
         await useSearchApartmentsStore().loadSearchApartments(form.value.date.start, form.value.date.end);
         await useSearchApartmentsStore().getGeoDataFromApartments();
+        useSearchApartmentsStore().process = 'loaded';
         navigateTo({
             path: '/search',
             query: {
