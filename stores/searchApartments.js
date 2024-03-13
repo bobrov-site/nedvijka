@@ -5,7 +5,11 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
         cityPoint: {
             x: 0,
             y: 0,
-        }
+        },
+        city: '',
+        process: 'loading',
+        children: 0,
+        adult: 0,
     }),
     actions: {
         async buildGeoPoint(query) {
@@ -27,6 +31,7 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
         async getGeoDataCity(city) {
             try {
                 const response = await this.buildGeoPoint(city)
+                this.city = city
                 this.cityPoint = response;
             }
             catch(e) {
@@ -54,6 +59,32 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
             this.markers = await Promise.all(marks)
         },
         async loadSearchApartments(start, end) {
+            const filterApartmetments = (apartments, dashboard) => {
+                const maxGuests = this.children + this.adult
+                this.apartments = []
+                if (!apartments.some((apartment) => apartment.city === this.city)) {
+                    return
+                }
+                if (dashboard.dashboard.bookings.length === 0) {
+                    return
+                }
+                const filtred = apartments.filter((apartment) => {
+                    let isFiltred = true;
+                    if (apartment.maxGuests < maxGuests) {
+                        isFiltred = false
+                        return;
+                    }
+                    dashboard.dashboard.bookings.forEach((booking) => {
+                        if (booking.initial_room_type_name === apartment.name) {
+                            isFiltred = false
+                            return;
+                        }
+                        isFiltred = true
+                    })
+                    return isFiltred
+                })
+                this.apartments = filtred
+            }
             try {
                 const dashboard = await $fetch('/bnovo/dashboard', {
                     method: 'GET',
@@ -63,23 +94,7 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
                     }
                 })
                 const response = await loadApartmentsBnovo();
-                if (dashboard.dashboard.bookings.length !== 0) {
-                    const filtred = response.filter((apartment) => {
-                        dashboard.dashboard.bookings.forEach((booking) => {
-                            if (booking.initial_room_type_name === apartment.name) {
-                                apartment = false;
-                                return;
-                            }
-                            apartment = true
-                        })
-                        return apartment
-                    })
-                    console.log(filtred);
-                    this.apartments = filtred
-                }
-                else {
-                    this.apartments = response;
-                }
+                filterApartmetments(response, dashboard)
             }
             catch(e) {
                 throw new createError({
