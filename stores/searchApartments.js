@@ -59,42 +59,41 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
             this.markers = await Promise.all(marks)
         },
         async loadSearchApartments(start, end) {
-            const filterApartmetments = (apartments, dashboard) => {
+            const filterApartmetments = (apartments, bookings) => {
                 const maxGuests = this.children + this.adult
                 this.apartments = []
                 if (!apartments.some((apartment) => apartment.city === this.city)) {
                     return
                 }
-                if (dashboard.dashboard.bookings.length === 0) {
-                    return
-                }
-                const filtred = apartments.filter((apartment) => {
-                    let isFiltred = true;
-                    if (apartment.maxGuests < maxGuests) {
-                        isFiltred = false
-                        return;
+                const filtredBookings = bookings.filter((booking) => {
+                    const arrivalDate = booking.real_arrival_format.split(' ')[0]
+                    const departureDate = booking.real_departure_format.split(' ')[0]
+                    if (departureDate === start || end === arrivalDate) {
+                        return false
                     }
-                    dashboard.dashboard.bookings.forEach((booking) => {
-                        if (booking.initial_room_type_name === apartment.name) {
-                            isFiltred = false
-                            return;
-                        }
-                        isFiltred = true
+                    return true
+                })
+                const filtred = apartments
+                .filter((apartment) => apartment.maxGuests >= maxGuests)
+                .filter((apartment) => {
+                    return !filtredBookings
+                    .some((booking) => {
+                        console.log(booking.dual_roomtype_id, apartment.id)
+                        return booking.dual_roomtype_id === apartment.id
                     })
-                    return isFiltred
                 })
                 this.apartments = filtred
             }
             try {
-                const dashboard = await $fetch('/bnovo/dashboard', {
-                    method: 'GET',
-                    params: {
+                const response = await loadApartmentsBnovo();
+                const bookings = await $fetch('/bnovo/bookings', {
+                    method: 'POST',
+                    body: {
                         start: start,
                         end: end,
                     }
                 })
-                const response = await loadApartmentsBnovo();
-                filterApartmetments(response, dashboard)
+                filterApartmetments(response, bookings.bookings.result)
             }
             catch(e) {
                 throw new createError({
