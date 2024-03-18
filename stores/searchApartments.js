@@ -78,7 +78,6 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
                 .filter((apartment) => {
                     return !filtredBookings
                     .some((booking) => {
-                        console.log(booking.dual_roomtype_id, apartment.id)
                         return booking.dual_roomtype_id === apartment.id
                     })
                 })

@@ -4,7 +4,6 @@ onMounted(async() => {
 })
 const apartments = ref([])
 const setAlertStatus = () => {
-    console.log(route.query)
     if (Object.hasOwn(route.query, 'isRegistred')) {
         alertStatuses.value.isRegistred = true
     }
