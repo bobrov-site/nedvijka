@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-    const convertDate = (date) => {
+    const convertDate = (date:any) => {
         const year =  date.split('-')[2]
         const month = date.split('-')[1]
         const day = date.split('-')[0]
@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     }
     const body = await readBody(event);
     if (!body.start && !body.end) {
-        throw new createError({
+        throw createError({
             statusCode: 500,
             statusMessage: 'start or end not found',
         })
@@ -29,8 +29,8 @@ export default defineEventHandler(async (event) => {
             bookings : response.data
         }
     }
-    catch(e) {
-        throw new createError({
+    catch(e:any) {
+        throw createError({
             statusCode: 500,
             statusMessage: e.message,
         })
