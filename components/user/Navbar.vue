@@ -19,7 +19,7 @@
                 </NuxtLink>
             </li>
             <li class="nav-item">
-                <NuxtLink to="/renter/objects" :class="{ 'active': route.name === 'renter-objects' }" class="nav-link">
+                <NuxtLink to="/renter/schedule" :class="{ 'active': route.name === 'renter-schedule' }" class="nav-link">
                     Шахматка
                 </NuxtLink>
             </li>
