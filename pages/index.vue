@@ -1,8 +1,11 @@
 <script setup>
 onMounted(async() => {
+    process.value = 'loading'
     apartments.value = await loadApartmentsBnovo();
+    process.value = 'loaded'
 })
 const apartments = ref([])
+const process = ref(null)
 const setAlertStatus = () => {
     if (Object.hasOwn(route.query, 'isRegistred')) {
         alertStatuses.value.isRegistred = true
@@ -53,12 +56,19 @@ watch(() => route.query, setAlertStatus)
             <SliderBenefits />
         </div>
     </div>
-    <div class="row mt-4 mb-2">
+    <div v-if="process === 'loading'" class="row mt-4">
+            <div class="col-12">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+    <div v-if="process === 'loaded'" class="row mt-4 mb-2">
         <div class="col-12">
             <h2>Доступные квартиры</h2>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
+    <div v-if="process === 'loaded'" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3">
         <div v-for="apartment in apartments" :key="apartment.id" class="col">
             <ApartmentPreview 
             :name="apartment.name"
