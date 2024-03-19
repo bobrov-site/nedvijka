@@ -1,6 +1,6 @@
 export default (async () => {
     try {
-        await $fetch('/bnovo/auth', {method: 'GET'});
+        await $fetch('/bnovo/auth', { method: 'GET' });
         const response = await $fetch('/bnovo/roomTypes')
         const roomTypesPublic = await $fetch('/bnovo/roomTypesPublic');
         const roomsWithPhotoes = roomTypesPublic.roomTypesPublic.rooms.map((room) => {
@@ -14,7 +14,7 @@ export default (async () => {
         if (apartments.length === 0) {
             return apartments
         }
-        apartments.forEach(async(apartment) => {
+        apartments.forEach(async (apartment) => {
             let maxGuestsCount = 0;
             apartment.subrooms.forEach((subroom) => {
                 maxGuestsCount += Number(subroom.children) + Number(subroom.adults)
@@ -30,11 +30,19 @@ export default (async () => {
         })
         //по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
         //приходится сравнивать по названию, что мдаа.
+
         apartments.map((apartment) => {
             apartment.photos = roomsWithPhotoes.find((room) => room.name === apartment.name).photos
             return apartment
         })
-        return apartments
+        //убираем все квартиры, где в названии STOP
+        const filtred = apartments.filter((apartment) => {
+            if (apartment.name.includes('STOP!')) {
+                return false
+            }
+            return true
+        })
+        return filtred
     }
     catch (e) {
         console.log(e)
