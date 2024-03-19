@@ -28,14 +28,14 @@ export default (async () => {
             apartment.geo_data.x = Number(apartment.geo_data.x)
             apartment.geo_data.y = Number(apartment.geo_data.y)
         })
-        //по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
-        //приходится сравнивать по названию, что мдаа.
+        // по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
+        // приходится сравнивать по названию, что мдаа.
 
         apartments.map((apartment) => {
             apartment.photos = roomsWithPhotoes.find((room) => room.name === apartment.name).photos
             return apartment
         })
-        //убираем все квартиры, где в названии STOP
+        // убираем все квартиры, где в названии STOP
         const filtred = apartments.filter((apartment) => {
             if (apartment.name.includes('STOP!')) {
                 return false
