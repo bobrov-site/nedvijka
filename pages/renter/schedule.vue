@@ -7,7 +7,7 @@
             </div>
         </div>
         <div class="row mt-4">
-            <FullCalendar :options="calendarOptions" />
+            <FullCalendar ref="calendar" :options="calendarOptions" />
         </div>
     </div>
 </template>
@@ -22,9 +22,9 @@ definePageMeta({
     layout: 'user'
 })
 onMounted(async () => {
-    await chooseLoadingMethod();
+    await loadData();
 })
-
+const calendar = ref(null)
 const tasks = ref([])
 const calendarOptions = ref({
     plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
@@ -33,6 +33,29 @@ const calendarOptions = ref({
     editable: true,
     locales: allLocales,
     locale: 'ru',
+    headerToolbar: {
+        left: '',
+        center: 'title',
+        right: ''
+    },
+    customButtons: {
+        prevButton: {
+            text: 'Назад',
+            click: (async() => {
+                calendar.value.calendar.prev()
+                date.value = new Date(calendar.value.calendar.getDate())
+                await loadData();
+            })
+        },
+        nextButton: {
+            text: 'Вперед',
+            click: (async() => {
+                calendar.value.calendar.next()
+                date.value = new Date(calendar.value.calendar.getDate())
+                await loadData();
+            })
+        }
+    }
 })
 const markersColors = {
     0: 'red',
@@ -44,8 +67,8 @@ const markersColors = {
 const config = useRuntimeConfig();
 const apartments = ref([])
 const date = ref(new Date())
-const firstDayCurrentMonth = ref(new Date(date.value.getFullYear(), date.value.getMonth(), 1));
-const lastDayNextMonth = ref(new Date(date.value.getFullYear(), date.value.getMonth() + 2, 0));
+const firstDayCurrentMonth = ref(null);
+const lastDayCurrentMonth = ref(null);
 const bookings = ref()
 const legends = ref([])
 const getCalendarLegend = () => {
@@ -73,16 +96,18 @@ const formatDate = (date) => {
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
 }
-const chooseLoadingMethod = async () => {
+const loadData = async () => {
     if (useUserStore().user.id === config.public.adminIde) {
         try {
             process.value = 'loading'
+            firstDayCurrentMonth.value = new Date(date.value.getFullYear(), date.value.getMonth(), 1)
+            lastDayCurrentMonth.value = new Date(date.value.getFullYear(), date.value.getMonth() + 1, 0);
             apartments.value = await loadApartmentsBnovo();
             bookings.value = await $fetch('/bnovo/bookings', {
                 method: 'POST',
                 body: {
                     start: formatDate(firstDayCurrentMonth.value),
-                    end: formatDate(lastDayNextMonth.value),
+                    end: formatDate(lastDayCurrentMonth.value),
                 }
             })
             setMarkersBnovo();
@@ -119,10 +144,7 @@ const setMarkersBnovo = () => {
         return item
     })
     tasks.value = items
-    calendarOptions.value = {
-        ...calendarOptions.value,
-        events: items
-    }
+    calendarOptions.value.events = items
     getCalendarLegend();
 }
 </script>
