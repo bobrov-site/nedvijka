@@ -2,11 +2,12 @@
     <div class="schedule">
         <div class="row mt-4">
             <div class="col-12">
-                <span v-for="legend in legends" :key="legend.id" :class="`badge ${legend.backgroundColor}`">{{ legend.name }}</span>
+                <span v-for="legend in legends" :key="legend.id" :class="`badge ${legend.backgroundColor}`">{{
+                    legend.name }}</span>
             </div>
         </div>
         <div class="row mt-4">
-            <FullCalendar :options="calendarOptions"/>
+            <FullCalendar :options="calendarOptions" />
         </div>
     </div>
 </template>
@@ -15,19 +16,21 @@ import FullCalendar from '@fullcalendar/vue3'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
+
 definePageMeta({
     layout: 'user'
 })
 onMounted(async () => {
     await chooseLoadingMethod();
 })
+
 const tasks = ref([])
 const calendarOptions = ref({
     plugins: [interactionPlugin, timeGridPlugin, dayGridPlugin],
-        initialView: 'dayGridMonth',
-        nowIndicator: true,
-        editable: true,
-        locale: 'ru',
+    initialView: 'dayGridMonth',
+    nowIndicator: true,
+    editable: true,
+    locale: 'ru',
 })
 const markersColors = {
     0: 'red',
@@ -46,21 +49,21 @@ const legends = ref([])
 const getCalendarLegend = () => {
     const ids = []
     legends.value = tasks.value
-    .filter((task) => {
-        if (ids.includes(task.id)) {
-            return false
-        }
-        ids.push(task.id)
-        return true
-    })
-    .map((item) => {
-        apartments.value.forEach((apartment) => {
-            if (apartment.id === item.id) {
-                item = {...item, ...apartment}
+        .filter((task) => {
+            if (ids.includes(task.id)) {
+                return false
             }
+            ids.push(task.id)
+            return true
         })
-        return item
-    })
+        .map((item) => {
+            apartments.value.forEach((apartment) => {
+                if (apartment.id === item.id) {
+                    item = { ...item, ...apartment }
+                }
+            })
+            return item
+        })
 }
 const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, '0');
@@ -105,7 +108,7 @@ const setMarkersBnovo = () => {
     const items = bookings.value.bookings.result.map((booking) => {
         const item = {}
         item.price = booking.amount;
-        item.start =  changeFormatDate(booking.real_arrival_format.split(' ')[0])
+        item.start = changeFormatDate(booking.real_arrival_format.split(' ')[0])
         item.end = changeFormatDate(booking.real_departure_format.split(' ')[0])
         item.id = booking.dual_roomtype_id
         item.backgroundColor = markersColors[booking.dual_roomtype_id % 5]
