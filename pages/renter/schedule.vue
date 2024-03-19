@@ -1,12 +1,19 @@
 <template>
     <div class="schedule">
-        <div class="row mt-4">
+        <div v-if="process === 'loaded'" class="row mt-4">
             <div class="col-12">
                 <span v-for="legend in legends" :key="legend.id" :class="`badge ${legend.backgroundColor}`">{{
                     legend.name }}</span>
             </div>
         </div>
-        <div class="row mt-4">
+        <div v-if="process === 'loading'" class="row mt-4">
+            <div class="col-12">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        </div>
+        <div v-if="process === 'loaded'" class="row mt-4">
             <FullCalendar ref="calendar" :options="calendarOptions" />
         </div>
     </div>
@@ -41,7 +48,7 @@ const calendarOptions = ref({
     customButtons: {
         prevButton: {
             text: 'Назад',
-            click: (async() => {
+            click: (async () => {
                 calendar.value.calendar.prev()
                 date.value = new Date(calendar.value.calendar.getDate())
                 await loadData();
@@ -49,7 +56,7 @@ const calendarOptions = ref({
         },
         nextButton: {
             text: 'Вперед',
-            click: (async() => {
+            click: (async () => {
                 calendar.value.calendar.next()
                 date.value = new Date(calendar.value.calendar.getDate())
                 await loadData();
@@ -66,6 +73,7 @@ const markersColors = {
 }
 const config = useRuntimeConfig();
 const apartments = ref([])
+const process = ref();
 const date = ref(new Date())
 const firstDayCurrentMonth = ref(null);
 const lastDayCurrentMonth = ref(null);
