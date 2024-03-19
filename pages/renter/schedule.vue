@@ -1,7 +1,9 @@
 <template>
-    <div>
+    <div class="schedule">
         <div class="row mt-4">
-            <!-- TODO легенда квартир -->
+            <div class="col-12">
+                <span v-for="legend in legends" :key="legend.id" :class="`badge ${legend.backgroundColor}`">{{ legend.name }}</span>
+            </div>
         </div>
         <div class="row mt-4">
             <FullCalendar :options="calendarOptions"/>
@@ -26,10 +28,6 @@ const calendarOptions = ref({
         nowIndicator: true,
         editable: true,
         locale: 'ru',
-        eventMouseEnter: ((event) => {
-            console.log(event)
-        })
-        
 })
 const markersColors = {
     0: 'red',
@@ -44,6 +42,26 @@ const date = ref(new Date())
 const firstDayCurrentMonth = ref(new Date(date.value.getFullYear(), date.value.getMonth(), 1));
 const lastDayNextMonth = ref(new Date(date.value.getFullYear(), date.value.getMonth() + 2, 0));
 const bookings = ref()
+const legends = ref([])
+const getCalendarLegend = () => {
+    const ids = []
+    legends.value = tasks.value
+    .filter((task) => {
+        if (ids.includes(task.id)) {
+            return false
+        }
+        ids.push(task.id)
+        return true
+    })
+    .map((item) => {
+        apartments.value.forEach((apartment) => {
+            if (apartment.id === item.id) {
+                item = {...item, ...apartment}
+            }
+        })
+        return item
+    })
+}
 const formatDate = (date) => {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // getMonth() is zero-indexed
@@ -100,7 +118,7 @@ const setMarkersBnovo = () => {
         ...calendarOptions.value,
         events: items
     }
-
+    getCalendarLegend();
 }
 </script>
 
