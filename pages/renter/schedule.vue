@@ -16,6 +16,7 @@ import FullCalendar from '@fullcalendar/vue3'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import allLocales from '@fullcalendar/core/locales-all';
 
 definePageMeta({
     layout: 'user'
@@ -30,6 +31,7 @@ const calendarOptions = ref({
     initialView: 'dayGridMonth',
     nowIndicator: true,
     editable: true,
+    locales: allLocales,
     locale: 'ru',
 })
 const markersColors = {
