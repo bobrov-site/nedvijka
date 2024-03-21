@@ -1,9 +1,10 @@
 <template>
     <div class="schedule">
+        <GanttSchedule/>
         <div v-if="process === 'loaded'" class="row mt-4">
             <div class="col-12">
                 <span v-for="legend in legends" :key="legend.id" :class="`badge ${legend.backgroundColor}`">{{
-                    legend.name }}</span>
+            legend.name }}</span>
             </div>
         </div>
         <div v-if="process === 'loading'" class="row mt-4">
@@ -31,6 +32,7 @@ definePageMeta({
 onMounted(async () => {
     await loadData();
 })
+
 const calendar = ref(null)
 const tasks = ref([])
 const calendarOptions = ref({
@@ -157,4 +159,4 @@ const setMarkersBnovo = () => {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>
