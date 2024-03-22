@@ -6,34 +6,55 @@
 
 <script setup>
 onMounted(() => {
+    const convertTimeDate = (date) => {
+        const dates = date.split('-')
+        const year = dates[2]
+        const month = dates[1]
+        const day = dates[0]
+        console.log(date)
+        return `${year}-${month}-${day}`
+    }
     const config = {
-        licenseKey:
-            "====BEGIN LICENSE KEY====\nXOfH/lnVASM6et4Co473t9jPIvhmQ/l0X3Ewog30VudX6GVkOB0n3oDx42NtADJ8HjYrhfXKSNu5EMRb5KzCLvMt/pu7xugjbvpyI1glE7Ha6E5VZwRpb4AC8T1KBF67FKAgaI7YFeOtPFROSCKrW5la38jbE5fo+q2N6wAfEti8la2ie6/7U2V+SdJPqkm/mLY/JBHdvDHoUduwe4zgqBUYLTNUgX6aKdlhpZPuHfj2SMeB/tcTJfH48rN1mgGkNkAT9ovROwI7ReLrdlHrHmJ1UwZZnAfxAC3ftIjgTEHsd/f+JrjW6t+kL6Ef1tT1eQ2DPFLJlhluTD91AsZMUg==||U2FsdGVkX1/SWWqU9YmxtM0T6Nm5mClKwqTaoF9wgZd9rNw2xs4hnY8Ilv8DZtFyNt92xym3eB6WA605N5llLm0D68EQtU9ci1rTEDopZ1ODzcqtTVSoFEloNPFSfW6LTIC9+2LSVBeeHXoLEQiLYHWihHu10Xll3KsH9iBObDACDm1PT7IV4uWvNpNeuKJc\npY3C5SG+3sHRX1aeMnHlKLhaIsOdw2IexjvMqocVpfRpX4wnsabNA0VJ3k95zUPS3vTtSegeDhwbl6j+/FZcGk9i+gAy6LuetlKuARjPYn2LH5Be3Ah+ggSBPlxf3JW9rtWNdUoFByHTcFlhzlU9HnpnBUrgcVMhCQ7SAjN9h2NMGmCr10Rn4OE0WtelNqYVig7KmENaPvFT+k2I0cYZ4KWwxxsQNKbjEAxJxrzK4HkaczCvyQbzj4Ppxx/0q+Cns44OeyWcwYD/vSaJm4Kptwpr+L4y5BoSO/WeqhSUQQ85nvOhtE0pSH/ZXYo3pqjPdQRfNm6NFeBl2lwTmZUEuw==\n====END LICENSE KEY====",
+        licenseKey: useRuntimeConfig().public.ganttSecretKey,
+        locale: {
+            name: 'ru',
+            weekdays: 'Воскресенье_Понедельник_Вторник_Среда_Четверг_Пятница_Суббота'.split(
+                '_'
+            ),
+            weekdaysShort: 'Вск_Пн_Вт_Ср_Чт_Пт_Сб'.split('_'),
+            weekdaysMin: 'Su_Mo_Tu_We_Th_Fr_Sa'.split('_'),
+            months: 'Январь_Февраль_Март_Апрель_Май_Июнь_Июль_Август_Сентябрь_Октябрь_Ноябрь_Декабрь'.split(
+                '_'
+            ),
+            monthsShort: 'Янв_Фев_Март_Апр_Май_Июнь_Июль_Авг_Сен_Окт_Ноя_Дек'.split('_'),
+        },
         list: {
             columns: {
                 data: {
                     [$GSTC.api.GSTCID("id")]: {
                         id: $GSTC.api.GSTCID("id"),
-                        width: 60,
-                        data: ({ row }) => $GSTC.api.sourceID(row.id),
-                        header: {
-                            content: "ID",
-                        },
-                    },
-                    [$GSTC.api.GSTCID("label")]: {
-                        id: $GSTC.api.GSTCID("label"),
                         width: 200,
-                        data: "label",
+                        data: ({ row }) => $GSTC.api.sourceID(row.label),
                         header: {
-                            content: "Label",
+                            content: "Название",
                         },
                     },
                 },
             },
+            row: {
+                height: 80,
+            },
             rows: generateRows(),
         },
         chart: {
+            item: {
+                height: 50,
+            },
             items: generateItems(),
+            time: {
+                from: $GSTC.api.date(convertTimeDate(props.firstDayCurrentMonth)).valueOf(),
+                to: $GSTC.api.date(convertTimeDate(props.lastDayCurrentMonth)).valueOf()
+            }
         },
     };
 
@@ -43,45 +64,73 @@ onMounted(() => {
         state: state.value
     });
 })
+const props = defineProps({
+    tasks: {
+        type: Array,
+        default: () => {
+            return []
+        }
+    },
+    lastDayCurrentMonth: {
+        type: String,
+    },
+    firstDayCurrentMonth: {
+        type: String,
+    }
+})
 const { $GSTC } = useNuxtApp();
-console.log($GSTC)
 const gantt = ref(null)
 const state = ref(null)
 const gstc = ref(null)
 
 const generateRows = () => {
-    /**
-   * @type { import("gantt-schedule-timeline-calendar").Rows }
-   */
     const rows = {};
-    for (let i = 0; i < 100; i++) {
-        const id = $GSTC.api.GSTCID(i.toString());
+    for (let i = 0; i < props.tasks.length; i++) {
+        const id = $GSTC.api.GSTCID(props.tasks[i].id)
+        const label = props.tasks[i].name
         rows[id] = {
             id,
-            label: `Row ${i}`,
+            label
         };
     }
     return rows;
 }
-
+const formatDate = (date) => {
+    const dates = date.split(' ')[0]
+    const day = dates.split('-')[2]
+    const month = dates.split('-')[1]
+    const year = dates.split('-')[0]
+    return `${day}-${month}-${year} ${date.split(' ')[1]}`
+}
 const generateItems = () => {
-    const items = {};
-    let start = $GSTC.api.date().startOf("day").subtract(6, "day");
-    for (let i = 0; i < 100; i++) {
-        const id = $GSTC.api.GSTCID(i.toString());
-        const rowId = $GSTC.api.GSTCID(Math.floor(Math.random() * 100).toString());
-        start = start.add(1, "day");
-        items[id] = {
+    const result = {}
+    const changedItems = props.tasks.map((task) => {
+        const start = formatDate(task.time.start)
+        const end = formatDate(task.time.end)
+        task.id = $GSTC.api.GSTCID(task.id)
+        task.time.start = $GSTC.api.date(start).valueOf()
+        task.time.end = $GSTC.api.date(end).valueOf()
+        task.label = task.title
+        return task
+    })
+    console.log(changedItems, 'items')
+    for (let i = 0; i < changedItems.length; i++) {
+        const id = $GSTC.api.GSTCID(`${changedItems[i].id}-index-${i}`);
+        const rowId = $GSTC.api.GSTCID(changedItems[i].id);
+        result[id] = {
             id,
-            label: `Item ${i}`,
+            label: changedItems[i].label,
             rowId,
+            style: {
+                background: changedItems[i].backgroundColor
+            },
             time: {
-                start: start.valueOf(),
-                end: start.add(1, "day").endOf("day").valueOf(),
+                start: changedItems[i].time.start,
+                end: changedItems[i].time.end,
             },
         };
     }
-    return items;
+    return result;
 }
 </script>
 
