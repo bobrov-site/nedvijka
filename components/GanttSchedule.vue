@@ -103,34 +103,33 @@ const formatDate = (date) => {
     return `${day}-${month}-${year} ${date.split(' ')[1]}`
 }
 const generateItems = () => {
-    const result = {}
-    const changedItems = props.tasks.map((task) => {
+    const items = {}
+    props.tasks
+    .map((task) => {
         const start = formatDate(task.time.start)
         const end = formatDate(task.time.end)
         task.id = $GSTC.api.GSTCID(task.id)
         task.time.start = $GSTC.api.date(start).valueOf()
         task.time.end = $GSTC.api.date(end).valueOf()
-        task.label = task.title
         return task
     })
-    console.log(changedItems, 'items')
-    for (let i = 0; i < changedItems.length; i++) {
-        const id = $GSTC.api.GSTCID(`${changedItems[i].id}-index-${i}`);
-        const rowId = $GSTC.api.GSTCID(changedItems[i].id);
-        result[id] = {
+    .forEach((task, index) => {
+        const id = $GSTC.api.GSTCID(`${task.id}-index-${index}`);
+        const rowId = $GSTC.api.GSTCID(task.id);
+        items[id] = {
             id,
-            label: changedItems[i].label,
+            label: task.label,
             rowId,
             style: {
-                background: changedItems[i].backgroundColor
+                background: task.backgroundColor
             },
             time: {
-                start: changedItems[i].time.start,
-                end: changedItems[i].time.end,
+                start: task.time.start,
+                end: task.time.end,
             },
-        };
-    }
-    return result;
+        }
+    })
+    return items;
 }
 </script>
 

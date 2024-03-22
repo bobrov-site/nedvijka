@@ -68,8 +68,7 @@ const loadData = async () => {
                 }
                 item.id = booking.dual_roomtype_id
                 item.backgroundColor = markersColors[booking.dual_roomtype_id % 5]
-                item.title = `${booking.customer}`
-                item.editable = false
+                item.label = `${booking.customer}`
                 item.name = apartments.value.find((aparment) => aparment.id === booking.dual_roomtype_id).name
                 return item
             })
