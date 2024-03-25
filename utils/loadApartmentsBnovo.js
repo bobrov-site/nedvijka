@@ -30,7 +30,7 @@ export default (async () => {
         })
         // по непонятной причине в bnovo айди не совпадают с внутренним и паблик api
         // приходится сравнивать по названию, что мдаа.
-
+        // TODO настроить цену
         apartments.map((apartment) => {
             apartment.photos = roomsWithPhotoes.find((room) => room.name === apartment.name).photos
             return apartment
