@@ -31,11 +31,13 @@ const props = defineProps({
         type: Object
     }
 })
+const user = useUserStore()
 const map = shallowRef(null)
 const thumbsSwiper = ref(null);
-
 const iconHeart = ref(['far', 'heart'])
 const iconCopy = ref(['far', 'copy'])
+const showAlert = ref(false)
+const showAlertLink = ref(false)
 // const comfortsList = [
 //     'Кондиционер',
 //     'Фен',
@@ -60,24 +62,46 @@ const isGeoDataExist = () => {
 }
 const copyLink = () => {
     navigator.clipboard.writeText(window.location.href)
+    showAlertLink.value = true
+}
+
+const addToFavorites = () => {
+    if (!user.auth.isAuth) {
+        showAlert.value = true
+        return
+    }
 }
 </script>
 <template>
     <div class="apartment-card card">
         <div class="card-body">
+            <div v-if="showAlert" class="alert alert-danger d-flex justify-content-between" role="alert">
+                <div>
+                    Невозможно добавить в избранное. Авторизуйтесь или зарегистрируйтесь</div>
+                <button @click="showAlert = false" type="button" class="btn-close" aria-label="Close"></button>
+            </div>
+            <div v-if="showAlertLink" class="alert alert-primary d-flex justify-content-between" role="alert">
+                <div>Ссылка скопирована</div>
+                <button @click="showAlertLink = false" type="button" class="btn-close" aria-label="Close"></button>
+            </div>
             <div class="d-flex justify-content-between align-items-center mb-2">
                 <h1>{{ props.name }}</h1>
-                <button @click="copyLink" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Скопировать ссылку">
-                    <FontAwesomeIcon @mouseover="iconCopy = ['fas', 'copy']" @mouseleave="iconCopy = ['far', 'copy']" class="text-primary fs-3" :icon="iconCopy" />
+                <button @click="copyLink" type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top"
+                    data-bs-title="Скопировать ссылку">
+                    <FontAwesomeIcon @mouseover="iconCopy = ['fas', 'copy']" @mouseleave="iconCopy = ['far', 'copy']"
+                        class="text-primary fs-3" :icon="iconCopy" />
                 </button>
-                <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Добавить в избранное"> 
-                    <FontAwesomeIcon @mouseover="iconHeart = ['fas', 'heart']" @mouseleave="iconHeart = ['far', 'heart']" class="text-danger fs-3" :icon="iconHeart" />
+                <button @click="addToFavorites" type="button" class="btn" data-bs-toggle="tooltip"
+                    data-bs-placement="top" data-bs-title="Добавить в избранное">
+                    <FontAwesomeIcon @mouseover="iconHeart = ['fas', 'heart']"
+                        @mouseleave="iconHeart = ['far', 'heart']" class="text-danger fs-3" :icon="iconHeart" />
                 </button>
             </div>
             <Swiper :navigation="true" :modules="[SwiperNavigation, SwiperThumbs, SwiperFreeMode, SwiperZoom]"
                 :thumbs="{ swiper: thumbsSwiper }" class="swiper-slider" :autoHeight="true" :zoom="true">
                 <SwiperSlide v-for="(photo, index) in props.photos" :key="index">
-                    <NuxtImg :src="photo.url" :alt="`Комната ${index + 1}`" class="swiper-slide-img w-100 img-fluid rounded" sizes="md:600px" />
+                    <NuxtImg :src="photo.url" :alt="`Комната ${index + 1}`"
+                        class="swiper-slide-img w-100 img-fluid rounded" sizes="md:600px" />
                 </SwiperSlide>
             </Swiper>
             <Swiper @swiper="setThumbsSwiper" :spaceBetween="10" :slidesPerView="4" :freeMode="true"
@@ -93,18 +117,18 @@ const copyLink = () => {
                 <span class="badge rounded-pill text-bg-light me-2">{{ props.maxGuests }} гостя</span>
                 <span class="badge rounded-pill text-bg-light me-2">{{ props.roomsCount }} комната</span>
                 <!-- TODO добавить количество кроватей -->
-                
+
                 <!-- TODO добавить количество квадратов -->
             </div>
             <div v-if="props.description">
                 <div v-for="(line, index) in getHtmlDescription()" :key="line">
                     <p v-if="line !== ''" class="card-text">{{ line }}</p>
-                    <br v-else > 
+                    <br v-else>
                 </div>
             </div>
             <div v-if="props.comfortsList">
                 <h2>Удобства:</h2>
-                <ApartmentComfortsList :comfortsList="props.comfortsList"/>
+                <ApartmentComfortsList :comfortsList="props.comfortsList" />
             </div>
             <hr>
             <h2>Расположение:</h2>
@@ -119,8 +143,9 @@ const copyLink = () => {
                     }
                 }" height="320px">
                     <YandexMapDefaultSchemeLayer />
-                    <YandexMapDefaultFeaturesLayer/>
-                    <YandexMapDefaultMarker :settings="{coordinates: [props.geoData.y, props.geoData.x], color: '#0d6efd'}"/>
+                    <YandexMapDefaultFeaturesLayer />
+                    <YandexMapDefaultMarker
+                        :settings="{ coordinates: [props.geoData.y, props.geoData.x], color: '#0d6efd' }" />
                 </YandexMap>
             </div>
         </div>
