@@ -9,6 +9,7 @@ const adult = ref(1)
 const children = ref(0)
 const isShowDropdown = ref(false)
 const apartment = ref({})
+const process = ref(null)
 
 const handleDate = (modelData) => {
     date.value = modelData;
@@ -23,18 +24,18 @@ const loadApartment = async () => {
     //если такого id нет, выкидываем ошибку 404
 
     //поскольку пока нет базы данных, то мы загружаем апартаменты из bnovo
+    process.value = 'loading'
     const { id } = useRoute().params
     const apartments = await loadApartmentsBnovo();
     apartment.value = apartments.find((apartment) => apartment.id == id)
     if (!apartment.value) {
-        throw createError({
-            statusCode: 404,
-            statusMessage: 'Page Not Found'
-        })
+        process.value = 'loaded'
+        return
     }
     if (apartment.value.geo_data.x === 0 && apartment.value.geo_data.y === 0) {
         apartment.value.geo_data = await setNewGeoCode(apartment.value)
     }
+    process.value = 'loaded'
 }
 
 </script>
@@ -42,9 +43,17 @@ const loadApartment = async () => {
 <template>
     <div class="apartmentId row">
         <div class="col-12 col-md-7">
-            <ApartmentCard :name="apartment.name" :address="apartment.address" :city="apartment.city"
-                :max-guests="apartment.maxGuests" :photos="apartment.photos" :rooms-count="Number(apartment.roomsCount)"
-                :description="apartment.description" :geo-data="apartment.geo_data" />
+            <div v-if="process === 'loading'" class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <ApartmentCard v-if="process === 'loaded' && apartment" :name="apartment.name" :address="apartment.address"
+                :city="apartment.city" :max-guests="apartment.maxGuests" :photos="apartment.photos"
+                :rooms-count="Number(apartment.roomsCount)" :description="apartment.description"
+                :geo-data="apartment.geo_data" />
+            <div v-if="process === 'loaded' && !apartment">
+                <h1>Ошибка! Объект не найден</h1>
+                <NuxtLink class="btn btn-primary btn-lg" to="/">Вернуться на главную</NuxtLink>
+            </div>
         </div>
         <div class="col-12 col-md-5">
             <div class="card p-4 search-form position-sticky top-0">
