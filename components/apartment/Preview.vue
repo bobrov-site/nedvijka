@@ -2,7 +2,6 @@
     <div class="card h-100">
         <div class="row">
             <div class="col-12" :class="{ 'col-md-6': isVerticalLayout }">
-                <!-- TODO для каждого слайдера свой айди -->
                 <div v-if="props.photos.length !== 0" ref="sliderContainer" :id="`sliderApartmentPreview${props.id}`" class="sliderApartmentPreview carousel slide">
                     <div class="carousel-indicators">
                         <button 
@@ -47,7 +46,7 @@
                     </div>
                     <p class="card-text mb-2">{{ props.city }}, {{ props.address }}</p>
                     <div>
-                        <NuxtLink class="btn btn-primary" :to="`/apartments/${props.id}`">{{props.price}}₽ за сутки</NuxtLink>
+                        <button @click="navigateToPage" type="button" class="btn btn-primary">{{props.price}}₽ за сутки</button>
                     </div>
                 </div>
             </div>
@@ -56,6 +55,9 @@
 </template>
 
 <script setup>
+onMounted(() => {
+    setCarousel();
+})
 const { $bootstrap } = useNuxtApp();
 const props = defineProps({
     name: {
@@ -103,9 +105,11 @@ const props = defineProps({
     },
     photos: {
         type: Array
+    },
+    date: {
+        type: Object
     }
 })
-
 const sliderContainer = ref(null)
 const carousel = ref(null)
 const setCarousel = () => {
@@ -115,9 +119,17 @@ const setCarousel = () => {
     carousel.value = new $bootstrap.Carousel(sliderContainer.value)
 
 }
-onMounted(() => {
-    setCarousel();
-})
+const navigateToPage = () => {
+    navigateTo({
+        path: `/apartments/${props.id}`,
+        query: {
+            adult: props.adults,
+            children: props.children,
+            start: props.date.start,
+            end: props.date.end
+        }
+    })
+}
 
 const toggleSlide = (index) => {
     carousel.value.to(index);

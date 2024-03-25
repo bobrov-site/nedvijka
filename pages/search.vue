@@ -38,7 +38,7 @@ const loadData = async () => {
                         :adults="Number(apartment.adults)" :children="Number(apartment.children)"
                         :max-guests="Number(apartment.maxGuests)" :rooms-count="Number(apartment.roomsCount)"
                         :price="apartment.price" :id="apartment.id" :photos="apartment.photos"
-                        :is-vertical-layout="true" />
+                        :is-vertical-layout="true" :date="{start: queries.start, end: queries.end}"/>
                 </div>
                 <div
                     v-if="useSearchApartmentsStore().apartments.length === 0 && useSearchApartmentsStore().process === 'loaded'">
