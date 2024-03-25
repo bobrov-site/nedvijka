@@ -2,20 +2,8 @@
 onMounted(async () => {
     await loadApartment();
 })
-const date = ref()
-const start = ref()
-const end = ref()
-const adult = ref(1)
-const children = ref(0)
-const isShowDropdown = ref(false)
 const apartment = ref({})
 const process = ref(null)
-
-const handleDate = (modelData) => {
-    date.value = modelData;
-    start.value = parseDate(modelData[0])
-    end.value = parseDate(modelData[1])
-}
 
 const loadApartment = async () => {
     //мы должны сделать запрос в бд на проверку есть ли такой апартамент по id
