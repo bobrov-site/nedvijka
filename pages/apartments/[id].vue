@@ -1,15 +1,10 @@
 <script setup>
 onMounted(async () => {
     await loadApartment();
-    setInitialBookingFormData();
 })
 const apartment = ref({})
 const process = ref(null)
-const adult = ref(1)
-const children = ref(0)
-const start = ref(Date.now())
-const end = ref(null)
-const queries = useRoute().query
+const searchApartments = useSearchApartmentsStore();
 const loadApartment = async () => {
     //мы должны сделать запрос в бд на проверку есть ли такой апартамент по id
     //так же мы должны убедиться что provider === bnovo или provider === fridda
@@ -28,16 +23,8 @@ const loadApartment = async () => {
     if (apartment.value.geo_data.x === 0 && apartment.value.geo_data.y === 0) {
         apartment.value.geo_data = await setNewGeoCode(apartment.value)
     }
+    searchApartments.city = apartment.value.city
     process.value = 'loaded'
-}
-
-const setInitialBookingFormData = () => {
-    if (Object.keys(queries).length !== 0) {
-        adult.value = queries.adult ? Number(queries.adult) : 1
-        children.value = queries.children ? Number(queries.children) : 0
-        start.value = queries.start ? queries.start : Date.now()
-        end.value = queries.end ? queries.end : null
-    }
 }
 </script>
 
@@ -57,18 +44,7 @@ const setInitialBookingFormData = () => {
             </div>
         </div>
         <div v-if="process === 'loaded' && apartment" class="col-12 col-md-5">
-            <div class="card p-4 search-form position-sticky top-0">
-                <div class="row mb-3">
-                    <div class="col-12">
-                        <h2>Информация по бронированию</h2>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <BookingForm/>
-                    </div>
-                </div>
-            </div>
+            <BookingForm/>
         </div>
     </div>
 </template>
