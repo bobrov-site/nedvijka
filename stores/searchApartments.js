@@ -10,7 +10,7 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
         city: '',
         process: 'loading',
         children: 0,
-        adult: 0,
+        adult: 1,
         date: [null, null]
     }),
     actions: {
@@ -112,8 +112,9 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
                 this.date[1] = tomorrow    
             }
             else {
-                this.date[0] = start
-                this.date[1] = end
+
+                this.date[0] = parseDateStringToDate(start)
+                this.date[1] = parseDateStringToDate(end)
             }
         }
     }
