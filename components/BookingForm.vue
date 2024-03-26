@@ -25,7 +25,7 @@ const handleDate = (modelData) => {
                 <label for="start" class="form-label">Заезд</label>
                 <ClientOnly>
                     <VueDatePicker v-model="searchApartments.date" @update:model-value="handleDate" :auto-position="false"
-                        auto-apply id="start" range text-input :enable-time-picker="false" :clearable="false"
+                        auto-apply id="start" range text-input :enable-time-picker="false" :clearable="false" :min-date="new Date()"
                         locale="ru">
                         <template #dp-input>
                             <input type="text" :value="parseDate(searchApartments.date[0])" class="form-control">
@@ -41,7 +41,7 @@ const handleDate = (modelData) => {
                 <label for="end" class="form-label">Выезд</label>
                 <ClientOnly>
                     <VueDatePicker v-model="searchApartments.date" @update:model-value="handleDate" :auto-position="false"
-                        auto-apply id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false">
+                        auto-apply id="end" range text-input :enable-time-picker="false" locale="ru" :clearable="false" :min-date="new Date()">
                         <template #dp-input>
                             <input type="text" :value="parseDate(searchApartments.date[1])" class="form-control">
                         </template>
