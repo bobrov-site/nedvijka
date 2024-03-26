@@ -1,3 +1,4 @@
+
 export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
     state: () => ({
         apartments: [],
@@ -10,6 +11,7 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
         process: 'loading',
         children: 0,
         adult: 0,
+        date: [null, null]
     }),
     actions: {
         async buildGeoPoint(query) {
@@ -99,6 +101,19 @@ export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
                     statusCode: 500,
                     statusMessage: e.message
                 })
+            }
+        },
+        setInitialDate(start = null, end = null) {
+            if (start === null && end === null) {
+                const today = new Date();
+                const tomorrow = new Date(today)
+                tomorrow.setDate(today.getDate() + 1)
+                this.date[0] = today
+                this.date[1] = tomorrow    
+            }
+            else {
+                this.date[0] = start
+                this.date[1] = end
             }
         }
     }
