@@ -5,16 +5,19 @@ onMounted(() => {
 
 const searchApartments = useSearchApartmentsStore()
 const isShowDropdown = ref(false)
+const queries = useRoute().query
 
 const setInitialState = () => {
-    if (!searchApartments.date[0] && !searchApartments.date[1]) {
-        searchApartments.setInitialDate();
+    if (Object.keys(queries).length !== 0) {
+        searchApartments.adult = queries.adult ? Number(queries.adult) : 1
+        searchApartments.children = queries.children ? Number(queries.children) : 0
+        searchApartments.setInitialDate(queries.start, queries.end)
     }
 }
 
 const handleDate = (modelData) => {
-    searchApartments.date[0] = modelData[0]
-    searchApartments.date[1] = modelData[1]
+    searchApartments.date[0] = modelData[0];
+    searchApartments.date[1] = modelData[1];
 }
 </script>
 
