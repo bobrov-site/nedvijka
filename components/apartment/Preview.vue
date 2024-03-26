@@ -59,6 +59,7 @@ onMounted(() => {
     setCarousel();
 })
 const { $bootstrap } = useNuxtApp();
+const searchApartments = useSearchApartmentsStore()
 const props = defineProps({
     name: {
         type: String,
@@ -117,22 +118,20 @@ const setCarousel = () => {
         return
     }
     carousel.value = new $bootstrap.Carousel(sliderContainer.value)
-
 }
+
+const toggleSlide = (index) => carousel.value.to(index);
+
 const navigateToPage = () => {
     navigateTo({
-        path: `/apartments/${props.id}`,
+        path: '/apartments/' + props.id,
         query: {
-            adult: props.adults,
-            children: props.children,
-            start: props.date.start,
-            end: props.date.end
+            adult: searchApartments.adult,
+            children: searchApartments.children,
+            start: parseDate(searchApartments.date[0]),
+            end: parseDate(searchApartments.date[1])
         }
     })
-}
-
-const toggleSlide = (index) => {
-    carousel.value.to(index);
 }
 </script>
 
