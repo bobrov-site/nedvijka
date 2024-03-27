@@ -2,10 +2,10 @@
 onMounted(async () => {
     await loadApartment();
 })
-const apartment = ref({})
 const process = ref(null)
 const searchApartments = useSearchApartmentsStore();
 const loadApartment = async () => {
+    // TODO переделать на стор
     //мы должны сделать запрос в бд на проверку есть ли такой апартамент по id
     //так же мы должны убедиться что provider === bnovo или provider === fridda
     //если есть такой, то мы загружаем апарты
@@ -15,15 +15,16 @@ const loadApartment = async () => {
     process.value = 'loading'
     const { id } = useRoute().params
     const apartments = await loadApartmentsBnovo();
-    apartment.value = apartments.find((apartment) => apartment.id == id)
-    if (!apartment.value) {
+    searchApartments.currentApartment = apartments.find((apartment) => apartment.id == id)
+    if (!searchApartments.currentApartment) {
         process.value = 'loaded'
         return
     }
-    if (apartment.value.geo_data.x === 0 && apartment.value.geo_data.y === 0) {
-        apartment.value.geo_data = await setNewGeoCode(apartment.value)
+    if (searchApartments.currentApartment.geo_data.x === 0 && searchApartments.currentApartment.geo_data.y === 0) {
+        searchApartments.currentApartment.geo_data = await setNewGeoCode(searchApartments.currentApartment)
     }
-    searchApartments.city = apartment.value.city
+    searchApartments.city = searchApartments.currentApartment.city
+    searchApartments.currentApartment = searchApartments.currentApartment
     process.value = 'loaded'
 }
 </script>
@@ -34,16 +35,16 @@ const loadApartment = async () => {
             <div v-if="process === 'loading'" class="spinner-border text-primary" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
-            <ApartmentCard v-if="process === 'loaded' && apartment" :name="apartment.name" :address="apartment.address"
-                :city="apartment.city" :max-guests="apartment.maxGuests" :photos="apartment.photos"
-                :rooms-count="Number(apartment.roomsCount)" :description="apartment.description"
-                :geo-data="apartment.geo_data" />
-            <div v-if="process === 'loaded' && !apartment">
+            <ApartmentCard v-if="process === 'loaded' && searchApartments.currentApartment" :name="searchApartments.currentApartment.name" :address="searchApartments.currentApartment.address"
+                :city="searchApartments.currentApartment.city" :max-guests="searchApartments.currentApartment.maxGuests" :photos="searchApartments.currentApartment.photos"
+                :rooms-count="Number(searchApartments.currentApartment.roomsCount)" :description="searchApartments.currentApartment.description"
+                :geo-data="searchApartments.currentApartment.geo_data" />
+            <div v-if="process === 'loaded' && !searchApartments.currentApartment">
                 <h1>Ошибка! Объект не найден</h1>
                 <NuxtLink class="btn btn-primary btn-lg" to="/">Вернуться на главную</NuxtLink>
             </div>
         </div>
-        <div v-if="process === 'loaded' && apartment" class="col-12 col-md-5">
+        <div v-if="process === 'loaded' && searchApartments.currentApartment" class="col-12 col-md-5">
             <BookingForm/>
         </div>
     </div>
