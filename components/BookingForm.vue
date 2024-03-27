@@ -5,9 +5,13 @@ onMounted(async () => {
 })
 
 const searchApartments = useSearchApartmentsStore()
+const user = useUserStore()
 const isShowDropdown = ref(false)
 const queries = useRoute().query
 const process = ref(null);
+const errorsCodes = getErrorsCodes();
+const error = ref(null)
+const isDisabledButton = ref(false)
 const setInitialState = () => {
     if (Object.keys(queries).length !== 0) {
         searchApartments.adult = queries.adult ? Number(queries.adult) : 1
@@ -21,8 +25,17 @@ const setInitialState = () => {
 
 const checkBookingForm = async () => {
     process.value = 'loading'
+    isDisabledButton.value = true;
     await searchApartments.loadSearchApartments(parseDate(searchApartments.date[0]), parseDate(searchApartments.date[1]))
-    searchApartments.apartments.find((apartment) => searchApartments.currentApartment.id === apartment.id) ? process.value = 'loaded' : process.value = 'notFound'
+    const checkedApartment = searchApartments.apartments.find((apartment) => searchApartments.currentApartment.id === apartment.id)
+    if (!checkedApartment) {
+        process.value = 'error'
+        error.value = errorsCodes['errorBookingNotFound']
+    }
+    else {
+        process.value = 'loaded'
+    }
+    isDisabledButton.value = false;
     navigateTo({
         path: '/apartments/' + searchApartments.currentApartment.id,
         query: {
@@ -31,7 +44,7 @@ const checkBookingForm = async () => {
             start: parseDate(searchApartments.date[0]),
             end: parseDate(searchApartments.date[1])
         }
-    })
+        })
 }
 
 const handleDate = (modelData) => {
@@ -59,17 +72,29 @@ const decrement = (person) => {
     }
     process.value = 'changed'
 }
+
+const submitBooking = () => {
+    isDisabledButton.value = true;
+    if (!user.auth.isAuth) {
+        process.value = 'error'
+        error.value = errorsCodes['errorBookingNotAuth']
+        isDisabledButton.value = false;
+        return
+    }
+    isDisabledButton.value = false;
+    console.log('hello')
+    
+}
 </script>
 
 <template>
     <div class="card p-4 search-form position-sticky top-0">
-        <div v-if="process === 'notFound'" class="row mb-2">
+        <div v-if="process === 'error'" class="row mb-2">
             <div class="col-12">
                 <div class="alert alert-danger d-flex justify-content-between" role="alert">
-                <div>
-                    Невозможно cделать бронь в эти даты или укажите другое количество гостей</div>
-                <button @click="process = 'edit'" type="button" class="btn-close" aria-label="Close"></button>
-            </div>
+                    <div>{{ error }}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
             </div>
         </div>
         <div class="row mb-3">
@@ -137,12 +162,12 @@ const decrement = (person) => {
                                         <span>От 18 лет</span>
                                     </div>
                                     <div class="col">
-                                        <button @click="decrement('adult')"
-                                            :disabled="searchApartments.adult === 1" type="button"
+                                        <button @click="decrement('adult')" :disabled="searchApartments.adult === 1"
+                                            type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 me-2">-</button>
                                         <span>{{ searchApartments.adult }}</span>
-                                        <button @click="increment('adult');"
-                                            :disabled="searchApartments.adult === 4" type="button"
+                                        <button @click="increment('adult');" :disabled="searchApartments.adult === 4"
+                                            type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 ms-2">+</button>
                                     </div>
                                 </div>
@@ -178,8 +203,8 @@ const decrement = (person) => {
                             </li>
                         </ul>
                     </div>
-                    <div v-if="process === 'notFound' || process === 'changed'" class="col-12">
-                        <button class="btn btn-lg btn-primary w-100">Проверить</button>
+                    <div v-if="process === 'error' || process === 'changed'" class="col-12">
+                        <button class="btn btn-lg btn-primary w-100" :disabled="isDisabledButton">Проверить</button>
                     </div>
                 </form>
             </div>
@@ -203,7 +228,8 @@ const decrement = (person) => {
                         соглашения</a> и
                     на <a href="#">обработку персональных данных</a>
                 </p>
-                <button class="btn btn-primary w-100">Забронировать</button>
+                <button @click="submitBooking" type="button" :disabled="isDisabledButton"
+                    class="btn btn-primary w-100">Забронировать</button>
             </div>
         </div>
     </div>
