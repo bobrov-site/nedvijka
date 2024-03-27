@@ -1,9 +1,9 @@
 <template>
     <div class="card">
         <div class="card-body">
-            <h1 class="card-title">Заполните информацию о вашей квартире</h1>
+            <h1 class="card-title">Отредактируйте информацию о вашей квартире</h1>
             <UiFormEdit :apartment="apartment"/>
-            <button class="btn btn-primary btn-lg">Создать квартиру</button>
+            <button class="btn btn-primary btn-lg">Изменить квартиру</button>
         </div>
     </div>
 </template>
