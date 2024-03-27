@@ -14,6 +14,9 @@ const setInitialState = () => {
         searchApartments.children = queries.children ? Number(queries.children) : 0
         searchApartments.setInitialDate(queries.start, queries.end)
     }
+    else {
+        searchApartments.setInitialDate();
+    }
 }
 
 const checkBookingForm = async () => {
