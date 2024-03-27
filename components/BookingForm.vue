@@ -31,9 +31,30 @@ const checkBookingForm = async () => {
     })
 }
 
-const handleDate = async(modelData) => {
+const handleDate = (modelData) => {
     searchApartments.date[0] = modelData[0];
     searchApartments.date[1] = modelData[1];
+    process.value = 'changed'
+}
+
+const increment = (person) => {
+    if (person === 'adult') {
+        ++searchApartments.adult
+    }
+    if (person === 'children') {
+        ++searchApartments.children
+    }
+    process.value = 'changed'
+}
+
+const decrement = (person) => {
+    if (person === 'adult') {
+        --searchApartments.adult
+    }
+    if (person === 'children') {
+        --searchApartments.children
+    }
+    process.value = 'changed'
 }
 </script>
 
@@ -113,11 +134,11 @@ const handleDate = async(modelData) => {
                                         <span>От 18 лет</span>
                                     </div>
                                     <div class="col">
-                                        <button @click="--searchApartments.adult"
-                                            :disabled="searchApartments.adult === 0" type="button"
+                                        <button @click="decrement('adult')"
+                                            :disabled="searchApartments.adult === 1" type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 me-2">-</button>
                                         <span>{{ searchApartments.adult }}</span>
-                                        <button @click="++searchApartments.adult"
+                                        <button @click="increment('adult');"
                                             :disabled="searchApartments.adult === 4" type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 ms-2">+</button>
                                     </div>
@@ -133,11 +154,11 @@ const handleDate = async(modelData) => {
                                         <span>От 0 до 17 лет</span>
                                     </div>
                                     <div class="col">
-                                        <button @click="--searchApartments.children"
+                                        <button @click="decrement('children')"
                                             :disabled="searchApartments.children === 0" type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 me-2">-</button>
                                         <span>{{ searchApartments.children }}</span>
-                                        <button @click="++searchApartments.children"
+                                        <button @click="increment('children')"
                                             :disabled="searchApartments.children === 4" type="button"
                                             class="btn-counter rounded-circle border-0 fs-4 ms-2">+</button>
                                     </div>
@@ -154,7 +175,7 @@ const handleDate = async(modelData) => {
                             </li>
                         </ul>
                     </div>
-                    <div v-if="process === 'notFound'" class="col-12">
+                    <div v-if="process === 'notFound' || process === 'changed'" class="col-12">
                         <button class="btn btn-lg btn-primary w-100">Проверить</button>
                     </div>
                 </form>
@@ -167,7 +188,7 @@ const handleDate = async(modelData) => {
                 </div>
             </div>
         </div>
-        <div v-if="process === 'loaded'" class="row">
+        <div v-if="process === 'loaded' && process !== 'changed'" class="row">
             <div class="col-12 mt-2">
                 <h4>Стоимость:</h4>
                 <div class="d-flex justify-content-between mb-2">
