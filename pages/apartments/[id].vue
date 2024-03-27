@@ -5,7 +5,6 @@ onMounted(async () => {
 const process = ref(null)
 const searchApartments = useSearchApartmentsStore();
 const loadApartment = async () => {
-    // TODO переделать на стор
     //мы должны сделать запрос в бд на проверку есть ли такой апартамент по id
     //так же мы должны убедиться что provider === bnovo или provider === fridda
     //если есть такой, то мы загружаем апарты
