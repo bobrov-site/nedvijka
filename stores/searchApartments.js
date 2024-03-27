@@ -2,6 +2,7 @@
 export const useSearchApartmentsStore = defineStore('searchApartmentsStore', {
     state: () => ({
         apartments: [],
+        currentApartment: {},
         markers: [],
         cityPoint: {
             x: 0,
